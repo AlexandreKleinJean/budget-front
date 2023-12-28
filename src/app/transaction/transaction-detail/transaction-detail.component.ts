@@ -2,9 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import{ ActivatedRoute, Router } from '@angular/router';
-import { TRANSACTIONS } from '../mock-transaction-list';
 import { Transaction } from '../transaction';
-
+import { TransactionService } from '../transaction.service';
 
 @Component({
   selector: 'app-transaction-detail',
@@ -17,14 +16,17 @@ export class TransactionDetailComponent implements OnInit{
   transactionList: Transaction[];
   transaction: Transaction|undefined;
 
-  constructor(private route: ActivatedRoute, private router: Router){}
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private transactionService: TransactionService
+  ){}
 
     ngOnInit(){
-      this.transactionList = TRANSACTIONS;
       const transactionId: string|null = this.route.snapshot.paramMap.get('id');
 
       if(transactionId){
-        this.transaction = this.transactionList.find(transaction => transaction.id == +transactionId);
+        this.transaction = this.transactionService.getTransactionById(+transactionId);
       }
     }
 

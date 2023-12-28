@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { TRANSACTIONS } from '../mock-transaction-list';
 import { Transaction } from '../transaction';
+import { TransactionService } from '../transaction.service';
 
 @Component({
   selector: 'app-transaction-list',
@@ -11,9 +12,16 @@ import { Transaction } from '../transaction';
   standalone: true
 })
 export class TransactionListComponent {
-  transactionsList: Transaction[] = TRANSACTIONS;
+  transactionsList: Transaction[];
 
-  constructor(private router: Router){}
+  constructor(
+    private router: Router,
+    private transactionService: TransactionService
+  ){}
+
+  ngOnInit(){
+    this.transactionsList = this.transactionService.getTransationList();
+  }
 
   goToOneTransaction(transaction: Transaction){
     this.router.navigate(['/transaction', transaction.id])
