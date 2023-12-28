@@ -4,6 +4,7 @@ import { TransactionListComponent } from './transaction-list/transaction-list.co
 import { TransactionDetailComponent } from './transaction-detail/transaction-detail.component';
 import { RouterModule, Routes } from '@angular/router';
 import { TransactionService } from './transaction.service';
+import { FormsModule } from '@angular/forms';
 
 const transactionRoutes: Routes = [
   { path: 'transactions', component: TransactionListComponent },
@@ -14,6 +15,7 @@ const transactionRoutes: Routes = [
   declarations: [],
   imports: [
     CommonModule,
+    FormsModule,
     RouterModule.forChild(transactionRoutes)
   ],
   providers: [TransactionService]

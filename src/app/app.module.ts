@@ -6,6 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
 import { TransactionModule } from './transaction/transaction.module';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -13,6 +14,7 @@ import { TransactionModule } from './transaction/transaction.module';
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     TransactionModule,
     AppRoutingModule,
     RouterModule,

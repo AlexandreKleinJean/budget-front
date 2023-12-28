@@ -13,4 +13,16 @@ export class TransactionService {
   getTransactionById(transactionID: number): Transaction|undefined {
     return TRANSACTIONS.find(transaction => transaction.id == transactionID)
   }
+
+  getTransactionCategoriesList(): string[] {
+    return [
+      'Nourriture',
+      'Transport',
+      'Sport',
+      'Factures',
+      'Shopping',
+      'Loisirs',
+      'Real Estate'
+    ];
+  }
 }

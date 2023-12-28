@@ -1,0 +1,65 @@
+
+<form *ngIf="transaction" (ngSubmit)="onSubmit()" #transactionForm="ngForm">
+  <div class="row">
+    <div class="col s8 offset-s2">
+      <div class="card-panel">
+
+        <!-- Subject -->
+        <div class="form-group">
+          <label for="subject">Subject</label>
+          <input type="text" class="form-control" id="subject"
+                  required
+                  pattern="^[a-zA-Z0-9àéèç]{1,25}$"
+                 [(ngModel)]="transaction.subject" name="subject"
+                 #subject="ngModel">
+
+          <div [hidden]="subject.valid || name.pristine"
+                class="card-panel red accent-1">
+                Subject transaction is required.
+          </div>
+        </div>
+
+        <!-- Note -->
+        <div class="form-group">
+          <label for="note">Note</label>
+          <input type="number" class="form-control" id="note"
+                 [(ngModel)]="transaction.note" name="note"
+                 #note="ngModel">
+           <div [hidden]="note.valid || note.pristine"
+                 class="card-panel red accent-1">
+                 Note is optional
+           </div>
+        </div>
+
+        <!-- Category -->
+        <form class="form-group">
+          <label for="types">Category</label>
+          <p *ngFor="let oneCategory of categories">
+            <label>
+              <input type="checkbox"
+                class="filled-in"
+                id="{{ oneCategory }}"
+                [value]="oneCategory"
+                [checked]="hasType(oneCategory)"
+                [disabled]="!isTypesValid(oneCategory)"
+                (change)="selectType($event, oneCategory)"
+              />
+            </label>
+          </p>
+        </form>
+
+
+        <!-- Submit button -->
+        <div class="divider"></div>
+        <div class="section center">
+          <button type="submit"
+            class="waves-effect waves-light btn"
+            [disabled]="!transactionForm.form.valid">
+            Submit</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</form>
+<h3 *ngIf="!transaction" class="center">No transaction to edit..</h3>
