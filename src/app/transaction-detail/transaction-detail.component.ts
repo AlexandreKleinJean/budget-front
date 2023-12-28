@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import{ ActivatedRoute } from '@angular/router';
+import{ ActivatedRoute, Router } from '@angular/router';
 import { TRANSACTIONS } from '../mock-transaction-list';
 import { Transaction } from '../transaction';
 
@@ -17,7 +17,7 @@ export class TransactionDetailComponent implements OnInit{
   transactionList: Transaction[];
   transaction: Transaction|undefined;
 
-  constructor(private route: ActivatedRoute){}
+  constructor(private route: ActivatedRoute, private router: Router){}
 
     ngOnInit(){
       this.transactionList = TRANSACTIONS;
@@ -26,6 +26,10 @@ export class TransactionDetailComponent implements OnInit{
       if(transactionId){
         this.transaction = this.transactionList.find(transaction => transaction.id == +transactionId);
       }
+    }
+
+    goToTransactionList(){
+      this.router.navigate(['/transactions']);
     }
 }
 
