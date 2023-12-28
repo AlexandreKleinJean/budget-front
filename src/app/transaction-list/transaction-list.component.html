@@ -1,0 +1,20 @@
+<p>transaction-list works!</p>
+
+<div class="container">
+  <div class="row">
+      <div *ngFor="let transaction of transactionsList" class="col m12">
+          <div class="card horizontal">
+              <div class="card-image" style="display: flex; align-items: center; max-width: 50px; height: auto;">
+                  <img [src]="transaction.icon" alt="{{ transaction.subject }}"/>
+              </div>
+              <div class="card-stacked">
+                  <div class="card-content">
+                      <p>{{ transaction.date | date: 'longDate' }}</p>
+                      <p>{{ transaction.subject }}</p>
+                      <p>{{ transaction.amount | currency: '$ ' }}</p>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
