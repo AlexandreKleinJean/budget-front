@@ -33,5 +33,9 @@ export class TransactionDetailComponent implements OnInit{
     goToTransactionList(){
       this.router.navigate(['/transactions']);
     }
+
+    goToEditTransactionForm(transaction: Transaction){
+      this.router.navigate(['/edit/transaction', transaction.id])
+    }
 }
 

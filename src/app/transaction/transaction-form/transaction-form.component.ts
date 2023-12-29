@@ -1,12 +1,16 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+import { ActivatedRoute, Router } from '@angular/router';
 import { Transaction } from '../transaction';
 import { TransactionService } from '../transaction.service';
-import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-transaction-form',
   standalone: true,
-  templateUrl: `app-transaction-form.component.html`
+  imports: [CommonModule],
+  templateUrl: `./transaction-form.component.html`
 })
 
 export class TransactionFormComponent implements OnInit {
@@ -35,6 +39,14 @@ export class TransactionFormComponent implements OnInit {
       this.categories.splice(index, 1)
     }
   }
+
+  /*justOneCategory(category: string): boolean{
+    if(this.transaction.category.length>1) {
+      return false
+    } else {
+      return true;
+    }
+  }*/
 
   onSubmit(){
     console.log("Form submited")
