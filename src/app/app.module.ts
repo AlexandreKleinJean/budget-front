@@ -15,6 +15,7 @@ import { FormsModule } from '@angular/forms';
   imports: [
     BrowserModule,
     FormsModule,
+    HttpClientModule,
     TransactionModule,
     AppRoutingModule,
     RouterModule,
@@ -23,4 +24,5 @@ import { FormsModule } from '@angular/forms';
   bootstrap: [AppComponent],
   providers: []
 })
-export class AppModule { }
+export class AppModule { }import { HttpClientModule } from '@angular/common/http';
+

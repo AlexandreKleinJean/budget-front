@@ -11,16 +11,22 @@ import { TransactionService } from '../transaction.service';
   imports: [CommonModule],
   standalone: true
 })
-export class TransactionListComponent {
-  transactionsList: Transaction[];
+
+export class TransactionListComponent implements OnInit {
+  transactionsList: Transaction[] = [];
 
   constructor(
     private router: Router,
     private transactionService: TransactionService
-  ){}
+  ) {}
 
-  ngOnInit(){
-    this.transactionsList = this.transactionService.getTransationList();
+  async ngOnInit() {
+    try {
+      this.transactionsList = await this.transactionService.getTransactionList();
+    } catch (error) {
+      console.error('PROBLEME:', error);
+      // Vous pouvez choisir de gérer l'erreur plus spécifiquement ici si nécessaire
+    }
   }
 
   goToOneTransaction(transaction: Transaction){
