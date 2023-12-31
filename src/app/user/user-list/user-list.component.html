@@ -1,0 +1,18 @@
+<div class="container">
+  <div class="row">
+      <div *ngFor="let user of usersList" class="col m12">
+          <div (click)="goToOneUser(user)" class="card horizontal hoverable">
+              <div class="card-image" style="display: flex; align-items: center; max-width: 50px; height: auto;">
+                  <img [src]="user" alt="{{ user.firstname }}"/>
+              </div>
+              <div class="card-stacked">
+                  <div class="card-content">
+                      <p>{{ user.firstname }}</p>
+                      <p>{{ user.lastname }}</p>
+                      <p>{{ user.gender }}</p>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
