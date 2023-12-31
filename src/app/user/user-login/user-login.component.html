@@ -4,11 +4,11 @@
   <form class="col s12 m6 offset-m3" (ngSubmit)="onSubmit()">
     <div class="row">
       <div class="input-field col s12">
-        <input id="email" type="text" class="validate" name="email">
+        <input id="email" type="text" class="validate" [(ngModel)]="email" name="email">
         <label for="email">Email</label>
       </div>
       <div class="input-field col s12">
-        <input id="password" type="password" class="validate" name="password">
+        <input id="password" type="password" class="validate" [(ngModel)]="password" name="password">
         <label for="password">Password</label>
       </div>
       <div class="col s12 center">
@@ -17,6 +17,3 @@
     </div>
   </form>
 </div>
-
-
-
