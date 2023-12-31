@@ -1,16 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UserListComponent } from './user-list/user-list.component';
-import { UserDetailComponent } from './user-detail/user-detail.component';
+import { AuthLoginComponent } from './auth-login.component';
 /*import { UserFormComponent } from './user-form/user-form.component';*/
 import { RouterModule, Routes } from '@angular/router';
-import { UserService } from './user.service';
+import { AuthService } from './auth.service';
 import { FormsModule } from '@angular/forms';
 
 const userRoutes: Routes = [
   /*{ path: 'edit/user/:id', component: UserFormComponent },*/
-  { path: 'users', component: UserListComponent },
-  { path: 'user/:id', component: UserDetailComponent }
+  { path: 'login', component: AuthLoginComponent }
 ]
 
 @NgModule({
@@ -20,6 +18,6 @@ const userRoutes: Routes = [
     FormsModule,
     RouterModule.forChild(userRoutes)
   ],
-  providers: [UserService]
+  providers: [AuthService]
 })
-export class UserModule { }
+export class AuthModule { }

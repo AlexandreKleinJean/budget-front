@@ -7,6 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TransactionModule } from './transaction/transaction.module';
 import { UserModule } from './user/user.module';
+import { AuthModule } from './auth/auth.module';
 import { FormsModule } from '@angular/forms';
 
 @NgModule({
@@ -19,6 +20,7 @@ import { FormsModule } from '@angular/forms';
     HttpClientModule,
     UserModule,
     TransactionModule,
+    AuthModule,
     AppRoutingModule,
     RouterModule,
     CommonModule
