@@ -8,7 +8,6 @@ import { TransactionService } from './transaction.service';
 import { FormsModule } from '@angular/forms';
 
 const transactionRoutes: Routes = [
-  { path: '', redirectTo: '/transactions', pathMatch: 'full' },
   /*{ path: 'edit/transaction/:id', component: TransactionFormComponent },*/
   { path: 'transactions', component: TransactionListComponent },
   { path: 'transaction/:id', component: TransactionDetailComponent }
