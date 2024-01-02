@@ -6,6 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
 import { TransactionModule } from './transaction/transaction.module';
+import { AccountModule } from './account/account.module';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { FormsModule } from '@angular/forms';
@@ -18,6 +19,7 @@ import { FormsModule } from '@angular/forms';
     BrowserModule,
     FormsModule,
     HttpClientModule,
+    AccountModule,
     UserModule,
     TransactionModule,
     AuthModule,

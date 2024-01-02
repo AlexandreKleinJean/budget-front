@@ -24,11 +24,11 @@ export class AccountListComponent implements OnInit {
   async ngOnInit() {
     try {
       // J'appelle UserService pour récupéré l'ID du loggedInUser
-      const loggedInUserId = this.userService.loggedInUserId;
+      const userId = this.userService.loggedInUserId;
 
-      if (loggedInUserId) {
+      if (userId) {
         // J'appelle AccountService pour récupérer les comptes du loggedInUser
-        this.accountsList = await this.accountService.getAccountsByUser(loggedInUserId);
+        this.accountsList = await this.accountService.getAccountsByUser(userId);
       } else {
         console.error('No user with this id');
       }

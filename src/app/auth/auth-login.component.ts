@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { User } from '../user/user';
 import { UserService } from '../user/user.service';
 import { AuthService } from './auth.service';
+import { AccountService } from '../account/account.service';
 import { FormsModule } from '@angular/forms';
 
 import{ ActivatedRoute, Router } from '@angular/router';
@@ -25,7 +26,8 @@ export class AuthLoginComponent implements OnInit {
       private route: ActivatedRoute,
       private router: Router,
       private authService:  AuthService,
-      private userService: UserService
+      private userService: UserService,
+      private accountService: AccountService
     ) {}
 
     async ngOnInit() {
@@ -33,6 +35,7 @@ export class AuthLoginComponent implements OnInit {
 
     async onSubmit() {
       try {
+        // J'appelle la method de authService pour récupérer le user de l'API
         const user = await this.authService.login(this.email, this.password);
 
         if (user) {
@@ -41,6 +44,9 @@ export class AuthLoginComponent implements OnInit {
 
           // Je stocke le user et son id
           this.userService.setLoggedInUserId(user.id);
+
+          // Redirection vers la page des comptes
+          this.router.navigate(['/accounts']);
 
         } else {
           // Authentification échouée

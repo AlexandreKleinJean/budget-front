@@ -22,4 +22,4 @@ const accountRoutes: Routes = [
   ],
   providers: [AccountService]
 })
-export class TransactionModule { }
+export class AccountModule { }
