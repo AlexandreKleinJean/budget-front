@@ -1,6 +1,4 @@
 import { Injectable } from '@angular/core';
-/*import { HttpClient } from '@angular/common/http';
-import { TRANSACTIONS } from './mock-transaction-list';*/
 import { Account } from './account';
 
 @Injectable()
@@ -9,6 +7,14 @@ export class AccountService {
 
   constructor() { }
 
+  /*----------Stocker l'id du account-------------*/
+  selectedAccountId: number | null = null;
+
+  setSelectedAccountId(accountId: number) {
+    this.selectedAccountId = accountId;
+  }
+
+  /*----------Récupérer les accounts par user-------------*/
   async getAccountsByUser(userId: number): Promise<Account[]> {
     try {
       const response = await fetch(`${this.apiUrl}/${userId}/accounts`);
@@ -22,6 +28,7 @@ export class AccountService {
     }
   }
 
+  /*----------Récupérer tous les accounts-------------*/
   async getAccountList(): Promise<Account[]> {
     try {
       const response = await fetch(`${this.apiUrl}/accounts`);
@@ -35,6 +42,7 @@ export class AccountService {
     }
   }
 
+  /*----------Récupérer un account par son id-------------*/
   async getOneAccountById(accountId: number): Promise<Account> {
     try {
       const response = await fetch(`${this.apiUrl}/accounts/${accountId}`);
@@ -48,14 +56,4 @@ export class AccountService {
     }
   }
 }
-
-  /*getTransationList(): Transaction[] {
-    return TRANSACTIONS;
-  }
-
-  getTransactionById(transactionID: number): Transaction|undefined {
-    return TRANSACTIONS.find(transaction => transaction.id == transactionID)
-  }
-
-  }*/
 

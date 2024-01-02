@@ -9,7 +9,7 @@ import { FormsModule } from '@angular/forms';
 
 const transactionRoutes: Routes = [
   /*{ path: 'edit/transaction/:id', component: TransactionFormComponent },*/
-  { path: 'transactions', component: TransactionListComponent },
+  { path: ':id/transactions', component: TransactionListComponent },
   { path: 'transaction/:id', component: TransactionDetailComponent }
 ]
 

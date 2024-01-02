@@ -1,6 +1,6 @@
 <div class="container">
   <div class="row">
-      <div *ngFor="let transaction of transactionsList" class="col m12">
+      <div *ngFor="let transaction of this.transactionsListByAccount" class="col m12">
           <div (click)="goToOneTransaction(transaction)" class="card horizontal hoverable">
               <div class="card-image" style="display: flex; align-items: center; max-width: 50px; height: auto;">
                   <img [src]="transaction.icon" alt="{{ transaction.subject }}"/>

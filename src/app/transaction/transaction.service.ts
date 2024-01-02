@@ -9,6 +9,19 @@ export class TransactionService {
 
   constructor() { }
 
+  async getTransactionsByAccount(accountId: number): Promise<Transaction[]> {
+    try {
+      const response = await fetch(`${this.apiUrl}/${accountId}/transactions`);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return await response.json();
+    } catch (error) {
+      console.error('Problem with your fetch operation:', error);
+      throw error;
+    }
+  }
+
   async getTransactionList(): Promise<Transaction[]> {
     try {
       const response = await fetch(`${this.apiUrl}/transactions`);

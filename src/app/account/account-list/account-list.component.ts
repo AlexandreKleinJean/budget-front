@@ -36,5 +36,11 @@ export class AccountListComponent implements OnInit {
       console.error('PROBLEME:', error);
     }
   }
+
+  goToTransactions(accountId: number) {
+    // Je définit l'id du account séléctionné
+    this.accountService.setSelectedAccountId(accountId);
+    this.router.navigate([`/${accountId}/transactions`]);
+  }
 }
 

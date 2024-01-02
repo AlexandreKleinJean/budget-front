@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { User } from '../../user/user';
 import { UserService } from '../../user/user.service';
 import { AuthService } from '../auth.service';
-import { AccountService } from '../../account/account.service';
 import { FormsModule } from '@angular/forms';
 
 import{ ActivatedRoute, Router } from '@angular/router';
@@ -26,8 +25,7 @@ export class AuthLoginComponent implements OnInit {
       private route: ActivatedRoute,
       private router: Router,
       private authService:  AuthService,
-      private userService: UserService,
-      private accountService: AccountService
+      private userService: UserService
     ) {}
 
     async ngOnInit() {
@@ -39,7 +37,7 @@ export class AuthLoginComponent implements OnInit {
         const user = await this.authService.login(this.email, this.password);
 
         if (user) {
-          // Authentification réussie
+          // Un user correspond
           console.log('Authentification réussie', user);
 
           // Je stocke le user et son id
@@ -49,12 +47,16 @@ export class AuthLoginComponent implements OnInit {
           this.router.navigate(['/accounts']);
 
         } else {
-          // Authentification échouée
+          // Un user ne correspond pas
           console.error('Erreur d\'authentification');
         }
       } catch (error) {
         // Gérer les erreurs de l'appel à la méthode login
         console.error('Erreur lors de l\'authentification:', error);
       }
+    }
+
+    goToRegistration(){
+      this.router.navigate(['/register'])
     }
   }
