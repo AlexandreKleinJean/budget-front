@@ -27,6 +27,33 @@ export class AuthService {
       throw error;
     }
   }
+
+  async register(
+    gender: string,
+    firstname: string,
+    lastname: string,
+    email: string,
+    password: string)
+    : Promise<User | null> {
+    try {
+      const response = await fetch(`${this.apiUrl}/register`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ gender, firstname, lastname, email, password }),
+      });
+
+      if (response.ok) {
+        return await response.json();
+      } else {
+        return null;
+      }
+    } catch (error) {
+      console.error('Problem with your fetch operation:', error);
+      throw error;
+    }
+  }
 }
 
   /*getTransationList(): Transaction[] {
