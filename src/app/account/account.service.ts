@@ -55,5 +55,27 @@ export class AccountService {
       throw error;
     }
   }
+
+  /*----------Créer un account par son id-------------*/
+  async newAccount(name: string, bank: string, clientId: number): Promise<Account | null> {
+    try {
+      const response = await fetch(`${this.apiUrl}/account`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, bank, clientId }),
+      });
+
+      if (response.ok) {
+        return await response.json();
+      } else {
+        return null;
+      }
+    } catch (error) {
+      console.error('Problem with your fetch operation:', error);
+      throw error;
+    }
+  }
 }
 

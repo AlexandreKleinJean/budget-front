@@ -14,6 +14,7 @@ import { UserService } from 'src/app/user/user.service';
 
 export class AccountListComponent implements OnInit {
   accountsList: Account[] = [];
+  account: Account;
 
   constructor(
     private router: Router,
@@ -42,5 +43,11 @@ export class AccountListComponent implements OnInit {
     this.accountService.setSelectedAccountId(accountId);
     this.router.navigate([`/${accountId}/transactions`]);
   }
+
+  goToAccountCreationForm(userId: number){
+    this.router.navigate([`/${userId}/account`]);
+  }
+
+
 }
 

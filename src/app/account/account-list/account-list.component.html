@@ -4,11 +4,14 @@
           <div (click)="goToTransactions(account.id)" class="card horizontal hoverable">
               <div class="card-stacked">
                   <div class="card-content">
-                      <p>{{ account.number }}</p>
-                      <p>{{ account.amount | currency: '$ ' }}</p>
+                      <p>{{ account.name }}</p>
+                      <p>{{ account.bank }}</p>
                   </div>
               </div>
           </div>
+      </div>
+      <div class="col m12">
+        <button (click)="goToAccountCreationForm(account.clientId)" class="btn waves-effect waves-light">New account</button>
       </div>
   </div>
 </div>
