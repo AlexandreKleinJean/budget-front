@@ -40,14 +40,11 @@ export class AuthLoginComponent implements OnInit {
           // Un user correspond
           console.log('Authentification réussie', user);
 
-          // Je stocke le user et son id
-          this.userService.setLoggedInUserId(user.id);
-
           // Redirection vers la page des comptes
           this.router.navigate(['/accounts']);
 
         } else {
-          // Un user ne correspond pas
+          // Un user ne correspond paas
           console.error('Erreur d\'authentification');
         }
       } catch (error) {
