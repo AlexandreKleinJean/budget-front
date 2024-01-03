@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row">
       <div *ngFor="let account of accountsList" class="col m12">
-          <div (click)="goToTransactions(account.id)" class="card horizontal hoverable">
+          <div (click)="goToTransactions(account)" class="card horizontal hoverable">
               <div class="card-stacked">
                   <div class="card-content">
                       <p>{{ account.name }}</p>
@@ -10,8 +10,8 @@
               </div>
           </div>
       </div>
-      <div class="col m12">
-        <button (click)="goToAccountCreationForm(account.clientId)" class="btn waves-effect waves-light">New account</button>
-      </div>
+      <!--<div class="col m12">
+        <button (click)="goToAccountCreationForm()" class="btn waves-effect waves-light">New account</button>
+      </div>-->
   </div>
 </div>

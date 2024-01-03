@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { Account } from '../account';
 import { AccountService } from '../account.service';
-import { UserService } from 'src/app/user/user.service';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-account-list',
@@ -14,18 +14,17 @@ import { UserService } from 'src/app/user/user.service';
 
 export class AccountListComponent implements OnInit {
   accountsList: Account[] = [];
-  account: Account;
 
   constructor(
     private router: Router,
     private accountService: AccountService,
-    private userService: UserService
+    private authService: AuthService
   ) {}
 
   async ngOnInit() {
     try {
-      // J'appelle UserService pour récupéré l'ID du loggedInUser
-      const userId = this.userService.loggedInUserId;
+      // J'appelle AuthService pour récupéré l'ID du user connecté
+      const userId = this.authService.getLoggedInUserId();
 
       if (userId) {
         // J'appelle AccountService pour récupérer les comptes du loggedInUser
@@ -38,16 +37,26 @@ export class AccountListComponent implements OnInit {
     }
   }
 
-  goToTransactions(accountId: number) {
-    // Je définit l'id du account séléctionné
-    this.accountService.setSelectedAccountId(accountId);
-    this.router.navigate([`/${accountId}/transactions`]);
+  /*---------Bouton pour aller sur la liste de transactions-------*/
+
+  // Naviguer sur la liste des transactions affiliées au compte
+  goToTransactions(account: Account) {
+    if (account && account.id) {
+      this.accountService.setSelectedAccountId(account.id);
+      this.router.navigate([`/${this.accountService.selectedAccountId}/transactions`]);
+    }
   }
 
-  goToAccountCreationForm(userId: number){
-    this.router.navigate([`/${userId}/account`]);
-  }
+  /*-----------Bouton pour aller sur le from d'ajout d'un account--------*/
 
+  /*goToAccountCreationForm() {
+    if (this.userId) {
+      console.log(this.userId);
+      this.router.navigate([`/${this.userId}/account`]);
+    } else {
+      console.error('UserId is undefined');
+    }
+  }*/
 
 }
 

@@ -1,4 +1,4 @@
-/*import { Component } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-account-creation',
@@ -11,7 +11,7 @@
   `,
   styles: ``
 })
-export class AccountCreationComponent {
+export class AccountCreationComponent {/*
   async createAccount(name: string, bank: string, userId: number) {
     try {
       const newAccount = await this.accountService.newAccount(name, bank, userId);
@@ -27,6 +27,6 @@ export class AccountCreationComponent {
       // Gérer les erreurs de requête ici
       console.error('Erreur lors de la création du compte:', error);
     }
-  }
+  }*/
 
-}*/
+}
