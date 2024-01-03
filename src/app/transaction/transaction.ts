@@ -6,7 +6,7 @@ export class Transaction {
   date: Date;         // 'date' en SQL
   category: string;   // 'TEXT' en SQL
   amount: number;     // 'DECIMAL' en SQL
-  /*accountId: number; // 'INTEGER REFERENCES "account"' en SQL*/
+  accountId: number; // 'INTEGER REFERENCES "account"' en SQL
 
   constructor(id: number, subject: string, note: string, icon: string, date: Date, category: string, amount: number) {
     this.id = id;
