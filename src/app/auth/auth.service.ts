@@ -20,10 +20,17 @@ export class AuthService {
       });
 
       if (response.ok) {
+        // Je stocke la réponse du server dans "user"
         const user = await response.json();
-        // Je stocke l'ID de l'utilisateur connecté.
+        // Extraire le JWT de l'en-tête "Authorization"
+        const jwtToken = response.headers.get('Authorization');
+        // Je stocke le JWT dans le local storage
+        if (jwtToken) {localStorage.setItem('jwtToken', jwtToken);}
+        // Je stocke l'ID du user connecté
         this.loggedInUserId = user.id;
+        // Je retourne le user connecté
         return user;
+
       } else {
         console.error('No response from the fetch');
         return null;
