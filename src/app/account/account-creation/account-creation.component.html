@@ -1,7 +1,7 @@
 <h2 class="center">Create a new account</h2>
 
-<!--<div style="display: flex; justify-content: center; margin: 2%;">
-  <form style="width: 100%; max-width: 50%; margin: 0 2%;">
+<div style="display: flex; justify-content: center; margin: 2%;">
+  <form (ngSubmit)="onAccountSubmit()" style="width: 100%; max-width: 50%; margin: 0 2%;">
   <div>
     <label for="name">Name:</label>
     <input type="text" id="name" [(ngModel)]="name" name="name" required>
@@ -11,4 +11,4 @@
     <input type="text" id="bank" [(ngModel)]="bank" name="bank" required>
   </div>
   <button type="submit">Create account</button>
-</form>-->
+</form>
