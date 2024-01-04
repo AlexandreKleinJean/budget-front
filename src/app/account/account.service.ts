@@ -69,7 +69,7 @@ export class AccountService {
     }
   }*/
 
-  /*----------Créer un account par son id-------------*/
+  /*------------------Créer un account-------------------*/
   async newAccount(name: string, bank: string, clientId: number): Promise<Account | null> {
     try {
       const response = await fetch(`${this.apiUrl}/account`, {

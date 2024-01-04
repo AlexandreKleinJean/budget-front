@@ -14,6 +14,7 @@ import { AuthService } from 'src/app/auth/auth.service';
 
 export class AccountListComponent implements OnInit {
   accountsList: Account[] = [];
+  userId: number | null;
 
   constructor(
     private router: Router,
@@ -24,11 +25,11 @@ export class AccountListComponent implements OnInit {
   async ngOnInit() {
     try {
       // J'appelle AuthService pour récupéré l'ID du user connecté
-      const userId = this.authService.getLoggedInUserId();
+      this.userId = this.authService.getLoggedInUserId();
 
-      if (userId) {
+      if (this.userId) {
         // J'appelle AccountService pour récupérer les comptes du loggedInUser
-        this.accountsList = await this.accountService.getAccountsByUser(userId);
+        this.accountsList = await this.accountService.getAccountsByUser(this.userId);
       } else {
         console.error('No user with this id');
       }
@@ -47,16 +48,16 @@ export class AccountListComponent implements OnInit {
     }
   }
 
-  /*-----------Bouton pour aller sur le from d'ajout d'un account--------*/
+  /*------Bouton pour aller sur le form de creation d'account------*/
 
-  /*goToAccountCreationForm() {
+  goToAccountCreationForm() {
     if (this.userId) {
       console.log(this.userId);
       this.router.navigate([`/${this.userId}/account`]);
     } else {
       console.error('UserId is undefined');
     }
-  }*/
+  }
 
 }
 
