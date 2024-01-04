@@ -48,6 +48,25 @@ export class AccountListComponent implements OnInit {
     }
   }
 
+  /*-----------Bouton pour supprimer l'account--------------*/
+  async deleteAccount(account: Account) {
+    if (account && this.userId) {
+      try {
+        // Je récupère l'id de l'account
+        this.accountService.setSelectedAccountId(account.id);
+        // Je supprime l'account concerné
+        await this.accountService.deleteOneAccountById(account.id);
+        // Je recharge la liste des accounts à jour
+        this.accountsList = await this.accountService.getAccountsByUser(this.userId);
+        // Je recharge la page actuelle
+        this.router.navigate(['/accounts']);
+
+      } catch (error) {
+        console.error('Error deleting account:', error);
+      }
+    }
+  }
+
   /*------Bouton pour aller sur le form de creation d'account------*/
 
   goToAccountCreationForm() {

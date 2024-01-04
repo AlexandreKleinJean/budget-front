@@ -77,6 +77,21 @@ export class AccountService {
     }
   }
 
+  /*-------------Supprimer un account----------------*/
+  async deleteOneAccountById(accountId: number): Promise<void> {
+    try {
+      const response = await fetch(`${this.apiUrl}/account/${accountId}`, {
+        method: 'DELETE',
+      });
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+    } catch (error) {
+      console.error('Problem with your fetch operation:', error);
+      throw error;
+    }
+  }
+
   /*----------Récupérer tous les accounts-------------*/
   /*async getAccountList(): Promise<Account[]> {
     try {
