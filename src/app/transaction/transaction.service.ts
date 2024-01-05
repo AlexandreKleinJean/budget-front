@@ -22,20 +22,6 @@ export class TransactionService {
     }
   }
 
-  async getTransactionList(): Promise<Transaction[]> {
-    try {
-      const response = await fetch(`${this.apiUrl}/transactions`);
-      console.log(response)
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      return await response.json();
-    } catch (error) {
-      console.error('Problem with your fetch operation:', error);
-      throw error;
-    }
-  }
-
   async getOneTransactionById(transactionId: number): Promise<Transaction> {
     try {
       const response = await fetch(`${this.apiUrl}/transactions/${transactionId}`);
@@ -60,15 +46,21 @@ export class TransactionService {
       'Real Estate'
     ];
   }
-}
 
-  /*getTransationList(): Transaction[] {
-    return TRANSACTIONS;
-  }
-
-  getTransactionById(transactionID: number): Transaction|undefined {
-    return TRANSACTIONS.find(transaction => transaction.id == transactionID)
+  /*async getTransactionList(): Promise<Transaction[]> {
+    try {
+      const response = await fetch(`${this.apiUrl}/transactions`);
+      console.log(response)
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return await response.json();
+    } catch (error) {
+      console.error('Problem with your fetch operation:', error);
+      throw error;
+    }
   }
 
   }*/
+}
 
