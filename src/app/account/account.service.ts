@@ -6,6 +6,7 @@ import { AuthService } from '../auth/auth.service';
 export class AccountService {
   private apiUrl = 'http://localhost:8080';
   selectedAccountId: number | null = null;
+  jwtToken: string | null = null;
 
   constructor(private authService: AuthService) {}
 
@@ -39,56 +40,103 @@ export class AccountService {
   /*----------Récupérer les accounts par user-------------*/
   async getAccountsByUser(userId: number): Promise<Account[]> {
 
+    // je récupère l'id du user connecté
     const loggedInUserId = this.authService.getLoggedInUserId();
 
-    // l'id du user existe
-    if (loggedInUserId) {
+    // je récupère le JWT contenu dans le Local Storage
+    this.jwtToken = localStorage.getItem('jwtToken');
+    console.log(this.jwtToken)
+
+    // l'id du user et le JWT existent
+    if (loggedInUserId && this.jwtToken) {
 
       try {
-        const response = await fetch(`${this.apiUrl}/${userId}/accounts`);
+        // appel API en fournissant le JWT au serveur
+        const response = await fetch(`${this.apiUrl}/${userId}/accounts`, {
+          headers: {
+            'Authorization': `${this.jwtToken}`,
+            'Content-Type': 'application/json',
+          },
+        });
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
         return await response.json();
+
       } catch (error) {
-        console.error('Problem with your fetch operation:', error);
+        console.error('Accounts fetch failed:', error);
         throw error;
       }
 
-    // l'id du user n'existe pas
+    // l'id du user ou le JWT n'existe pas
     } else {
-      console.error('No user with this id');
+      console.error('UserId or Jwt not found');
       return [];
     }
   }
 
   /*----------Récupérer un account par son ID-------------*/
+  async getOneAccountById(accountId: number): Promise<Account|undefined> {
 
-   async getOneAccountById(accountId: number): Promise<Account> {
-    try {
-      const response = await fetch(`${this.apiUrl}/accounts/${accountId}`);
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
+    // je récupère le JWT contenu dans le Local Storage
+    this.jwtToken = localStorage.getItem('jwtToken');
+    console.log(this.jwtToken)
+
+    // le JWT existe
+    if (this.jwtToken) {
+
+      try {
+        // appel API en fournissant le JWT au serveur
+        const response = await fetch(`${this.apiUrl}/accounts/${accountId}`, {
+            headers: {
+              'Authorization': `${this.jwtToken}`,
+              'Content-Type': 'application/json',
+            },
+        });
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return await response.json();
+
+      } catch (error) {
+        console.error('One account fetch failed:', error);
+        throw error;
       }
-      return await response.json();
-    } catch (error) {
-      console.error('Problem with your fetch operation:', error);
-      throw error;
+    // le JWT n'existe pas
+    } else {
+      console.error('Jwt not found');
+      return undefined;
     }
   }
 
   /*-------------Supprimer un account----------------*/
   async deleteOneAccountById(accountId: number): Promise<void> {
-    try {
-      const response = await fetch(`${this.apiUrl}/account/${accountId}`, {
-        method: 'DELETE',
-      });
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
+
+    // je récupère le JWT contenu dans le Local Storage
+    this.jwtToken = localStorage.getItem('jwtToken');
+    console.log(this.jwtToken)
+
+    // le JWT existe
+    if (this.jwtToken) {
+      try {
+        const response = await fetch(`${this.apiUrl}/account/${accountId}`, {
+          method: 'DELETE',
+          headers: {
+            'Authorization': `${this.jwtToken}`,
+            'Content-Type': 'application/json',
+          },
+        });
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+      } catch (error) {
+        console.error('Problem with your fetch operation:', error);
+        throw error;
       }
-    } catch (error) {
-      console.error('Problem with your fetch operation:', error);
-      throw error;
+    // le JWT n'existe pas
+    } else {
+      console.error('Jwt not found');
     }
   }
 
