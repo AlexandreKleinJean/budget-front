@@ -6,11 +6,12 @@ import { TransactionDetailComponent } from './transaction-detail/transaction-det
 import { RouterModule, Routes } from '@angular/router';
 import { TransactionService } from './transaction.service';
 import { FormsModule } from '@angular/forms';
+import { AuthGuard } from '../auth.guard';
 
 const transactionRoutes: Routes = [
   /*{ path: 'edit/transaction/:id', component: TransactionFormComponent },*/
-  { path: ':id/transactions', component: TransactionListComponent },
-  { path: 'transaction/:id', component: TransactionDetailComponent }
+  { path: ':id/transactions', component: TransactionListComponent, canActivate: [AuthGuard] },
+  { path: 'transaction/:id', component: TransactionDetailComponent, canActivate: [AuthGuard] }
 ]
 
 @NgModule({

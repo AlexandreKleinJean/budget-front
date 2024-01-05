@@ -6,11 +6,12 @@ import { UserDetailComponent } from './user-detail/user-detail.component';
 import { RouterModule, Routes } from '@angular/router';
 import { UserService } from './user.service';
 import { FormsModule } from '@angular/forms';
+import { AuthGuard } from '../auth.guard';
 
 const userRoutes: Routes = [
   /*{ path: 'edit/user/:id', component: UserFormComponent },*/
-  { path: 'users', component: UserListComponent },
-  { path: 'user/:id', component: UserDetailComponent }
+  { path: 'users', component: UserListComponent, canActivate: [AuthGuard] },
+  { path: 'user/:id', component: UserDetailComponent, canActivate: [AuthGuard] }
 ]
 
 @NgModule({

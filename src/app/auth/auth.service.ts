@@ -46,6 +46,14 @@ export class AuthService {
     return this.loggedInUserId;
   }
 
+  /*--------------Vérification si le user est connecté-----------*/
+  isAuthenticated(): boolean {
+    // je vais chercher le Jwt dans lelocal storage
+    const jwtToken = localStorage.getItem('jwtToken');
+    // je renvoie true si le JWT est présent
+    return !!jwtToken;
+  }
+
   /*------------------------Inscription---------------------*/
   async register(
     gender: string,
