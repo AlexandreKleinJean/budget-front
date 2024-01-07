@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import{ ActivatedRoute, Router } from '@angular/router';
 import { Transaction } from '../transaction';
 import { TransactionService } from '../transaction.service';
-import { AccountService } from 'src/app/account/account.service';
 
 @Component({
   selector: 'app-transaction-detail',

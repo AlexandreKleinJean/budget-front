@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { Account } from '../account';
 import { AccountService } from '../account.service';
@@ -8,7 +7,7 @@ import { AuthService } from 'src/app/auth/auth.service';
 @Component({
   selector: 'app-account-list',
   templateUrl: './account-list.component.html',
-  imports: [CommonModule],
+  imports: [],
   standalone: true
 })
 

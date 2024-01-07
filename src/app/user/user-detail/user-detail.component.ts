@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 import{ ActivatedRoute, Router } from '@angular/router';
 import { User } from '../user';
@@ -8,7 +7,7 @@ import { UserService } from '../user.service';
 @Component({
   selector: 'app-user-detail',
   templateUrl: './user-detail.component.html',
-  imports: [CommonModule],
+  imports: [],
   standalone: true
 })
 export class UserDetailComponent implements OnInit {

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { Account } from '../account';
 import { AccountService } from '../account.service';
@@ -9,7 +8,7 @@ import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-account-creation',
   templateUrl: './account-creation.component.html',
-  imports: [CommonModule, FormsModule],
+  imports: [FormsModule],
   standalone: true
 })
 export class AccountCreationComponent implements OnInit{

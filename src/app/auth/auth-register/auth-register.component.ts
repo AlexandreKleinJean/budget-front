@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
@@ -8,7 +7,7 @@ import { AuthService } from '../auth.service';
   selector: 'app-auth-register',
   templateUrl: './auth-register.component.html',
   styleUrls: ['./auth-register.component.css'],
-  imports: [CommonModule, FormsModule],
+  imports: [FormsModule],
   standalone: true
 })
 export class AuthRegisterComponent implements OnInit {

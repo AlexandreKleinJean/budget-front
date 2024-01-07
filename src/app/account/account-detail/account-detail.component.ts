@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 import{ ActivatedRoute, Router } from '@angular/router';
 import { Account } from '../account';
@@ -8,7 +7,7 @@ import { AccountService } from '../account.service';
 @Component({
   selector: 'app-account-detail',
   templateUrl: './account-detail.component.html',
-  imports: [CommonModule],
+  imports: [],
   standalone: true
 })
 export class AccountDetailComponent implements OnInit {

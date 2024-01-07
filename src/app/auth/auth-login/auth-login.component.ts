@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { User } from '../../user/user';
 import { UserService } from '../../user/user.service';
 import { AuthService } from '../auth.service';
@@ -10,7 +9,7 @@ import{ ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-auth-login',
   templateUrl: `./auth-login.component.html`,
-  imports: [CommonModule, FormsModule],
+  imports: [FormsModule],
   standalone: true
 })
 
