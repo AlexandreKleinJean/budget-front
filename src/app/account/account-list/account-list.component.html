@@ -1,6 +1,7 @@
 <div class="container">
   <div class="row">
-      <div *ngFor="let account of accountsList" class="col m12">
+      @for (account of accountsList; track account.name) {
+        <div class="col m12">
           <div (click)="goToTransactions(account)" class="card horizontal hoverable">
               <div class="card-stacked">
                   <div class="card-content">
@@ -12,7 +13,10 @@
           <div>
             <button (click)="deleteAccount(account)">Delete account</button>
           </div>
-      </div>
+        </div>
+      } @empty {
+        <p>No account yet</p>
+      }
       <div class="col m12">
         <button (click)="goToAccountCreationForm()" class="btn waves-effect waves-light">New account</button>
       </div>

@@ -1,39 +1,43 @@
-<div *ngIf="user" class="row" >
-  <div class="col s12 m8 offset-m2">
-    <h2 class="header center">{{ user.firstname }}</h2>
-    <div class="card horizontal">
-      <div class="card-image" style="display: flex; align-items: center; justify-content: center; max-width: 200px; height: auto; margin: 30px 50px;">
-        <img [src]="user" alt="{{ user.firstname }}" style="width: 100%; max-height: 150px;"/>
-      </div>
-      <div class="card-stacked">
-        <div class="card-content">
-          <table class="bordered striped">
-            <tbody>
-              <tr>
-                <td>Firstname</td>
-                <td><strong><i>{{ user.firstname }}</i></strong></td>
-              </tr>
-              <tr>
-                <td>Lastname</td>
-                <td><strong>{{ user.lastname }}</strong></td>
-              </tr>
-              <tr>
-                <td>Gender</td>
-                <td><strong>{{ user.gender }}</strong></td>
-              </tr>
-              <tr>
-                <td>Email</td>
-                <td><strong>{{ user.email }}</strong></td>
-              </tr>
-            </tbody>
-          </table>
+@if(user) {
+  <div class="row" >
+    <div class="col s12 m8 offset-m2">
+      <h2 class="header center">{{ user.firstname }}</h2>
+      <div class="card horizontal">
+        <div class="card-image" style="display: flex; align-items: center; justify-content: center; max-width: 200px; height: auto; margin: 30px 50px;">
+          <img [src]="user" alt="{{ user.firstname }}" style="width: 100%; max-height: 150px;"/>
+        </div>
+        <div class="card-stacked">
+          <div class="card-content">
+            <table class="bordered striped">
+              <tbody>
+                <tr>
+                  <td>Firstname</td>
+                  <td><strong><i>{{ user.firstname }}</i></strong></td>
+                </tr>
+                <tr>
+                  <td>Lastname</td>
+                  <td><strong>{{ user.lastname }}</strong></td>
+                </tr>
+                <tr>
+                  <td>Gender</td>
+                  <td><strong>{{ user.gender }}</strong></td>
+                </tr>
+                <tr>
+                  <td>Email</td>
+                  <td><strong>{{ user.email }}</strong></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="card-action">
-      <a (click)="goToUserList()" style="cursor: pointer">Back</a>
-      <a style="cursor: pointer">Edit</a>
+      <div class="card-action">
+        <a (click)="goToUserList()" style="cursor: pointer">Back</a>
+        <a style="cursor: pointer">Edit</a>
+      </div>
     </div>
   </div>
-</div>
-<H4 *ngIf="!user" class="center">No User found</H4>
+ } @else {
+  <h4 class="center">No User found</h4>
+ }
+

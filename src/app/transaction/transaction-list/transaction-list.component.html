@@ -1,6 +1,7 @@
 <div class="container">
-  <div class="row">
-      <div *ngFor="let transaction of this.transactionsListByAccount" class="col m12">
+  @for(transaction of this.transactionsListByAccount; track transaction.subject) {
+    <div class="row">
+      <div class="col m12">
           <div (click)="goToOneTransaction(transaction)" class="card horizontal hoverable">
               <div class="card-image" style="display: flex; align-items: center; max-width: 50px; height: auto;">
                   <img [src]="transaction.icon" alt="{{ transaction.subject }}"/>
@@ -14,7 +15,10 @@
               </div>
           </div>
       </div>
-  </div>
+    </div>
+  } @empty {
+    <p>No account yet</p>
+  }
   <div class="card-action">
     <a (click)="goBackToAccountList()" style="cursor: pointer">Back</a>
   </div>

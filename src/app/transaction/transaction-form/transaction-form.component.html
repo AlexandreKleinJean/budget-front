@@ -1,50 +1,47 @@
 <h2 class="center">Edit your transaction</h2>
 
-<form *ngIf="transaction" (ngSubmit)="onSubmit()" #transactionForm>
-  <div class="row">
-    <div class="col s8 offset-s2">
-      <div class="card-panel">
+@if(transaction) {
+  <form (ngSubmit)="onSubmit()" #transactionForm>
+    <div class="row">
+      <div class="col s8 offset-s2">
+        <div class="card-panel">
 
-        <!-- Subject -->
-        <div class="form-group">
-          <label for="subject">Subject</label>
-          <input type="text" class="form-control" id="subject"
-                  required
-                  pattern="^[a-zA-Z0-9àéèç]{1,25}$"
-                  [(ngModel)]="transaction.subject" name="subject"
+          <!-- Subject -->
+          <div class="form-group">
+            <label for="subject">Subject</label>
+            <input type="text" class="form-control" id="subject"
+                    required
+                    pattern="^[a-zA-Z0-9àéèç]{1,25}$"
+                    [(ngModel)]="transaction.subject" name="subject"
+            >
+          </div>
+
+          <!-- Note -->
+          <div class="form-group">
+            <label for="note">Note</label>
+            <input type="text" class="form-control" id="note"
+            [(ngModel)]="transaction.note" name="note"
           >
-        </div>
+          </div>
 
-        <!-- Note -->
-        <div class="form-group">
-          <label for="note">Note</label>
-          <input type="text" class="form-control" id="note"
-          [(ngModel)]="transaction.note" name="note"
-        >
-        </div>
+          <!-- Category -->
+          <div class="form-group">
+            <label for="category">Category</label>
+            <input type="text" class="form-control" id="category"
+            [(ngModel)]="transaction.category" name="category"
+          >
+          </div>
 
-        <!-- Category -->
-        <div class="form-group">
-          <label for="category">Category</label>
-          <input type="text" class="form-control" id="category"
-          [(ngModel)]="transaction.category" name="category"
-        >
-        </div>
-
-
-
-
-
-
-
-
-        <!-- Submit button -->
-        <div class="divider"></div>
-        <div class="section center">
-          <button type="submit" class="waves-effect waves-light btn">
-            Submit</button>
+          <!-- Submit button -->
+          <div class="divider"></div>
+          <div class="section center">
+            <button type="submit" class="waves-effect waves-light btn">
+              Submit</button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</form>
+  </form>
+} @else {
+  <h4 class="center">No transaction found</h4>
+}
