@@ -21,7 +21,7 @@ export class TransactionDetailComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
-    const transactionId: string | null = this.route.snapshot.paramMap.get('id');
+    const transactionId: string | null = this.route.snapshot.paramMap.get('transactionId');
     if (transactionId) {
       try {
         this.transaction = await this.transactionService.getOneTransactionById(+transactionId);

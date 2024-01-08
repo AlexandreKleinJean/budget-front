@@ -56,7 +56,7 @@ export class TransactionListComponent implements OnInit {
   goToTransactionCreationForm() {
     if (this.selectedAccountId) {
       console.log("compte affilié:" + this.selectedAccountId);
-      this.router.navigate([`/create/transaction`]);
+      this.router.navigate([`${this.selectedAccountId}/create/transaction`]);
     } else {
       console.error('AccountId is undefined');
     }

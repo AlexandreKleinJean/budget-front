@@ -9,9 +9,9 @@ import { FormsModule } from '@angular/forms';
 import { AuthGuard } from '../auth.guard';
 
 const transactionRoutes: Routes = [
-  { path: 'transaction/:id', component: TransactionCreationComponent },
-  { path: ':id/transactions', component: TransactionListComponent, canActivate: [AuthGuard] },
-  { path: 'transaction/:id', component: TransactionDetailComponent, canActivate: [AuthGuard] }
+  { path: ':accountId/create/transaction', component: TransactionCreationComponent, canActivate: [AuthGuard] },
+  { path: ':accountId/transactions', component: TransactionListComponent, canActivate: [AuthGuard] },
+  { path: 'transaction/:transactionId', component: TransactionDetailComponent, canActivate: [AuthGuard] }
 ]
 
 @NgModule({

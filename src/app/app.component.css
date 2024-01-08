@@ -1,0 +1,13 @@
+#navBar {
+  background: linear-gradient(to right, #673AB7, #9575CD);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 7em;
+  margin-bottom: 5%;
+}
+
+#navBar_title {
+  font-size: 2em;
+  color:white;
+}

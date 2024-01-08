@@ -12,7 +12,8 @@ import { AuthService } from 'src/app/auth/auth.service';
   selector: 'app-transaction-creation',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: `./transaction-creation.component.html`
+  templateUrl: `./transaction-creation.component.html`,
+  styleUrl: `./transaction-creation.component.css`
 })
 
 export class TransactionCreationComponent implements OnInit {
@@ -37,16 +38,11 @@ export class TransactionCreationComponent implements OnInit {
 
   ngOnInit() {
     try {
-      // j'appelle AuthService pour récupérer l'ID du user connecté
+      // J'appelle AuthService pour récupéré l'ID du user connecté
       this.userId = this.authService.getLoggedInUserId();
+      console.log("userId :" + this.userId)
 
-      // je récupère l'id du account dans l'URL
-      const idString: string | null  = this.route.snapshot.paramMap.get('id');
-      if(idString){
-        this.accountId = parseInt(idString, 10);
-      } else {
-        this.accountId = null;
-      }
+      this.accountId = this.accountService.selectedAccountId;
 
       // je récupère la liste des catégories
       this.categories = this.transactionService.getTransactionCategoriesList();
@@ -76,7 +72,7 @@ export class TransactionCreationComponent implements OnInit {
           console.log('Transaction successfully created', newTransaction);
 
           // Redirection vers la page des transactions
-          this.router.navigate(['/transactions']);
+          this.router.navigate([`${this.accountId}/transactions`]);
 
           } else {
             // Un user ne correspond paas

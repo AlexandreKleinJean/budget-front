@@ -9,6 +9,7 @@ import{ ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-auth-login',
   templateUrl: `./auth-login.component.html`,
+  styleUrl:`./auth-login.component.css`,
   imports: [FormsModule],
   standalone: true
 })

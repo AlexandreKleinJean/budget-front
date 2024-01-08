@@ -1,22 +1,21 @@
-<h2 class="center">Welcome to yourBudget App !</h2>
-
-<div class="row">
-  <form class="col s12 m6 offset-m3" (ngSubmit)="onSubmit()">
-    <div class="row">
-      <div class="input-field col s12">
-        <input id="email" type="text" class="validate" [(ngModel)]="email" name="email">
+<div id="container">
+  <h2 id="title">Welcome to yourBudget App !</h2>
+  <form id="form" (ngSubmit)="onSubmit()">
+    <div>
+      <div class="form_input">
         <label for="email">Email</label>
+        <input id="email" type="text" class="validate" [(ngModel)]="email" name="email">
       </div>
-      <div class="input-field col s12">
-        <input id="password" type="password" class="validate" [(ngModel)]="password" name="password">
+      <div class="form_input">
         <label for="password">Password</label>
+        <input id="password" type="password" class="validate" [(ngModel)]="password" name="password">
       </div>
-      <div class="col s12 center">
-        <button type="submit" class="btn">Login</button>
+      <div class="form_button">
+        <button type="submit" id="form_submitButton">Login</button>
       </div>
     </div>
   </form>
-  <div (click)="goToRegistration()" style="cursor: pointer">
-    Create an account
+  <div (click)="goToRegistration()" class="form_button">
+    <p id="form_createButton">Create an account</p>
   </div>
 </div>

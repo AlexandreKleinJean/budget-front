@@ -1,0 +1,32 @@
+#container {
+  margin-top:-5%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: rgb(237, 244, 246);
+}
+
+#img {
+  max-width: 40%;
+  margin-left: 1.5%;
+}
+
+#buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 5% auto 10% auto;
+  font-size: 2em;
+  box-sizing: border-box;
+}
+
+#button__login, #button__register {
+  margin: 0 5%;
+  background: #754abf;
+  color: white;
+  border-radius: 0.5rem;
+  font-size: 1em;
+  cursor: pointer;
+  padding: 1em 2em;
+}

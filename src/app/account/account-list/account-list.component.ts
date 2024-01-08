@@ -39,7 +39,6 @@ export class AccountListComponent implements OnInit {
 
   /*---------Bouton pour aller sur la liste de transactions-------*/
 
-  // Naviguer sur la liste des transactions affiliées au compte
   goToTransactions(account: Account) {
     if (account && account.id) {
       this.accountService.setSelectedAccountId(account.id);
@@ -67,7 +66,6 @@ export class AccountListComponent implements OnInit {
   }
 
   /*------Bouton pour aller sur le form de creation d'account------*/
-
   goToAccountCreationForm() {
     if (this.userId) {
       console.log(this.userId);
