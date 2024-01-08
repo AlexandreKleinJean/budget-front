@@ -9,8 +9,8 @@
 }
 
 #title {
-  font-size: 2em;
-  color: black;
+  font-size: 3em;
+  margin-bottom: 5%;
 }
 
 .form_input {
@@ -22,7 +22,6 @@
 }
 
 .form_input label {
-  margin-right: 2%;
   margin-bottom: 1%;
   font-size: 1.5em;
   color: rgb(87, 85, 85);

@@ -1,25 +1,21 @@
 <div class="container">
-  <h2>Choose your account</h2>
-  <div class="row">
+  <h2 id="title">Your accounts</h2>
+  <div class="accounts">
       @for (account of accountsList; track account.name) {
-        <div class="col m12">
-          <div (click)="goToTransactions(account)" class="card horizontal hoverable">
-              <div class="card-stacked">
-                  <div class="card-content">
-                      <p>{{ account.name }}</p>
-                      <p>{{ account.bank }}</p>
-                  </div>
-              </div>
+        <div class="account">
+          <div (click)="goToTransactions(account)" class="account__info">
+            <p>{{ account.name }}</p>
+            <p>{{ account.bank }}</p>
           </div>
-          <div>
-            <button (click)="deleteAccount(account)">Delete account</button>
+          <div class="account__deleteButton">
+            <button (click)="deleteAccount(account)" id="account__deleteButton">Delete account</button>
           </div>
         </div>
       } @empty {
         <p>No account yet</p>
       }
-      <div class="col m12">
-        <button (click)="goToAccountCreationForm()" class="btn waves-effect waves-light">New account</button>
+      <div class="account__newButton">
+        <button (click)="goToAccountCreationForm()" id="account__newButton">New account</button>
       </div>
   </div>
 </div>

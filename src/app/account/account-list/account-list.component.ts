@@ -7,6 +7,7 @@ import { AuthService } from 'src/app/auth/auth.service';
 @Component({
   selector: 'app-account-list',
   templateUrl: './account-list.component.html',
+  styleUrl: './account-list.component.css',
   imports: [],
   standalone: true
 })

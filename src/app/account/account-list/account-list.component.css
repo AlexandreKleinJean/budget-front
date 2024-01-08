@@ -1,0 +1,71 @@
+.container {
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.accounts {
+  display: flex;
+  flex-direction: column;
+}
+
+.account {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 2em;
+  padding: 0.8em 2em;
+  background-color: whitesmoke;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(166, 122, 235, 0.5);
+}
+
+#title {
+  font-size: 3em;
+  margin-bottom: 3%;
+}
+
+.account__info {
+  font-size: 1.3rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.account__info p:first-child {
+  font-size: 1.1rem;
+  font-weight: normal;
+}
+
+.account__deleteButton {
+  display: flex;
+  justify-content: flex-end;
+}
+
+#account__deleteButton {
+  background: #754abf;
+  color: white;
+  border: none;
+  border-radius: 0.5em;
+  padding: 0.5em 1em;
+  cursor: pointer;
+  margin: 20% 0;
+}
+
+#account__deleteButton:hover {
+  background-color: #673AB7;
+}
+
+#account__newButton {
+  font-size: 1.5rem;
+  background: #673AB7; /* Fond violet pour le bouton nouveau compte */
+  color: white; /* Texte blanc pour le bouton nouveau compte */
+  border: none; /* Pas de bordure pour le bouton nouveau compte */
+  border-radius: 0.5em; /* Bordures arrondies pour le bouton */
+  padding: 1.5% 3%; /* Espacement à l'intérieur du bouton */
+  cursor: pointer; /* Curseur pointeur pour le bouton */
+  margin-top: 3em; /* Espacement au-dessus du bouton nouveau compte */
+}
+
+#account__newButton:hover {
+  background-color: #754abf; /* Assombrir le bouton au survol */
+}
