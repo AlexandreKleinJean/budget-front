@@ -8,13 +8,13 @@ import { TransactionService } from '../transaction.service';
 
 
 @Component({
-  selector: 'app-transaction-form',
+  selector: 'app-transaction-edit',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: `./transaction-form.component.html`
+  templateUrl: `./transaction-edit.component.html`
 })
 
-export class TransactionFormComponent implements OnInit {
+export class TransactionEditComponent implements OnInit {
   transaction: Transaction|undefined;
   categories: string[];
 

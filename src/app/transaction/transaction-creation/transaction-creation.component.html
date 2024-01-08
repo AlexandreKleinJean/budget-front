@@ -1,0 +1,34 @@
+<h2 class="center">Create a new transaction</h2>
+
+<div style="display: flex; justify-content: center; margin: 2%;">
+  <form (ngSubmit)="onTransactionSubmit()" style="width: 100%; max-width: 50%; margin: 0 2%;">
+  <div>
+    <label for="subject">Subject:</label>
+    <input type="text" id="subject" [(ngModel)]="subject" name="subject" required>
+  </div>
+  <div>
+    <label for="note">Note:</label>
+    <input type="text" id="note" [(ngModel)]="note" name="note">
+  </div>
+  <div>
+    <label for="icon">Icon:</label>
+    <input type="text" id="icon" [(ngModel)]="icon" name="icon">
+  </div>
+  <div>
+    <label for="date">Date:</label>
+    <input type="text" id="date" [(ngModel)]="date" name="date">
+  </div>
+  <div>
+    <label for="category">Category:</label>
+    <select id="category" [(ngModel)]="category" name="category">
+      <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
+    </select>
+    <p *ngIf="categories.length === 0">No category</p>
+  </div>
+
+  <div>
+    <label for="amount">Amount:</label>
+    <input type="text" id="amount" [(ngModel)]="amount" name="amount">
+  </div>
+  <button type="submit">Create account</button>
+</form>

@@ -47,6 +47,22 @@ export class TransactionListComponent implements OnInit {
     }
   }
 
+  /*----------Action lors du click sur une transaction----------*/
+  goToOneTransaction(transaction: Transaction){
+    this.router.navigate(['/transaction', transaction.id])
+  }
+
+  /*------Bouton pour aller sur le form de creation d'account------*/
+  goToTransactionCreationForm() {
+    if (this.selectedAccountId) {
+      console.log("compte affilié:" + this.selectedAccountId);
+      this.router.navigate([`/create/transaction`]);
+    } else {
+      console.error('AccountId is undefined');
+    }
+  }
+
+  /*--------Bouton pour retourner sur la liste de accounts--------*/
   async goBackToAccountList() {
     // J'appelle AuthService => récupérer l'ID du user connecté
     const loggedInUserId = this.authService.getLoggedInUserId();
@@ -65,11 +81,6 @@ export class TransactionListComponent implements OnInit {
     } else {
       console.error('UserId undefined');
     }
-  }
-
-
-  goToOneTransaction(transaction: Transaction){
-    this.router.navigate(['/transaction', transaction.id])
   }
 
 }

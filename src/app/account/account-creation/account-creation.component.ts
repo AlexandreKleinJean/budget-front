@@ -35,7 +35,9 @@ export class AccountCreationComponent implements OnInit{
     async onAccountSubmit() {
 
       try{
+        // L'id du user est récupéré
         if(this.userId){
+
           // J'appelle la method de accountService pour créer un account
           const newAccount = await this.accountService.newAccount(
             this.name,
@@ -44,19 +46,17 @@ export class AccountCreationComponent implements OnInit{
           );
 
           if (newAccount) {
-            // Un user correspond
             console.log('Account successfully created', newAccount);
 
             // Redirection vers la page des comptes
             this.router.navigate(['/accounts']);
 
             } else {
-              // Un user ne correspond paas
               console.error('Account creation error');
             }
         } else {
-            // Gérer les erreurs de l'appel à la méthode login
-            console.error('UserId is not available');
+            // L'id du user n'est pas récupéré
+            console.error('UserId is not found');
         }
 
       } catch (error) {
