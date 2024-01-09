@@ -1,42 +1,34 @@
 @if(transaction) {
-  <div class="row" >
-    <div class="col s12 m8 offset-m2">
-      <h2 class="header center">{{ transaction.subject }}</h2>
-      <div class="card horizontal">
-        <div class="card-image" style="display: flex; align-items: center; justify-content: center; max-width: 200px; height: auto; margin: 30px 50px;">
-          <img [src]="transaction.icon" alt="{{ transaction.subject }}" style="width: 100%; max-height: 150px;"/>
+  <div class="container">
+      <h2 id="title">{{ transaction.subject }}</h2>
+      <div class="transaction">
+        <div class="transaction__img">
+          <img [src]="transaction.icon" alt="{{ transaction.subject }}"/>
         </div>
-        <div class="card-stacked">
-          <div class="card-content">
-            <table class="bordered striped">
-              <tbody>
-                <tr>
-                  <td>Date</td>
-                  <td><strong><i>{{ transaction.date | date: 'dd MMMM yyyy' }}</i></strong></td>
-                </tr>
-                <tr>
-                  <td>Note</td>
-                  <td><strong>{{ transaction.note }}</strong></td>
-                </tr>
-                <tr>
-                  <td>Category</td>
-                  <td><strong>{{ transaction.category }}</strong></td>
-                </tr>
-                <tr>
-                  <td>Amount</td>
-                  <td><strong>{{ transaction.amount | currency: '$ ' }}</strong></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+        <div class="transaction__info">
+            <div class="transaction__details">
+              <p class="transaction__details-label">Date :</p>
+              <p>{{ transaction.date | date: 'dd MMMM yyyy' }}</p>
+            </div>
+            <div class="transaction__details">
+              <p class="transaction__details-label">Note :</p>
+              <p>{{ transaction.note }}</p>
+            </div>
+            <div class="transaction__details">
+              <p class="transaction__details-label">Category :</p>
+              <p>{{ transaction.category }}</p>
+            </div>
+        </div>
+        <div class="transaction__amount">
+          <p>{{ transaction.amount | currency: '$ ' }}</p>
         </div>
       </div>
-      <div class="card-action">
-        <a (click)="goBackToTransactionList()" style="cursor: pointer">Back</a>
-        <a (click)="goToEditTransactionForm(transaction)" style="cursor: pointer">Edit</a>
+      <div class="buttons">
+        <button (click)="goToEditTransactionForm(transaction)" class="button">Edit</button>
+        <button (click)="goBackToTransactionList()" class="button">Back</button>
       </div>
     </div>
-  </div>
+
 } @else {
   <h4 class="center">No transaction found</h4>
 }
