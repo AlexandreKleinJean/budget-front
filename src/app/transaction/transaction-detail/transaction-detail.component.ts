@@ -8,6 +8,7 @@ import { TransactionService } from '../transaction.service';
 @Component({
   selector: 'app-transaction-detail',
   templateUrl: './transaction-detail.component.html',
+  styleUrl: './transaction-detail.component.css',
   imports: [CommonModule],
   standalone: true
 })

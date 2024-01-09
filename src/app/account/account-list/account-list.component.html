@@ -2,8 +2,8 @@
   <h2 id="title">Your accounts</h2>
   <div class="accounts">
       @for (account of accountsList; track account.name) {
-        <div class="account">
-          <div (click)="goToTransactions(account)" class="account__info">
+        <div (click)="goToTransactions(account)" class="account">
+          <div class="account__info">
             <p>{{ account.name }}</p>
             <p>{{ account.bank }}</p>
           </div>

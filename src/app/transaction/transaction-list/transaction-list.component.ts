@@ -10,6 +10,7 @@ import { AuthService } from 'src/app/auth/auth.service';
 @Component({
   selector: 'app-transaction-list',
   templateUrl: './transaction-list.component.html',
+  styleUrl: './transaction-list.component.css',
   imports: [CommonModule],
   standalone: true
 })

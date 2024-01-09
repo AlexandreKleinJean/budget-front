@@ -26,6 +26,7 @@ export class AccountListComponent implements OnInit {
     try {
       // J'appelle AuthService pour récupéré l'ID du user connecté
       this.userId = this.authService.getLoggedInUserId();
+      console.log("userId:"+this.userId)
 
       if (this.userId) {
         // J'appelle AccountService pour récupérer les comptes du loggedInUser
@@ -41,6 +42,7 @@ export class AccountListComponent implements OnInit {
   /*---------Bouton pour aller sur la liste de transactions-------*/
 
   goToTransactions(account: Account) {
+    console.log(account)
     if (account && account.id) {
       this.accountService.setSelectedAccountId(account.id);
       this.router.navigate([`/${this.accountService.selectedAccountId}/transactions`]);

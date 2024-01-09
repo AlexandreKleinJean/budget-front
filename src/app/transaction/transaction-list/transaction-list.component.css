@@ -1,0 +1,79 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0 20%;
+}
+
+#title {
+  font-size: 3em;
+  margin-bottom: 3%;
+  text-align: center;
+}
+
+.transaction {
+  margin-top: 2em;
+  padding: 1em 2em;
+  background-color: whitesmoke;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(166, 122, 235, 0.5);
+  cursor: pointer;
+}
+
+.transaction:hover {
+  box-shadow: 0px 0px 15px rgba(166, 122, 235, 0.5);
+}
+
+.transaction__info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem;
+}
+
+#transaction__img {
+  margin-right: 1rem;
+  width: 60px;
+  height: 60px;
+}
+
+.transaction__details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 1.3rem;
+  font-weight: bold;
+  padding: 0.5rem 0;
+}
+
+.transaction__details p:first-child {
+  font-size: 1.2rem;
+  margin-bottom: 10%;
+  font-weight: normal;
+}
+
+.transaction__amount {
+  display: flex;
+  align-items: center;
+  font-size: 1.5rem;
+}
+
+.buttons{
+  display: flex;
+  justify-content: space-between;
+}
+
+.button {
+  font-size: 1.5rem;
+  background: #673AB7;
+  color: white;
+  border: none;
+  border-radius: 0.5em;
+  padding: 1.5% 3%;
+  cursor: pointer;
+  margin-top: 3em;
+}
+
+.button:hover {
+  background-color: #754abf;
+}
