@@ -41,8 +41,6 @@ export class TransactionService {
   async newTransaction(
     subject: string,
     note: string,
-    icon: string,
-    date: Date,
     category: string,
     amount: number,
     accountId: number
@@ -54,7 +52,7 @@ export class TransactionService {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ subject, note, icon, date, category, amount, accountId }),
+        body: JSON.stringify({ subject, note, category, amount, accountId }),
       });
 
       if (response.ok) {
@@ -70,12 +68,11 @@ export class TransactionService {
 
   getTransactionCategoriesList(): string[] {
     return [
-      'Nourriture',
+      'Food',
       'Transport',
       'Sport',
-      'Factures',
-      'Shopping',
-      'Loisirs',
+      'Invoice', 'Shopping',
+      'Leisure',
       'Real Estate'
     ];
   }

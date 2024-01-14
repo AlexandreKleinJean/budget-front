@@ -42,6 +42,7 @@ export class TransactionCreationComponent implements OnInit {
       this.userId = this.authService.getLoggedInUserId();
       console.log("userId :" + this.userId)
 
+      // J'appelle AccountService pour récupéré l'ID du account concerné
       this.accountId = this.accountService.selectedAccountId;
 
       // je récupère la liste des catégories
@@ -52,16 +53,14 @@ export class TransactionCreationComponent implements OnInit {
     }
   }
 
-  async onTransactionSubmit() {
+  async addNewTransaction() {
 
     try{
       if(this.userId && this.accountId && this.categories){
-        // J'appelle la method de accountService pour créer un account
+        // J'appelle la method de TransactionService pour créer une transaction
         const newTransaction = await this.transactionService.newTransaction(
           this.subject,
           this.note,
-          this.icon,
-          this.date,
           this.category,
           this.amount,
           this.accountId

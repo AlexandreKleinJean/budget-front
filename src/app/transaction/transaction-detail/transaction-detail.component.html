@@ -3,13 +3,9 @@
       <h2 id="title">{{ transaction.subject }}</h2>
       <div class="transaction">
         <div class="transaction__img">
-          <img [src]="transaction.icon" alt="{{ transaction.subject }}"/>
+          <img [src]="'./assets/images/' + transaction.category + '.png'" alt="{{ transaction.category }}"/>
         </div>
         <div class="transaction__info">
-            <div class="transaction__details">
-              <p class="transaction__details-label">Date :</p>
-              <p>{{ transaction.date | date: 'dd MMMM yyyy' }}</p>
-            </div>
             <div class="transaction__details">
               <p class="transaction__details-label">Note :</p>
               <p>{{ transaction.note }}</p>
