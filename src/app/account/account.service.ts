@@ -40,15 +40,12 @@ export class AccountService {
   /*----------Récupérer les accounts par user-------------*/
   async getAccountsByUser(userId: number): Promise<Account[]> {
 
-    // je récupère l'id du user connecté
-    const loggedInUserId = this.authService.getLoggedInUserId();
-
     // je récupère le JWT contenu dans le Local Storage
     this.jwtToken = localStorage.getItem('jwtToken');
     console.log(this.jwtToken)
 
     // l'id du user et le JWT existent
-    if (loggedInUserId && this.jwtToken) {
+    if (this.jwtToken) {
 
       try {
         // appel API en fournissant le JWT au serveur

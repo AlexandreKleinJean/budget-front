@@ -2,7 +2,7 @@
   <h2 id="title">Your accounts</h2>
   <div class="accounts">
       @for (account of accountsList; track account.name) {
-        <div (click)="goToTransactions(account)" class="account">
+        <div class="account">
           <div class="account__info">
             <p>{{ account.name }}</p>
             <p>{{ account.bank }}</p>
@@ -10,6 +10,7 @@
           <div class="account__deleteButton">
             <button (click)="deleteAccount(account)" id="account__deleteButton">Delete account</button>
           </div>
+          <button routerLink="/transactions" (click)="goToTransactions(account)">Go</button>
         </div>
       } @empty {
         <p>No account yet</p>

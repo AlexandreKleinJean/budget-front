@@ -7,10 +7,12 @@ export default [{
   children:[
     {
       path: 'login',
+      title: 'Auth | Login',
       loadComponent: () => import('./auth-login/auth-login.component').then(module => module.AuthLoginComponent)
     },
     {
-      path: 'accounts',
+      path: 'register',
+      title: 'Auth | Register',
       loadComponent: () => import('./auth-register/auth-register.component').then(module => module.AuthRegisterComponent)
     }
   ]

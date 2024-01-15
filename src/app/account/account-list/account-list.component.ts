@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Account } from '../account';
 import { AccountService } from '../account.service';
-import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-account-list',
   templateUrl: './account-list.component.html',
   styleUrl: './account-list.component.css',
-  imports: [],
+  imports: [RouterLink],
   standalone: true
 })
 
@@ -18,21 +17,20 @@ export class AccountListComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private accountService: AccountService,
-    private authService: AuthService
+    private accountService: AccountService
   ) {}
 
   async ngOnInit() {
     try {
-      // J'appelle AuthService pour récupéré l'ID du user connecté
-      this.userId = this.authService.getLoggedInUserId();
-      console.log("userId:"+this.userId)
+      // je récupère le userId dans le localStorage
+      const loggedInUserId = localStorage.getItem('loggedInUserId');
+      console.log('(AccountComponent) userID:', loggedInUserId);
 
-      if (this.userId) {
+      if (loggedInUserId) {
         // J'appelle AccountService pour récupérer les comptes du loggedInUser
-        this.accountsList = await this.accountService.getAccountsByUser(this.userId);
+        this.accountsList = await this.accountService.getAccountsByUser(Number(loggedInUserId));
       } else {
-        console.error('No user with this id');
+        console.error('UserId undefined');
       }
     } catch (error) {
       console.error('PROBLEME:', error);
@@ -43,9 +41,9 @@ export class AccountListComponent implements OnInit {
 
   goToTransactions(account: Account) {
     console.log(account)
-    if (account && account.id) {
-      this.accountService.setSelectedAccountId(account.id);
-      this.router.navigate([`/${this.accountService.selectedAccountId}/transactions`]);
+    if (account) {
+      // je stocke l'ID du user connecté dans le localStorage
+      localStorage.setItem('selectedAccountId', account.id.toString());
     }
   }
 

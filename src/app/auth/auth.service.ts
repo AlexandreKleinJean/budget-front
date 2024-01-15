@@ -20,15 +20,15 @@ export class AuthService {
       });
 
       if (response.ok) {
-        // Je stocke la réponse du server dans "user"
+        // je stocke la réponse du server dans "user"
         const user = await response.json();
-        // Extraire le JWT de l'en-tête "Authorization"
+        // j'extraie le JWT de l'en-tête "Authorization"
         const jwtToken = response.headers.get('Authorization');
-        // Je stocke le JWT dans le local storage
+        // je stocke le JWT dans le local storage
         if (jwtToken) {localStorage.setItem('jwtToken', jwtToken);}
-        // Je stocke l'ID du user connecté
-        this.loggedInUserId = user.id;
-        // Je retourne le user connecté
+        // je stocke l'ID du user connecté dans le localStorage
+        localStorage.setItem('loggedInUserId', user.id.toString());
+        // je retourne le user connecté
         return user;
 
       } else {

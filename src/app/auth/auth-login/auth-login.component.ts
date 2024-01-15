@@ -1,16 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../../user/user';
-import { UserService } from '../../user/user.service';
 import { AuthService } from '../auth.service';
 import { FormsModule } from '@angular/forms';
 
-import{ ActivatedRoute, Router } from '@angular/router';
+import{ ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-auth-login',
   templateUrl: `./auth-login.component.html`,
   styleUrl:`./auth-login.component.css`,
-  imports: [FormsModule],
+  imports: [FormsModule, RouterLink],
   standalone: true
 })
 
@@ -25,7 +24,6 @@ export class AuthLoginComponent implements OnInit {
       private route: ActivatedRoute,
       private router: Router,
       private authService:  AuthService,
-      private userService: UserService
     ) {}
 
     async ngOnInit() {
@@ -39,8 +37,6 @@ export class AuthLoginComponent implements OnInit {
         if (user) {
           // Un user correspond
           console.log('Authentification réussie', user);
-          // Je redirige vers la page des comptes
-          this.router.navigate(['/accounts']);
 
         } else {
           // Un user ne correspond pas
@@ -53,7 +49,7 @@ export class AuthLoginComponent implements OnInit {
     }
 
     /*--------Bouton pour aller sur le formulaire d'inscription--------*/
-    goToRegistration(){
+    /*goToRegistration(){
       this.router.navigate(['/register'])
-    }
+    }*/
   }

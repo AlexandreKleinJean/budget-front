@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../auth/auth.service';
 
 @Component({
@@ -7,7 +7,7 @@ import { AuthService } from '../auth/auth.service';
   standalone: true,
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
-  imports: []
+  imports: [RouterLink]
 })
 
 export class HomeComponent {
@@ -16,11 +16,11 @@ export class HomeComponent {
     private router: Router
   ) {}
 
-  goToLogin(){
+  /*goToLogin(){
     this.router.navigate(['/login'])
   }
 
   goToRegistration(){
     this.router.navigate(['/register'])
-  }
+  }*/
 }

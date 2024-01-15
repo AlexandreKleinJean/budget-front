@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Transaction } from '../transaction';
 import { TransactionService } from '../transaction.service';
 import { Account } from 'src/app/account/account';
@@ -11,7 +11,7 @@ import { AuthService } from 'src/app/auth/auth.service';
   selector: 'app-transaction-list',
   templateUrl: './transaction-list.component.html',
   styleUrl: './transaction-list.component.css',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   standalone: true
 })
 
@@ -31,13 +31,13 @@ export class TransactionListComponent implements OnInit {
   async ngOnInit() {
 
     try {
-      // J'appelle AccountService => récupérer l'ID de l'account sélectionné
-      this.selectedAccountId = this.accountService.selectedAccountId;
-      console.log("id du compte :" + this.selectedAccountId)
+      // je récupère le accountId dans le localStorage
+      const selectedAccountId = localStorage.getItem('selectedAccountId');
+      console.log('(TransactionComponent) accountID:', selectedAccountId);
 
-      if (this.selectedAccountId) {
+      if (selectedAccountId) {
         // J'appelle TransactionService => afficher transactions liées à l'account
-        this.transactionsListByAccount = await this.transactionService.getTransactionsByAccount(this.selectedAccountId);
+        this.transactionsListByAccount = await this.transactionService.getTransactionsByAccount(Number(selectedAccountId));
         console.log("transactions:"+this.transactionsListByAccount)
 
       } else {
