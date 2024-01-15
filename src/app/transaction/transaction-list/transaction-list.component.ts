@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { Transaction } from '../transaction';
 import { TransactionService } from '../transaction.service';
 import { Account } from 'src/app/account/account';
 import { AccountService } from 'src/app/account/account.service';
-import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-transaction-list',
@@ -22,10 +21,8 @@ export class TransactionListComponent implements OnInit {
   accountsListByUser: Account[] = [];
 
   constructor(
-    private router: Router,
     private transactionService: TransactionService,
-    private accountService: AccountService,
-    private authService: AuthService
+    private accountService: AccountService
   ) {}
 
   async ngOnInit() {
@@ -38,49 +35,28 @@ export class TransactionListComponent implements OnInit {
       if (selectedAccountId) {
         // J'appelle TransactionService => afficher transactions liées à l'account
         this.transactionsListByAccount = await this.transactionService.getTransactionsByAccount(Number(selectedAccountId));
-        console.log("transactions:"+this.transactionsListByAccount)
-
       } else {
         console.error('No account with this id');
       }
     } catch (error) {
-      console.error('PROBLEME:', error);
+      console.error('Problem to get the transactions:', error);
     }
   }
 
-  /*----------Action lors du click sur une transaction----------*/
-  /*goToOneTransaction(transaction: Transaction){
-    this.router.navigate(['/transaction', transaction.id])
-  }*/
-
-  /*------Bouton pour aller sur le form de creation d'account------*/
-  goToTransactionCreationForm() {
-    if (this.selectedAccountId) {
-      console.log("compte affilié:" + this.selectedAccountId);
-      this.router.navigate([`${this.selectedAccountId}/create/transaction`]);
-    } else {
-      console.error('AccountId is undefined');
-    }
-  }
-
-  /*--------Bouton pour retourner sur la liste de accounts--------*/
+  /*--------Bouton BACK (retourner sur la liste de accounts)--------*/
   async goBackToAccountList() {
-    // J'appelle AuthService => récupérer l'ID du user connecté
-    const loggedInUserId = this.authService.getLoggedInUserId();
+    try {
+      // je récupère le userId dans le localStorage
+      const loggedInUserId = localStorage.getItem('loggedInUserId');
 
-    if (loggedInUserId) {
-      try {
-        // J'appelle AccountService => afficher les accounts liés au user connecté
-        const accounts = await this.accountService.getAccountsByUser(loggedInUserId);
-
-        // Je navigue vers la liste des comptes
-        this.router.navigate(['/accounts']);
-
-      } catch (error) {
-        console.error('Fetch error :', error);
+      if (loggedInUserId) {
+        // J'appelle AccountService pour récupérer les comptes du loggedInUser
+        this.accountsListByUser = await this.accountService.getAccountsByUser(Number(loggedInUserId));
+      } else {
+        console.error('UserId undefined');
       }
-    } else {
-      console.error('UserId undefined');
+    } catch (error) {
+      console.error('PROBLEME:', error);
     }
   }
 

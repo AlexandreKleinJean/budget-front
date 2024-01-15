@@ -2,7 +2,7 @@
   <h2 id="title">Transactions</h2>
   <div class="transactions">
     @for(transaction of this.transactionsListByAccount; track transaction.subject) {
-      <div class="transaction" routerLink="/transaction">
+      <div class="transaction" routerLink="/transaction/{{transaction.id}}">
         <div class="transaction__info">
             <img id="transaction__img" [src]="'./assets/images/' + transaction.category + '.png'" alt="{{ transaction.category }}"/>
             <div class="transaction__details">
@@ -17,8 +17,8 @@
       <p>No transaction on this account</p>
     }
     <div class="buttons">
-      <button (click)="goToTransactionCreationForm()" class="button">New transaction</button>
-      <button (click)="goBackToAccountList()" class="button">Back</button>
+      <button routerLink="/transaction/create" class="button">New transaction</button>
+      <button routerLink="/accounts" (click)="goBackToAccountList()" class="button">Back</button>
     </div>
   </div>
 </div>

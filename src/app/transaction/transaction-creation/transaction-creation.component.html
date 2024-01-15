@@ -1,6 +1,6 @@
 <div id="container">
   <h2 id="title">Create a new transaction</h2>
-  <form id="form" (ngSubmit)="addNewTransaction()">
+  <form id="form">
     <div class="form-input">
       <label for="subject">Subject:</label>
       <input type="text" id="subject" [(ngModel)]="subject" name="subject" required>
@@ -24,7 +24,7 @@
       <input type="text" id="amount" [(ngModel)]="amount" name="amount" required>
     </div>
     <div class="form-button">
-      <button id="form-submitButton" type="submit">Create transaction</button>
+      <button (click)="addNewTransaction()" id="form-submitButton" routerLink="/transactions">Create transaction</button>
     </div>
   </form>
 </div>

@@ -13,12 +13,12 @@ export default [{
       loadComponent: () => import('./transaction-list/transaction-list.component').then(module => module.TransactionListComponent)
     },
     {
-      path: ':accountId/create/transaction',
+      path: 'transaction/create',
       title: 'Create a transaction',
       loadComponent: () => import('./transaction-creation/transaction-creation.component').then(module => module.TransactionCreationComponent)
     },
     {
-      path: 'transaction',
+      path: 'transaction/:transactionId',
       title: 'Your transaction',
       loadComponent: () =>  import('./transaction-detail/transaction-detail.component').then(module => module.TransactionDetailComponent)
     }

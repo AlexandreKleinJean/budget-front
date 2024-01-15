@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import{ ActivatedRoute, Router } from '@angular/router';
+import{ ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Transaction } from '../transaction';
 import { TransactionService } from '../transaction.service';
 
@@ -9,11 +9,12 @@ import { TransactionService } from '../transaction.service';
   selector: 'app-transaction-detail',
   templateUrl: './transaction-detail.component.html',
   styleUrl: './transaction-detail.component.css',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   standalone: true
 })
 export class TransactionDetailComponent implements OnInit {
   transaction: Transaction | undefined;
+  transactionsListByAccount: Transaction[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -23,6 +24,7 @@ export class TransactionDetailComponent implements OnInit {
 
   async ngOnInit() {
     const transactionId: string | null = this.route.snapshot.paramMap.get('transactionId');
+    console.log(transactionId)
     if (transactionId) {
       try {
         this.transaction = await this.transactionService.getOneTransactionById(+transactionId);
@@ -32,18 +34,26 @@ export class TransactionDetailComponent implements OnInit {
     }
   }
 
-  goBackToTransactionList() {
+  async goBackToTransactionList() {
+    // je récupère le accountId dans le localStorage
+    try {
+      // je récupère le accountId dans le localStorage
+      const selectedAccountId = localStorage.getItem('selectedAccountId');
+      console.log('(TransactionComponent) accountID:', selectedAccountId);
 
-    if (this.transaction && this.transaction.accountId) {
-      const accountId = this.transaction.accountId;
-      this.router.navigate([`/${accountId}/transactions`]);
-    } else {
-      console.error("Transaction or accountId not available");
+      if (selectedAccountId) {
+        // J'appelle TransactionService => afficher transactions liées à l'account
+        this.transactionsListByAccount = await this.transactionService.getTransactionsByAccount(Number(selectedAccountId));
+      } else {
+        console.error('No account with this id');
+      }
+    } catch (error) {
+      console.error('Problem to get the transactions:', error);
     }
   }
 
-  goToEditTransactionForm(transaction: Transaction) {
+  /*goToEditTransactionForm(transaction: Transaction) {
     this.router.navigate(['/edit/transaction', transaction.id]);
-  }
+  }*/
 }
 
