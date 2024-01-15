@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { Account } from '../account';
 import { AccountService } from '../account.service';
-import { AuthService } from 'src/app/auth/auth.service';
 import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-account-creation',
   templateUrl: './account-creation.component.html',
-  imports: [FormsModule],
+  styleUrl: './account-creation.component.css',
+  imports: [FormsModule, RouterLink],
   standalone: true
 })
 export class AccountCreationComponent implements OnInit{
@@ -18,26 +18,20 @@ export class AccountCreationComponent implements OnInit{
   bank: string = '';
 
     constructor(
-      private router: Router,
-      private accountService: AccountService,
-      private authService: AuthService
+      private accountService: AccountService
     ) {}
 
     async ngOnInit() {
-      try {
-        // J'appelle AuthService pour récupérer l'ID du user connecté
-        this.userId = this.authService.getLoggedInUserId();
-      } catch (error) {
-        console.error('Error fetching user ID:', error);
-      }
     }
 
-    async onAccountSubmit() {
-
+    async addNewAccount() {
       try{
-        // L'id du user est récupéré
-        if(this.userId){
+        // je récupère le userId dans le localStorage
+        const loggedInUserId = localStorage.getItem('loggedInUserId');
 
+        if(loggedInUserId){
+
+          this.userId =+ loggedInUserId;
           // J'appelle la method de accountService pour créer un account
           const newAccount = await this.accountService.newAccount(
             this.name,
@@ -48,14 +42,10 @@ export class AccountCreationComponent implements OnInit{
           if (newAccount) {
             console.log('Account successfully created', newAccount);
 
-            // Redirection vers la page des comptes
-            this.router.navigate(['/accounts']);
-
             } else {
               console.error('Account creation error');
             }
         } else {
-            // L'id du user n'est pas récupéré
             console.error('UserId is not found');
         }
 

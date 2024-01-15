@@ -16,7 +16,7 @@
   align-items: center;
   justify-content: space-between;
   margin-top: 2em;
-  padding: 1em 2em;
+  padding: 1em 3em;
   background-color: whitesmoke;
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(166, 122, 235, 0.5);
@@ -31,24 +31,31 @@
   margin-bottom: 3%;
 }
 
-.account__info {
+.account__infos {
   font-size: 1.3rem;
   font-weight: bold;
   padding: 1rem 0;
 }
 
-.account__info p:first-child {
+.account__infos p:first-child {
   font-size: 1.1rem;
-  margin-bottom: 10%;
+  margin-bottom: 20%;
   font-weight: normal;
 }
 
-.account__deleteButton {
-  display: flex;
-  justify-content: flex-end;
+.buttons{
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  white-space: nowrap;
 }
 
-#account__deleteButton {
+.button{
+ margin: auto 3%;
+}
+
+#transaction__button {
   font-size: 1.1rem;
   background: #754abf;
   color: white;
@@ -57,6 +64,14 @@
   padding: 1em 1em;
   cursor: pointer;
 }
+
+#account__amount {
+  font-weight: bold;
+  color: #673AB7;
+  font-size: 1.1rem;
+}
+
+/*-----------------TO WORK-----------------*/
 
 #account__deleteButton:hover {
   background-color: #673AB7;

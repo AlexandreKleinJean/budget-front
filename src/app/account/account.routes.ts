@@ -7,7 +7,7 @@ export default [{
   providers:[AccountService, AuthService],
   children:[
     {
-      path: 'account-create',
+      path: 'account/create',
       title: 'Create an account',
       loadComponent: () => import('./account-creation/account-creation.component').then(module => module.AccountCreationComponent)
     },

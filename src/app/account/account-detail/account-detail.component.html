@@ -1,0 +1,27 @@
+@if(account) {
+  <div class="container">
+      <h2 id="title">{{ account.name }}</h2>
+      <div class="account">
+        <div class="account__info">
+          <div class="account__details">
+            <p class="account__details-label">Name :</p>
+            <p>{{ account.name }}</p>
+          </div>
+          <div class="account__details">
+            <p class="account__details-label">Bank :</p>
+            <p>{{ account.bank }}</p>
+          </div>
+        </div>
+        <div class="account__amount">
+          <p>PRIX</p>
+        </div>
+      </div>
+      <div class="buttons">
+        <button class="button">Edit</button>
+        <button class="button">Back</button>
+      </div>
+    </div>
+} @else {
+  <h4 class="center">No account found</h4>
+}
+

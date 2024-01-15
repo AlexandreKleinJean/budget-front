@@ -61,7 +61,7 @@ export class TransactionCreationComponent implements OnInit {
         if (newTransaction) {
           console.log('Transaction successfully created', newTransaction);
         } else {
-          console.error('Account creation error');
+          console.error('Transaction creation error');
         }
 
       } else {

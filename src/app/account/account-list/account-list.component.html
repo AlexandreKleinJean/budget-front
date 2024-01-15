@@ -2,20 +2,31 @@
   <h2 id="title">Your accounts</h2>
   <div class="accounts">
       @for (account of accountsList; track account.name) {
-        <div routerLink="/transactions" (click)="goToTransactions(account)" class="account">
-          <div class="account__info">
+        <div class="account">
+          <div class="account__infos">
             <p>{{ account.name }}</p>
             <p>{{ account.bank }}</p>
           </div>
-          <div class="account__deleteButton">
-            <button (click)="deleteAccount(account)" id="account__deleteButton">Delete account</button>
+          <div class="buttons">
+            <div routerLink="/account" class="button">
+              <button id="transaction__button">Account detail</button>
+            </div>
+            <div routerLink="/transactions" class="button">
+              <button id="transaction__button">Transactions</button>
+            </div>
+            <div routerLink="/transactions" class="button">
+              <p id="account__amount">$ AMOUNT</p>
+            </div>
           </div>
+          <!--<div class="account__deleteButton">
+            <button (click)="deleteAccount(account)" id="account__deleteButton">Delete account</button>
+          </div>-->
         </div>
       } @empty {
         <p>No account yet</p>
       }
       <div class="account__newButton">
-        <button (click)="goToAccountCreationForm()" id="account__newButton">New account</button>
+        <button routerLink="/account/create" id="account__newButton">New account</button>
       </div>
   </div>
 </div>
