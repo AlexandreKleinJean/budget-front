@@ -2,9 +2,9 @@
   <h2 id="title">Transactions</h2>
   <div class="transactions">
     @for(transaction of this.transactionsListByAccount; track transaction.subject) {
-      <div class="transaction" (click)="goToOneTransaction(transaction)">
+      <div class="transaction" routerLink="/transaction">
         <div class="transaction__info">
-            <!--<img id="transaction__img" [src]="transaction.icon" alt="{{ transaction.subject }}" />-->
+            <img id="transaction__img" [src]="'./assets/images/' + transaction.category + '.png'" alt="{{ transaction.category }}"/>
             <div class="transaction__details">
                 <p>{{ transaction.subject }}</p>
             </div>

@@ -49,9 +49,9 @@ export class TransactionListComponent implements OnInit {
   }
 
   /*----------Action lors du click sur une transaction----------*/
-  goToOneTransaction(transaction: Transaction){
+  /*goToOneTransaction(transaction: Transaction){
     this.router.navigate(['/transaction', transaction.id])
-  }
+  }*/
 
   /*------Bouton pour aller sur le form de creation d'account------*/
   goToTransactionCreationForm() {

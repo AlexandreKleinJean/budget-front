@@ -18,7 +18,7 @@ export default [{
       loadComponent: () => import('./transaction-creation/transaction-creation.component').then(module => module.TransactionCreationComponent)
     },
     {
-      path: 'transaction/:transactionId',
+      path: 'transaction',
       title: 'Your transaction',
       loadComponent: () =>  import('./transaction-detail/transaction-detail.component').then(module => module.TransactionDetailComponent)
     }
