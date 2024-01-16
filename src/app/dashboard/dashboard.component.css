@@ -1,0 +1,29 @@
+.dashboard {
+  text-align: center;
+  padding: 2em;
+}
+
+#title {
+  font-size: 3em;
+  margin-bottom: 3%;
+}
+
+.dashboard p {
+  font-size: 1.2em;
+  margin-bottom: 1.5em;
+}
+
+.button {
+  display: flex;
+  justify-content: center;
+}
+
+#button__manageBudget {
+  background: #754abf;
+  color: white;
+  border-radius: 0.5rem;
+  padding: 1.5% 3%;
+  font-size: 1.5em;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}

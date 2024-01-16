@@ -14,6 +14,8 @@ import { AccountService } from '../account.service';
 export class AccountListComponent implements OnInit {
   accountsList: Account[] = [];
   userId: number | null;
+  showNotification = false;
+  notificationMessage = '';
 
   constructor(
     private accountService: AccountService
@@ -38,15 +40,10 @@ export class AccountListComponent implements OnInit {
     }
   }
 
-  /*-----------Bouton pour supprimer l'account--------------*/
-  /*async deleteAccount(account: Account) {
-    if (account) {
-      try {
-        await this.accountService.deleteOneAccountById(account.id)
-      } catch (error) {
-        console.error('Error deleting account:', error);
-      }
-    }
-  }*/
+  /*-----------Method pour stocker accountId en localStorage--------------*/
+  saveAccountId(account: Account){
+    // je stocke le accountId dans le localStorage
+    localStorage.setItem('selectedAccountId', account.id.toString());
+  }
 }
 

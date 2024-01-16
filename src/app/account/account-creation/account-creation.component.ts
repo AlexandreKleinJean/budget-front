@@ -28,6 +28,7 @@ export class AccountCreationComponent implements OnInit{
       try{
         // je récupère le userId dans le localStorage
         const loggedInUserId = localStorage.getItem('loggedInUserId');
+        console.log("(accountCreationComponent) => userId:" + loggedInUserId)
 
         if(loggedInUserId){
 

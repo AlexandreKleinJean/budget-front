@@ -6,6 +6,7 @@ import { Transaction } from './transaction';
 @Injectable()
 export class TransactionService {
   private apiUrl = 'http://localhost:8080';
+  jwtToken: string | null = null;
 
   constructor() { }
 
@@ -75,6 +76,37 @@ export class TransactionService {
       'Leisure',
       'Real Estate'
     ];
+  }
+
+  /*-------------Supprimer une transaction----------------*/
+  async deleteOneTransactionById(transactionId: number): Promise<void> {
+
+    // je récupère le JWT contenu dans le Local Storage
+    this.jwtToken = localStorage.getItem('jwtToken');
+    console.log(this.jwtToken)
+
+    // le JWT existe
+    if (this.jwtToken) {
+      try {
+        const response = await fetch(`${this.apiUrl}/transaction/${transactionId}`, {
+          method: 'DELETE',
+          headers: {
+            'Authorization': `${this.jwtToken}`,
+            'Content-Type': 'application/json',
+          },
+        });
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+      } catch (error) {
+        console.error('Problem with your fetch operation:', error);
+        throw error;
+      }
+    // le JWT n'existe pas
+    } else {
+      console.error('Jwt not found');
+    }
   }
 
   /*async getTransactionList(): Promise<Transaction[]> {

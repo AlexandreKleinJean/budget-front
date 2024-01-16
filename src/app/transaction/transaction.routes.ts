@@ -8,17 +8,12 @@ export default [{
   providers:[TransactionService, AccountService, AuthService],
   children:[
     {
-      path: 'transactions',
-      title: 'Your transactions',
-      loadComponent: () => import('./transaction-list/transaction-list.component').then(module => module.TransactionListComponent)
-    },
-    {
-      path: 'transaction/create',
+      path: 'create',
       title: 'Create a transaction',
       loadComponent: () => import('./transaction-creation/transaction-creation.component').then(module => module.TransactionCreationComponent)
     },
     {
-      path: 'transaction/:transactionId',
+      path: ':transactionId',
       title: 'Your transaction',
       loadComponent: () =>  import('./transaction-detail/transaction-detail.component').then(module => module.TransactionDetailComponent)
     }

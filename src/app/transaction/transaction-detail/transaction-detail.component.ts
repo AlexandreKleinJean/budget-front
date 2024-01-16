@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import{ ActivatedRoute, Router, RouterLink } from '@angular/router';
+import{ ActivatedRoute, RouterLink } from '@angular/router';
 import { Transaction } from '../transaction';
 import { TransactionService } from '../transaction.service';
 
@@ -15,27 +15,27 @@ import { TransactionService } from '../transaction.service';
 export class TransactionDetailComponent implements OnInit {
   transaction: Transaction | undefined;
   transactionsListByAccount: Transaction[] = [];
+  transactionId: Number | null;
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
     private transactionService: TransactionService
   ) {}
 
   async ngOnInit() {
-    const transactionId: string | null = this.route.snapshot.paramMap.get('transactionId');
-    console.log(transactionId)
-    if (transactionId) {
+    const selectedTransactionId = this.route.snapshot.paramMap.get('transactionId');
+    if (selectedTransactionId) {
+      this.transactionId=+ selectedTransactionId;
       try {
-        this.transaction = await this.transactionService.getOneTransactionById(+transactionId);
+        this.transaction = await this.transactionService.getOneTransactionById(+this.transactionId);
       } catch (error) {
         console.error('Error fetching transaction:', error);
       }
     }
   }
 
+  /*-----------Bouton pour revenir à la liste de transactions------------*/
   async goBackToTransactionList() {
-    // je récupère le accountId dans le localStorage
     try {
       // je récupère le accountId dans le localStorage
       const selectedAccountId = localStorage.getItem('selectedAccountId');
@@ -52,8 +52,17 @@ export class TransactionDetailComponent implements OnInit {
     }
   }
 
-  /*goToEditTransactionForm(transaction: Transaction) {
-    this.router.navigate(['/edit/transaction', transaction.id]);
-  }*/
+  /*-------------Bouton pour supprimer l'account--------------*/
+  async deleteTransaction() {
+    if (this.transactionId) {
+      try {
+        await this.transactionService.deleteOneTransactionById(+this.transactionId)
+      } catch (error) {
+        console.error('Error deleting transaction:', error);
+      }
+    } else {
+      console.log("id introuvable")
+    }
+  }
 }
 

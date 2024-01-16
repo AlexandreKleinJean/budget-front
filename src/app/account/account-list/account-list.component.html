@@ -1,25 +1,25 @@
 <div class="container">
-  <h2 id="title">Your accounts</h2>
+  <h2 id="title">Accounts</h2>
   <div class="accounts">
       @for (account of accountsList; track account.name) {
         <div class="account">
-          <div class="account__infos">
-            <p>{{ account.name }}</p>
-            <p>{{ account.bank }}</p>
-          </div>
-          <div class="buttons">
-            <div routerLink="/account" class="button">
-              <button id="transaction__button">Account detail</button>
+          <div routerLink="/account" (click)="saveAccountId(account)" class="account__infos">
+            <div class="account__details">
+              <p>{{ account.name }}</p>
+              <p>{{ account.bank }}</p>
             </div>
-            <div routerLink="/transactions" class="button">
-              <button id="transaction__button">Transactions</button>
-            </div>
-            <div routerLink="/transactions" class="button">
+            <div class="account__amount">
               <p id="account__amount">$ AMOUNT</p>
             </div>
           </div>
-          <!--<div class="account__deleteButton">
-            <button (click)="deleteAccount(account)" id="account__deleteButton">Delete account</button>
+          <!--<div routerLink="/account" class="button">
+            <button id="button__seeTransaction">Account detail</button>
+          </div>
+          <div class="button">
+            <button routerLink="create" (click)="saveAccountId(account)" id="button__newTransaction">Add new transaction</button>
+          </div>
+          <div class="button">
+            <button (click)="deleteAccount(account)" id="button__deleteAccount">Trash</button>
           </div>-->
         </div>
       } @empty {

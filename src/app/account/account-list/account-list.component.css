@@ -2,74 +2,91 @@
   display:flex;
   flex-direction: column;
   justify-content: center;
-  margin: 0 20%;
+  margin: 0 10% 8% 10%;
+  padding: 2em 2em;
+  border-radius: 1rem;
+  background-color:rgba(197, 194, 203, 0.5);
+}
+
+#title {
+  text-align: left;
+  font-size: 3em;
+  margin-bottom: 3%;
+  padding: 1% 2% 0 2%;
 }
 
 .accounts {
   display: flex;
   flex-direction: column;
+  padding: 0 2%;
 }
 
-.account {
+.account{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2em;
+}
+
+.account__infos {
+  padding: 1em 3em;
   display: flex;
   flex-direction: row;
   align-items: center;
+  margin: auto 2% auto 1%;
   justify-content: space-between;
-  margin-top: 2em;
-  padding: 1em 3em;
+  width: 100%;
   background-color: whitesmoke;
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(166, 122, 235, 0.5);
 }
 
-.account:hover {
+.account__infos:hover {
   box-shadow: 0px 0px 15px rgba(166, 122, 235, 0.5);
 }
 
-#title {
-  font-size: 3em;
-  margin-bottom: 3%;
-}
-
-.account__infos {
-  font-size: 1.3rem;
+.account__details {
+  display: flex;
+  flex-direction: column;
+  font-size: 1.4rem;
   font-weight: bold;
   padding: 1rem 0;
 }
 
-.account__infos p:first-child {
-  font-size: 1.1rem;
+.account__details p:first-child{
+  font-size: 1.3rem;
   margin-bottom: 20%;
   font-weight: normal;
-}
-
-.buttons{
-  display:flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: row;
-  white-space: nowrap;
-}
-
-.button{
- margin: auto 3%;
-}
-
-#transaction__button {
-  font-size: 1.1rem;
-  background: #754abf;
-  color: white;
-  border: none;
-  border-radius: 0.5em;
-  padding: 1em 1em;
-  cursor: pointer;
 }
 
 #account__amount {
   font-weight: bold;
   color: #673AB7;
-  font-size: 1.1rem;
+  font-size: 1.5rem;
 }
+
+.button{
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  white-space: nowrap;
+  margin: auto 0.5%;
+}
+
+#button__newTransaction, #button__deleteAccount {
+  line-height: 2rem;
+  font-size: 1.4rem;
+  background: #754abf;
+  color: white;
+  border: none;
+  border-radius: 0.5em;
+  padding: 1.5em 1.5em;
+  cursor: pointer;
+}
+
+
 
 /*-----------------TO WORK-----------------*/
 

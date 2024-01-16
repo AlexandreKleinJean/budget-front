@@ -7,17 +7,22 @@ export const routes: Routes = [
     loadComponent: () =>  import('./home/home.component').then(module => module.HomeComponent)
   },
   {
-    path: '',
+    path: 'auth',
     /*canActivate: [AuthGuard],*/
     loadChildren: () => import('./auth/auth.routes')
   },
   {
-    path: '',
+    path: 'dashboard',
+    /*canActivate: [AuthGuard],*/
+    loadChildren: () => import('./dashboard/dashboard.routes')
+  },
+  {
+    path: 'account',
     /*canActivate: [AuthGuard],*/
     loadChildren: () => import('./account/account.routes')
   },
   {
-    path: '',
+    path: 'transaction',
     /*canActivate: [AuthGuard],*/
     loadChildren: () => import('./transaction/transaction.routes')
   },

@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
-import { AuthService } from '../auth/auth.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -13,14 +12,5 @@ import { AuthService } from '../auth/auth.service';
 export class HomeComponent {
 
   constructor(
-    private router: Router
   ) {}
-
-  /*goToLogin(){
-    this.router.navigate(['/login'])
-  }
-
-  goToRegistration(){
-    this.router.navigate(['/register'])
-  }*/
 }

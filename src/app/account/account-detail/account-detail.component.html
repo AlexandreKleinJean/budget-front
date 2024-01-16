@@ -1,6 +1,6 @@
 @if(account) {
   <div class="container">
-      <h2 id="title">{{ account.name }}</h2>
+      <h2 id="title">Details of your account</h2>
       <div class="account">
         <div class="account__info">
           <div class="account__details">
@@ -15,12 +15,12 @@
         <div class="account__amount">
           <p>PRIX</p>
         </div>
-      </div>
-      <div class="buttons">
-        <button class="button">Edit</button>
-        <button class="button">Back</button>
+        <div class="button">
+          <button (click)="deleteAccount()" routerLink="/dashboard" class="button">Delete</button>
+        </div>
       </div>
     </div>
+    <app-transaction-list></app-transaction-list>
 } @else {
   <h4 class="center">No account found</h4>
 }

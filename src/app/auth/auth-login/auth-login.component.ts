@@ -21,8 +21,6 @@ export class AuthLoginComponent implements OnInit {
     loggedInUserId: number | undefined;
 
     constructor(
-      private route: ActivatedRoute,
-      private router: Router,
       private authService:  AuthService,
     ) {}
 
