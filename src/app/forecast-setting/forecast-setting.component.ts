@@ -12,6 +12,7 @@ import { FormsModule } from '@angular/forms';
 export class ForecastSettingComponent implements OnInit{
   userId: number | null;
   salary: number = 0;
+
   foodRate: number = 0;
   transportRate: number = 0;
   sportRate: number = 0;
@@ -20,6 +21,14 @@ export class ForecastSettingComponent implements OnInit{
   leisureRate: number = 0;
   realEstateRate: number = 0;
   totalRate: number = 0;
+
+  foodAmount: number = 0;
+  transportAmount: number = 0;
+  sportAmount: number = 0;
+  invoiceAmount: number = 0;
+  shoppingAmount: number = 0;
+  leisureAmount: number = 0;
+  realEstateAmount: number = 0;
 
   constructor(
     ) {}
@@ -33,7 +42,7 @@ export class ForecastSettingComponent implements OnInit{
     }
   }
 
-  /*--------Je calcul le pourcentage total-----------*/
+  /*------------Je calcul le pourcentage total--------------*/
   updateTotal() {
     this.totalRate =
       this.foodRate +
@@ -45,12 +54,41 @@ export class ForecastSettingComponent implements OnInit{
       this.realEstateRate;
   }
 
+  /*-------------Je convertis le rate en $---------------*/
+  rateToDollar(category: string, salary: number, rate: number): void {
+    switch (category) {
+      case 'food':
+        this.foodAmount = salary * (rate / 100);
+        break;
+      case 'transport':
+        this.transportAmount = salary * (rate / 100);
+        break;
+      case 'sport':
+        this.sportAmount = salary * (rate / 100);
+        break;
+      case 'invoice':
+        this.invoiceAmount = salary * (rate / 100);
+        break;
+      case 'shopping':
+        this.shoppingAmount = salary * (rate / 100);
+        break;
+      case 'leisure':
+        this.leisureAmount = salary * (rate / 100);
+        break;
+      case 'realEstate':
+        this.realEstateAmount = salary * (rate / 100);
+        break;
+      default:
+        break;
+    }
+  }
+
+  /*--------Bouton disable si le total n'est pas 100%--------*/
+  submitButton(): boolean {
+    return this.totalRate !== 100;
+  }
+
   /*--------Je soumet ma prévision-----------*/
   setForecast() {
-    if(this.totalRate !== 100){
-      console.log("The forecast is not complete")
-    } else {
-      console.log("Forecast complete and submitted")
-    }
   }
 }
