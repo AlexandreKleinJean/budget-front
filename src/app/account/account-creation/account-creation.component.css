@@ -14,13 +14,6 @@
   margin-bottom: 7%;
 }
 
-.form_input {
-  margin: 4% 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
 .form-input {
   margin: 4% 0;
   display: flex;

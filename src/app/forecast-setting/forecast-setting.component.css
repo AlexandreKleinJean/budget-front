@@ -15,46 +15,88 @@
   margin-bottom: 7%;
 }
 
+.form__salary {
+  margin: 4% 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form__salary label {
+  margin-bottom: 2%;
+  font-size: 2em;
+  font-weight: bold;
+  color: #673AB7;
+}
+
+.form__salary input {
+  background-color: rgba(217, 204, 238, 0.5);
+  width: 30%;
+  padding: 1% 3%;
+  border: 1px solid #ccc;
+  border-radius: 1rem;
+  font-size: 1.3em;
+}
+
+.instruction{
+  font-size: 1.5em;
+}
+
 .category {
   display: flex;
   flex-direction: row;
   margin: 5% auto;
-  padding: 1em 3em;
+  padding: 2em 3em;
   align-items: center;
-  margin: 2% 2%;
+  margin: 4% 2%;
   justify-content: space-between;
   background-color: whitesmoke;
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(166, 122, 235, 0.5);
 }
 
+.category__left {
+  align-items: center;
+  width: 10%;
+}
+
+.category__right {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #673AB7;
+  width: 10%;
+}
+
 .category__center {
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
-  width: 80%;
-  margin: 2% auto;
+  width: 60%;
+  margin: auto 3%;
 }
 
 .category__center label {
-  margin: 1% auto;
-  font-size: 1.5em;
+  margin: 0 auto 3% auto;
+  font-size: 2.2em;
+  font-weight: bold;
   color: rgb(87, 85, 85);
 }
 
 .category__center input{
-  background-color: rgba(217, 204, 238, 0.5);
   width: 100%;
-  padding: 1% 3%;
-  border: 1px solid #ccc;
-  border-radius: 1rem;
-  font-size: 1.5em;
 }
 
-.category__right {
-  font-size: 1.7rem;
-  margin: 2% auto;
+.category__center input::-webkit-slider-runnable-track{
+  border: 1px solid #ccc;
+  border-radius: 1rem;
+  height: 1.2rem;
+  background: #d3c4ee;
+}
+
+.category__center p{
+  margin-top:3%;
+  font-size: 1.5em;
 }
 
 .form-button {
