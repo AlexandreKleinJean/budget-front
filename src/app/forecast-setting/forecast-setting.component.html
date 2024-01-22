@@ -1,4 +1,9 @@
-<div class="container">
+@if(salary){
+  <div class="notification" [style]="notificationCustom().style">
+      <p>{{ notificationCustom().text }}</p>
+  </div>
+} @else {}
+<div class="forecast__container">
   <h2 id="title">Forecast settings</h2>
   <form id="form">
     <div class="form__salary">
@@ -100,7 +105,7 @@
         <div class="form__input">
           <div class="category">
             <div class="category__left">
-              <img id="category__img" src="../../assets/images/RealEstate.png" alt="food"/>
+              <img src="../../assets/images/RealEstate.png" alt="food"/>
             </div>
             <div class="category__center">
               <label for="realEstate">Real Estate</label>
@@ -112,9 +117,10 @@
             </div>
           </div>
         </div>
+        <div class="button">
+          <button type="button" [disabled]="submitButton()" id="form-submitButton">Set forecast</button>
+        </div>
       </div>
-
-
     } @else {
       <p class="instruction">Enter your income to forecast your budget</p>
     }

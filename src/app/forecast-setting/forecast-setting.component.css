@@ -1,4 +1,21 @@
-.container {
+.notification{
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  line-height: 3rem;
+  font-size: 1.7rem;
+  right: 1%;
+  width: 15%;
+  height: 12%;
+  padding: 2em 1.5em;
+  border-radius: 1rem;
+  box-shadow: 0px 0px 10px rgba(166, 122, 235, 0.5);
+  transition: background-color 200ms;
+}
+
+.forecast__container{
   text-align: center;
   margin-top: 2em;
   margin: 0 10% 8% 10%;
@@ -6,7 +23,7 @@
   border-radius: 1rem;
   background-color:rgba(197, 194, 203, 0.5);
   box-shadow: 0px 0px 10px rgba(166, 122, 235, 0.5);
-  margin: 0 auto;
+  margin: 0 auto 5% auto;
   width: 50%;
 }
 
@@ -112,8 +129,9 @@ button:disabled {
   color: white;
   border: none;
   border-radius: 0.5rem;
+  margin: 3% auto 5% auto;
   padding: 1em 2em;
-  font-size: 1.5em;
+  font-size: 1.7em;
   cursor: pointer;
   transition: background-color 0.3s;
 }

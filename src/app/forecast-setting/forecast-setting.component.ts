@@ -54,33 +54,24 @@ export class ForecastSettingComponent implements OnInit{
       this.realEstateRate;
   }
 
-  /*-------------Je convertis le rate en $---------------*/
-  rateToDollar(category: string, salary: number, rate: number): void {
-    switch (category) {
-      case 'food':
-        this.foodAmount = salary * (rate / 100);
-        break;
-      case 'transport':
-        this.transportAmount = salary * (rate / 100);
-        break;
-      case 'sport':
-        this.sportAmount = salary * (rate / 100);
-        break;
-      case 'invoice':
-        this.invoiceAmount = salary * (rate / 100);
-        break;
-      case 'shopping':
-        this.shoppingAmount = salary * (rate / 100);
-        break;
-      case 'leisure':
-        this.leisureAmount = salary * (rate / 100);
-        break;
-      case 'realEstate':
-        this.realEstateAmount = salary * (rate / 100);
-        break;
-      default:
-        break;
-    }
+  /*--------Je définit ma notification selon la situation-------*/
+  notificationCustom(): { style: string, text: string } {
+    if (this.totalRate < 100) {
+        return {
+          style: "background-color:rgba(197, 194, 203, 0.5)",
+          text: `Salary to dispatch : ${100 - this.totalRate} %`
+        }
+    } else if(this.totalRate === 100) {
+        return {
+        style: "background-color: rgba(0, 150, 0, 0.5)",
+        text: `Forecast complete`
+        }
+    } else {
+      return {
+        style: "background-color: rgba(255, 0, 0, 0.5)",
+        text: 'Reduce your dispatch'
+        }
+    };
   }
 
   /*--------Bouton disable si le total n'est pas 100%--------*/
