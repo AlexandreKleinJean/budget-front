@@ -19,7 +19,7 @@ export const routes: Routes = [
   {
     path: 'forecast',
     /*canActivate: [AuthGuard],*/
-    loadChildren: () => import('./forecast-setting/forecast-setting.routes')
+    loadChildren: () => import('./forecast/forecast-setting.routes')
   },
   {
     path: 'account',
