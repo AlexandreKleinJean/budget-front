@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ElementRef } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Chart, ChartModule } from 'angular-highcharts';
@@ -12,10 +12,23 @@ import * as Highcharts from 'highcharts';
   imports: [FormsModule, RouterLink, ChartModule, HighchartsChartModule],
   standalone: true
 })
-export class ForecastVisualComponent implements OnInit, AfterViewInit {
+export class ForecastVisualComponent implements OnInit {
     userId: number | null;
-    chart: Chart;
-    Highcharts: typeof Highcharts = Highcharts;
+    Highcharts = Highcharts;
+    chartOptions = {
+      title: {
+        text: 'My Chart',
+      },
+      series: [{
+        type: 'line',
+        name: 'Series 1',
+        data: [1, 2, 3, 4, 5]
+      },{
+        type: 'column',
+        name: 'Series 2',
+        data: [11, 22, 33, 44, 55]
+      }] as Highcharts.SeriesOptionsType[]
+    }
 
     constructor(private el: ElementRef) {}
 
@@ -26,24 +39,5 @@ export class ForecastVisualComponent implements OnInit, AfterViewInit {
       if(loggedInUserId){
         this.userId =+ loggedInUserId;
       }
-    }
-
-    ngAfterViewInit() {
-      this.chart = new Chart({
-        chart: {
-          type: 'line',
-        },
-        title: {
-          text: 'My Chart',
-        },
-        series: [
-          {
-            type: 'waterfall',
-            name: 'Series 1',
-            data: [1, 2, 3, 4, 5],
-          },
-        ],
-
-      });
     }
 }
