@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { ForecastService } from '../forecast.service';
 
 @Component({
   selector: 'app-forecast-setting',
@@ -11,8 +12,8 @@ import { FormsModule } from '@angular/forms';
 })
 export class ForecastSettingComponent implements OnInit{
   userId: number | null;
-  salary: number = 0;
 
+  salary: number = 0;
   foodRate: number = 0;
   transportRate: number = 0;
   sportRate: number = 0;
@@ -30,7 +31,7 @@ export class ForecastSettingComponent implements OnInit{
   leisureAmount: number = 0;
   realEstateAmount: number = 0;
 
-  constructor(
+  constructor(private forecastService: ForecastService
     ) {}
 
     async ngOnInit() {
@@ -80,6 +81,40 @@ export class ForecastSettingComponent implements OnInit{
   }
 
   /*--------Je soumet ma prévision-----------*/
-  setForecast() {
+  async setForecast() {
+    try{
+      // je récupère le userId dans le localStorage
+      const loggedInUserId = localStorage.getItem('loggedInUserId');
+      console.log("(accountCreationComponent) => userId:" + loggedInUserId)
+
+      if(loggedInUserId){
+
+        this.userId =+ loggedInUserId;
+        // J'appelle la method de forecastService pour créer un forecast
+        const newForecast = await this.forecastService.newForecast(
+          this.salary,
+          this.foodRate,
+          this.transportRate,
+          this.sportRate,
+          this.invoiceRate,
+          this.shoppingRate,
+          this.leisureRate,
+          this.realEstateRate,
+          this.userId
+        );
+
+        if (newForecast) {
+          console.log('Forecast successfully created', newForecast);
+
+          } else {
+            console.error('Forecast creation error');
+          }
+      } else {
+          console.error('UserId is not found');
+      }
+
+    } catch (error) {
+      console.error('Error on account creation:', error);
+    }
   }
 }
