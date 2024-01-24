@@ -21,6 +21,7 @@
       </div>
     </div>
     <app-transaction-list></app-transaction-list>
+    <button routerLink="/dashboard" (click)="goBackToDashboard()" class="button">Back</button>
 } @else {
   <h4 class="center">No account found</h4>
 }

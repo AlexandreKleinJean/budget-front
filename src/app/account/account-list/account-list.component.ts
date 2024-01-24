@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Account } from '../account';
 import { AccountService } from '../account.service';
@@ -12,8 +12,10 @@ import { AccountService } from '../account.service';
 })
 
 export class AccountListComponent implements OnInit {
-  accountsList: Account[] = [];
+  @Input()
   userId: number | null;
+
+  accountsList: Account[] = [];
   showNotification = false;
   notificationMessage = '';
 
@@ -22,22 +24,20 @@ export class AccountListComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
-    try {
-      // je récupère le userId dans le localStorage
-      const loggedInUserId = localStorage.getItem('loggedInUserId');
-      console.log('(AccountComponent) userID:', loggedInUserId);
 
-      if (loggedInUserId) {
+      if (this.userId) {
+
+        try {
         // J'appelle AccountService pour récupérer les comptes du loggedInUser
-        this.accountsList = await this.accountService.getAccountsByUser(Number(loggedInUserId));
-        // j'assigne loggedInUserId à this.userId => accessible aux autres methods
-        this.userId = Number(loggedInUserId);
+        this.accountsList = await this.accountService.getAccountsByUser(+this.userId);
+
+        } catch (error) {
+          console.error('Error fetching accounts:', error);
+        }
+
       } else {
         console.error('UserId undefined');
       }
-    } catch (error) {
-      console.error('PROBLEME:', error);
-    }
   }
 
   /*-----------Method pour stocker accountId en localStorage--------------*/

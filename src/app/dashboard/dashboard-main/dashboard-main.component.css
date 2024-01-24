@@ -1,4 +1,4 @@
-.dashboard {
+.dashboard-main {
   text-align: center;
   padding: 2em;
 }
@@ -8,7 +8,7 @@
   margin-bottom: 3%;
 }
 
-.dashboard p {
+.dashboard-main p {
   font-size: 1.2em;
   margin-bottom: 1.5em;
 }

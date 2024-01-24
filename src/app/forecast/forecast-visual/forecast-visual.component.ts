@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { Chart, ChartModule } from 'angular-highcharts';
+import { ChartModule } from 'angular-highcharts';
 import { HighchartsChartModule } from 'highcharts-angular';
-import { SeriesOptions } from 'highcharts';
 import * as Highcharts from 'highcharts/highstock';
 import { ForecastService } from '../forecast.service';
 import { UserService } from 'src/app/user/user.service';
@@ -17,7 +16,9 @@ import { Forecast } from '../forecast';
   standalone: true
 })
 export class ForecastVisualComponent implements OnInit {
+    @Input()
     userId: number | null;
+
     forecast: Forecast | undefined;
     Highcharts: typeof Highcharts = Highcharts;
     chartOptions: any;
@@ -28,11 +29,8 @@ export class ForecastVisualComponent implements OnInit {
       ) {}
 
     async ngOnInit() {
-      const loggedInUserId = localStorage.getItem('loggedInUserId');
-      console.log("(forecastVisualComponent) => userId:" + loggedInUserId)
 
-      if(loggedInUserId){
-        this.userId =+ loggedInUserId;
+      if(this.userId){
 
         try {
           // UserService => récupération du client
@@ -41,7 +39,7 @@ export class ForecastVisualComponent implements OnInit {
             // ForecastService => récupération du forecast
             this.forecast = await this.forecastService.getForecastById(client.forecastId);
             if(this.forecast){
-              // Method => passer les données du forecast au graphique
+              // ForeCast() => affichage du graphique (données du forecast)
               this.foreCast(
                 this.forecast.foodRate,
                 this.forecast.transportRate,
@@ -59,6 +57,7 @@ export class ForecastVisualComponent implements OnInit {
       }
     }
 
+    /*------------------Method pour afficher le graphique------------------*/
     foreCast(foodRate: number,transportRate: number,sportRate: number,invoiceRate: number,
       shoppingRate: number,leisureRate: number,realEstateRate: number){
         this.chartOptions = {

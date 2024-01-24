@@ -3,7 +3,7 @@
   <div class="accounts">
       @for (account of accountsList; track account.name) {
         <div class="account">
-          <div routerLink="/account" (click)="saveAccountId(account)" class="account__infos">
+          <div routerLink="/dashboard/detail" (click)="saveAccountId(account)" class="account__infos">
             <div class="account__details">
               <p>{{ account.name }}</p>
               <p>{{ account.bank }}</p>
