@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Transaction } from '../transaction';
@@ -15,7 +15,13 @@ import { TransactionService } from '../transaction.service';
 export class TransactionListComponent implements OnInit {
   @Input() userId: Number | null;
   @Input() accountId: Number | null;
+
+  @Output() totalExpensesEvent = new EventEmitter<number>();
+  totalExpenses: number;
+
   transactionsListByAccount: Transaction[] = [];
+  expensesByCategory: { [banane: string]: number };
+
 
   constructor(
     private transactionService: TransactionService
@@ -26,8 +32,12 @@ export class TransactionListComponent implements OnInit {
     if(this.accountId){
 
       try {
+        // je récupère les transactions
         this.transactionsListByAccount = await this.transactionService.getTransactionsByAccount(+this.accountId);
-
+        // je calcul les dépenses par catégories
+        this.calculateExpensesByCategory();
+        // je calcul le total des dépenses
+        this.calculateTotalAmount();
       } catch (error) {
         console.error('Error fetching transactions:', error);
       }
@@ -37,5 +47,26 @@ export class TransactionListComponent implements OnInit {
     }
   }
 
+  calculateExpensesByCategory() {
+    this.expensesByCategory = {};
+
+    this.transactionsListByAccount.forEach(transaction => {
+
+      if (!this.expensesByCategory[transaction.category]) {
+        this.expensesByCategory[transaction.amount] = 0;
+      }
+
+      this.expensesByCategory[transaction.category] += transaction.amount;
+    });
+  }
+
+  calculateTotalAmount() {
+    this.totalExpenses = 0;
+
+    this.transactionsListByAccount.forEach(transaction => {
+      this.totalExpenses += transaction.amount;
+    });
+    this.totalExpensesEvent.emit(this.totalExpenses);
+  }
 }
 

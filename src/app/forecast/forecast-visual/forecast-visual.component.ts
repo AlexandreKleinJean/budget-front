@@ -16,8 +16,7 @@ import { Forecast } from '../forecast';
   standalone: true
 })
 export class ForecastVisualComponent implements OnInit {
-    @Input()
-    userId: number | null;
+    @Input() userId: number | null;
 
     forecast: Forecast | undefined;
     Highcharts: typeof Highcharts = Highcharts;

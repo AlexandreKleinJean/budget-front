@@ -12,8 +12,7 @@ import { AccountService } from '../account.service';
 })
 
 export class AccountListComponent implements OnInit {
-  @Input()
-  userId: number | null;
+  @Input() userId: number | null;
 
   accountsList: Account[] = [];
   showNotification = false;

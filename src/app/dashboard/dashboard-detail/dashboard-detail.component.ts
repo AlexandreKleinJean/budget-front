@@ -14,8 +14,9 @@ import { TransactionListComponent } from 'src/app/transaction/transaction-list/t
 export class DashBoardDetailComponent implements OnInit {
   userId: number | null;
   accountId: Number | null = null;
+  totalExpenses: number | undefined;
 
-  constructor(){}
+  constructor(private transactionListComponent: TransactionListComponent){}
 
   ngOnInit() {
 
@@ -33,6 +34,15 @@ export class DashBoardDetailComponent implements OnInit {
     if(selectedAccountId){
       this.accountId= +selectedAccountId
     }
+
+    /*-----------Récupération du total des dépenses du compte----------*/
+
+    // je m'abonne à l'event de l'enfant TransactionListComponent
+    this.transactionListComponent.totalExpensesEvent.subscribe((totalExpenses: number) => {
+      // je stocke la valeur dans ma variable
+      this.totalExpenses = totalExpenses;
+    });
+    console.log('(DashBoard-detail) total expenses:', this.totalExpenses);
   }
 
   /*--------Bouton BACK (retourner sur le dashboard)--------*/

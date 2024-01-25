@@ -1,6 +1,9 @@
 <div class="container">
   <div class="transactions">
-    <h2 id="title">Transactions</h2>
+    <div class="transactions__up">
+      <h2 id="title">Transactions</h2>
+      <button routerLink="/transaction/create" class="button">New transaction</button>
+    </div>
     @for(transaction of this.transactionsListByAccount; track transaction.subject) {
       <div class="transaction" routerLink="/transaction/{{transaction.id}}">
         <div class="transaction__info">
@@ -16,9 +19,6 @@
     } @empty {
       <p>No transaction on this account</p>
     }
-    <div class="buttons">
-      <button routerLink="/transaction/create" class="button">New transaction</button>
-    </div>
   </div>
 
 </div>

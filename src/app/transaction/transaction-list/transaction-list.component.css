@@ -7,15 +7,20 @@
 }
 
 .transactions {
-  padding: 2em 2em;
+  padding: 3em 2em;
   border-radius: 1rem;
   background-color:rgba(197, 194, 203, 0.5);
 }
 
+.transactions__up{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3em;
+}
+
 #title {
   font-size: 3em;
-  margin: 1% auto 4% auto;
-  text-align: left;
 }
 
 .transaction {
@@ -65,11 +70,6 @@
   font-size: 1.5rem;
 }
 
-.buttons{
-  display: flex;
-  justify-content: space-between;
-}
-
 .button {
   font-size: 1.5rem;
   background: #673AB7;
@@ -78,7 +78,6 @@
   border-radius: 0.5em;
   padding: 1.5% 3%;
   cursor: pointer;
-  margin-top: 2em;
 }
 
 .button:hover {

@@ -4,10 +4,17 @@ import { AuthService } from '../auth/auth.service';
 import { ForecastService } from '../forecast/forecast.service';
 import { UserService } from '../user/user.service';
 import { TransactionService } from '../transaction/transaction.service';
+import { TransactionListComponent } from '../transaction/transaction-list/transaction-list.component';
 
 export default [{
   path: '',
-  providers:[AuthService, AccountService, ForecastService, UserService, TransactionService],
+  providers:[AuthService,
+            AccountService,
+            ForecastService,
+            UserService,
+            TransactionService,
+            TransactionListComponent
+          ],
   children:[
     {
       path: '',
