@@ -36,7 +36,7 @@ export class ForecastSettingComponent implements OnInit{
 
     async ngOnInit() {
       const loggedInUserId = localStorage.getItem('loggedInUserId');
-      console.log("(forecastCreationComponent) => userId:" + loggedInUserId)
+      console.log("(forecastCreationInit) => userId:" + loggedInUserId)
 
       if(loggedInUserId){
         this.userId =+ loggedInUserId;
@@ -85,7 +85,7 @@ export class ForecastSettingComponent implements OnInit{
     try{
       // je récupère le userId dans le localStorage
       const loggedInUserId = localStorage.getItem('loggedInUserId');
-      console.log("(accountCreationComponent) => userId:" + loggedInUserId)
+      console.log("(forecastSubmit) => userId:" + loggedInUserId)
 
       if(loggedInUserId){
 

@@ -1,6 +1,5 @@
 @if(account) {
   <div class="container">
-      <h2 id="title">Details of your account</h2>
       <div class="account">
         <div class="account__info">
           <div class="account__details">
@@ -20,8 +19,6 @@
         </div>
       </div>
     </div>
-    <app-transaction-list></app-transaction-list>
-    <button routerLink="/dashboard" (click)="goBackToDashboard()" class="button">Back</button>
 } @else {
   <h4 class="center">No account found</h4>
 }

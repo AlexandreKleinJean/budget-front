@@ -1,0 +1,26 @@
+.dashboard-detail {
+  text-align: center;
+  padding: 2em 2em 4em 2em;
+}
+
+#title {
+  font-size: 4em;
+  margin-bottom: 3%;
+  font-weight: bold;
+  color: #673AB7;
+}
+
+.button {
+  font-size: 1.5rem;
+  background: #673AB7;
+  color: white;
+  border: none;
+  border-radius: 0.5em;
+  padding: 1.5% 3%;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.button:hover {
+  background-color: #754abf;
+}

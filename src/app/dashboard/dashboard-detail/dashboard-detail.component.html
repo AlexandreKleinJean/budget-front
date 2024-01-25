@@ -2,7 +2,7 @@
   <h1 id="title">Dashboard</h1>
     <app-account-detail [userId]="userId" [accountId]="accountId"></app-account-detail>
     <app-transaction-list [userId]="userId" [accountId]="accountId"></app-transaction-list>
-  <div class="button">
-    <!--<a routerLink="/forecast" id="button__manageBudget">Manage Budget</a>-->
+  <div>
+    <button routerLink="/dashboard" (click)="goBackToDashboard()" class="button">Back</button>
   </div>
 </div>

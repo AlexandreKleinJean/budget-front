@@ -49,10 +49,5 @@ export class AccountDetailComponent implements OnInit {
       console.log("id introuvable")
     }
   }
-
-  /*--------Bouton BACK (retourner sur le dashboard)--------*/
-  goBackToDashboard() {
-    this.accountId = null;
-  }
 }
 

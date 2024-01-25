@@ -34,5 +34,10 @@ export class DashBoardDetailComponent implements OnInit {
       this.accountId= +selectedAccountId
     }
   }
+
+  /*--------Bouton BACK (retourner sur le dashboard)--------*/
+  goBackToDashboard() {
+    this.accountId = null;
+  }
 }
 

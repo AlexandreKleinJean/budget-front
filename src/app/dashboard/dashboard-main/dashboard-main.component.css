@@ -1,11 +1,13 @@
 .dashboard-main {
   text-align: center;
-  padding: 2em;
+  padding: 2em 2em 4em 2em;
 }
 
 #title {
-  font-size: 3em;
+  font-size: 4em;
   margin-bottom: 3%;
+  font-weight: bold;
+  color: #673AB7;
 }
 
 .dashboard-main p {

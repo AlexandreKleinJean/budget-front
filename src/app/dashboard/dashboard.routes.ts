@@ -10,7 +10,7 @@ export default [{
   providers:[AuthService, AccountService, ForecastService, UserService, TransactionService],
   children:[
     {
-      path: 'main',
+      path: '',
       title: 'Dashboard | Main',
       loadComponent: () =>  import('./dashboard-main/dashboard-main.component').then(module => module.DashBoardMainComponent),
     },
