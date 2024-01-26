@@ -47,6 +47,18 @@ export class TransactionListComponent implements OnInit {
     }
   }
 
+  /*------Calcul du total des montants + envoi vers component parent------*/
+  calculateTotalAmount() {
+    this.totalExpenses = 0;
+
+    this.transactionsListByAccount.forEach(transaction => {
+      this.totalExpenses += transaction.amount;
+    });
+
+    this.totalExpensesEvent.emit(this.totalExpenses);
+  }
+
+  /*-------------Calcul du total des montants par catégorie--------------*/
   calculateExpensesByCategory() {
     this.expensesByCategory = {};
 
@@ -58,15 +70,6 @@ export class TransactionListComponent implements OnInit {
 
       this.expensesByCategory[transaction.category] += transaction.amount;
     });
-  }
-
-  calculateTotalAmount() {
-    this.totalExpenses = 0;
-
-    this.transactionsListByAccount.forEach(transaction => {
-      this.totalExpenses += transaction.amount;
-    });
-    this.totalExpensesEvent.emit(this.totalExpenses);
   }
 }
 

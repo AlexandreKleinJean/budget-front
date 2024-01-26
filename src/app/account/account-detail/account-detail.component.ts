@@ -16,6 +16,8 @@ export class AccountDetailComponent implements OnInit {
   accountId: Number | null;
   account: Account | undefined;
 
+  totalExpenses: number;
+
   constructor(
     private accountService: AccountService
   ) {}
@@ -41,6 +43,11 @@ export class AccountDetailComponent implements OnInit {
     } else {
       console.error('AccountId undefined');
     }
+  }
+
+  handleTotalExpenses(total: number) {
+    this.totalExpenses = total;
+    console.log('(AccountDetail) total expenses:', this.totalExpenses);
   }
 
   /*-----------Bouton pour supprimer l'account--------------*/

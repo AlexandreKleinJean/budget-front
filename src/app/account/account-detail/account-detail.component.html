@@ -13,11 +13,15 @@
           </div>
         </div>
         <div class="account__amount">
-          <p>PRIX</p>
+          <p>$ {{ totalExpenses }}</p>
         </div>
       </div>
     </div>
-    <app-transaction-list [userId]="userId" [accountId]="accountId"></app-transaction-list>
+    <app-transaction-list
+            [userId]="userId"
+            [accountId]="accountId"
+            (totalExpensesEvent)="handleTotalExpenses($event)">
+    </app-transaction-list>
     <div class="buttons">
       <button (click)="deleteAccount()" routerLink="/dashboard" class="button">Delete</button>
       <button routerLink="/dashboard" class="button">Back</button>

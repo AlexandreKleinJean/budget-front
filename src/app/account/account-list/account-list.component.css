@@ -50,9 +50,6 @@
 
 .account__infos {
   padding: 1em 3em;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
   margin: auto 2% auto 1%;
   justify-content: space-between;
   width: 100%;
@@ -67,16 +64,22 @@
 
 .account__details {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
   font-size: 1.4rem;
-  font-weight: bold;
   padding: 1rem 0;
+}
+
+#account__img {
+  margin-right: 1rem;
+  width: 60px;
+  height: 60px;
 }
 
 .account__details p:first-child{
   font-size: 1.3rem;
-  margin-bottom: 20%;
-  font-weight: normal;
+  font-weight: bold;
 }
 
 #account__amount {

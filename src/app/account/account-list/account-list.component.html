@@ -8,14 +8,15 @@
         <div class="account">
           <div routerLink="/account" (click)="saveAccountId(account)" class="account__infos">
             <div class="account__details">
+              <img id="account__img" src="../../../assets/images/Account.png" alt="account">
               <p>{{ account.name }}</p>
               <p>{{ account.bank }}</p>
             </div>
-            <div class="account__amount">
-              <p id="account__amount">$ AMOUNT</p>
-            </div>
           </div>
-          <!--<div routerLink="/account" class="button">
+          <!--<div class="account__amount">
+            <p id="account__amount">$ AMOUNT</p>
+          </div>
+          <div routerLink="/account" class="button">
             <button id="button__seeTransaction">Account detail</button>
           </div>
           <div class="button">
