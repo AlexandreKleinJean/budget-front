@@ -11,12 +11,12 @@ export default [{
       path: 'list',
       title: 'Your accounts',
       loadComponent: () => import('./account-list/account-list.component').then(module => module.AccountListComponent)
-    },
+    },*/
     {
       path: '',
       title: 'Your account',
       loadComponent: () =>  import('./account-detail/account-detail.component').then(module => module.AccountDetailComponent)
-    },*/
+    },
     {
       path: 'create',
       title: 'Create an account',

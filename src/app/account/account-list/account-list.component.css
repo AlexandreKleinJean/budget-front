@@ -3,22 +3,41 @@
   flex-direction: column;
   justify-content: center;
   margin: 0 10% 6% 10%;
-  padding: 2em 2em;
+  padding: 4em 4em;
   border-radius: 1rem;
-  background-color:rgba(197, 194, 203, 0.5);
+  background-color:rgba(231, 219, 255, 0.6);
+  border: 1px solid rgba(114, 60, 201, 0.5)
+}
+
+.accounts__up{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 3em;
 }
 
 #title {
-  text-align: left;
   font-size: 3em;
-  margin-bottom: 3%;
-  padding: 1% 2% 0 2%;
+  font-weight: bold;
+}
+
+#account__newButton {
+  font-size: 1.5rem;
+  background: #673AB7;
+  color: white;
+  border: none;
+  border-radius: 0.5em;
+  padding: 1.5% 3%;
+  cursor: pointer;
+}
+
+#account__newButton:hover {
+  background-color: #754abf;
 }
 
 .accounts {
   display: flex;
   flex-direction: column;
-  padding: 0 2%;
 }
 
 .account{
@@ -37,9 +56,9 @@
   margin: auto 2% auto 1%;
   justify-content: space-between;
   width: 100%;
-  background-color: whitesmoke;
+  background-color:rgba(247, 243, 255, 0.747);
   border-radius: 10px;
-  box-shadow: 0px 0px 10px rgba(166, 122, 235, 0.5);
+  box-shadow: 0px 0px 10px rgba(117, 64, 203, 0.5);
 }
 
 .account__infos:hover {
@@ -66,45 +85,3 @@
   font-size: 1.5rem;
 }
 
-.button{
-  display:flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: row;
-  white-space: nowrap;
-  margin: auto 0.5%;
-}
-
-#button__newTransaction, #button__deleteAccount {
-  line-height: 2rem;
-  font-size: 1.4rem;
-  background: #754abf;
-  color: white;
-  border: none;
-  border-radius: 0.5em;
-  padding: 1.5em 1.5em;
-  cursor: pointer;
-}
-
-
-
-/*-----------------TO WORK-----------------*/
-
-#account__deleteButton:hover {
-  background-color: #673AB7;
-}
-
-#account__newButton {
-  font-size: 1.5rem;
-  background: #673AB7;
-  color: white;
-  border: none;
-  border-radius: 0.5em;
-  padding: 1.5% 3%;
-  cursor: pointer;
-  margin-top: 3em;
-}
-
-#account__newButton:hover {
-  background-color: #754abf;
-}

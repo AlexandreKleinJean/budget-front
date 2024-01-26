@@ -3,32 +3,14 @@ import { AccountService } from '../account/account.service';
 import { AuthService } from '../auth/auth.service';
 import { ForecastService } from '../forecast/forecast.service';
 import { UserService } from '../user/user.service';
-import { TransactionService } from '../transaction/transaction.service';
-import { TransactionListComponent } from '../transaction/transaction-list/transaction-list.component';
 
 export default [{
   path: '',
   providers:[AuthService,
             AccountService,
             ForecastService,
-            UserService,
-            TransactionService,
-            TransactionListComponent
+            UserService
           ],
-  children:[
-    {
-      path: '',
-      title: 'Dashboard | Main',
-      loadComponent: () =>  import('./dashboard-main/dashboard-main.component').then(module => module.DashBoardMainComponent),
-    },
-    {
-      path: 'detail',
-      title: 'Dashboard | Detail',
-      loadComponent: () =>  import('./dashboard-detail/dashboard-detail.component').then(module => module.DashBoardDetailComponent),
-    },
-
-
-
-
-  ]
+  title: 'Dashboard',
+  loadComponent: () =>  import('./dashboard.component').then(module => module.DashBoardComponent)
 }] as Routes;

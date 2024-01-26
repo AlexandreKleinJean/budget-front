@@ -13,7 +13,7 @@ import { TransactionListComponent } from 'src/app/transaction/transaction-list/t
 })
 export class AccountDetailComponent implements OnInit {
   @Input() userId: Number | null;
-  @Input() accountId: Number | null;
+  accountId: Number | null;
   account: Account | undefined;
 
   constructor(
@@ -22,18 +22,25 @@ export class AccountDetailComponent implements OnInit {
 
   async ngOnInit() {
 
-      if(this.accountId){
+    /*-----------Récupération de l'id du account sélectionné----------*/
+    const selectedAccountId = localStorage.getItem('selectedAccountId');
+    console.log('(DashBoard-detail) accountID:', selectedAccountId);
+    if(selectedAccountId){
+      this.accountId= +selectedAccountId
+    }
 
-        try {
-          this.account = await this.accountService.getOneAccountById(+this.accountId);
+    if(this.accountId){
 
-        } catch (error) {
-          console.error('Error fetching account:', error);
-        }
+      try {
+        this.account = await this.accountService.getOneAccountById(+this.accountId);
 
-      } else {
-      console.error('AccountId undefined');
+      } catch (error) {
+        console.error('Error fetching account:', error);
       }
+
+    } else {
+      console.error('AccountId undefined');
+    }
   }
 
   /*-----------Bouton pour supprimer l'account--------------*/

@@ -1,9 +1,12 @@
 <div class="container">
-  <h2 id="title">Accounts</h2>
+  <div class="accounts__up">
+    <h2 id="title">Accounts</h2>
+    <button routerLink="/account/create" id="account__newButton">New account</button>
+  </div>
   <div class="accounts">
       @for (account of accountsList; track account.name) {
         <div class="account">
-          <div routerLink="/dashboard/detail" (click)="saveAccountId(account)" class="account__infos">
+          <div routerLink="/account" (click)="saveAccountId(account)" class="account__infos">
             <div class="account__details">
               <p>{{ account.name }}</p>
               <p>{{ account.bank }}</p>
@@ -25,8 +28,5 @@
       } @empty {
         <p>No account yet</p>
       }
-      <div class="account__newButton">
-        <button routerLink="/account/create" id="account__newButton">New account</button>
-      </div>
   </div>
 </div>

@@ -1,4 +1,5 @@
 @if(account) {
+  <h2 id="title">Account details</h2>
   <div class="container">
       <div class="account">
         <div class="account__info">
@@ -14,12 +15,13 @@
         <div class="account__amount">
           <p>PRIX</p>
         </div>
-        <div class="button">
-          <button (click)="deleteAccount()" routerLink="/dashboard" class="button">Delete</button>
-        </div>
       </div>
+    </div>
+    <app-transaction-list [userId]="userId" [accountId]="accountId"></app-transaction-list>
+    <div class="buttons">
+      <button (click)="deleteAccount()" routerLink="/dashboard" class="button">Delete</button>
+      <button routerLink="/dashboard" class="button">Back</button>
     </div>
 } @else {
   <h4 class="center">No account found</h4>
 }
-
