@@ -25,17 +25,30 @@
   padding: 0 1rem;
 }
 
+.account__info {
+  display:flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+#account__img {
+  width: 60px;
+  height: 60px;
+}
+
 .account__details {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
   font-size: 1.8rem;
   padding: 0.5rem 0;
 }
 
-.account__details-label{
-  font-weight: bold;
-  padding: 0.5rem;
+.account__details-text {
+  display:flex;
+  flex-direction: row;
+  padding: 0 0.5rem;
 }
 
 .account__amount {
