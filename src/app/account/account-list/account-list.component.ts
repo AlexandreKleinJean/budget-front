@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Account } from '../account';
+import { Transaction } from '../../transaction/transaction';
 import { AccountService } from '../account.service';
 
 @Component({
@@ -15,8 +16,7 @@ export class AccountListComponent implements OnInit {
   @Input() userId: number | null;
 
   accountsList: Account[] = [];
-  showNotification = false;
-  notificationMessage = '';
+  transactionsList: Transaction[] = [];
 
   constructor(
     private accountService: AccountService
@@ -27,7 +27,7 @@ export class AccountListComponent implements OnInit {
       if (this.userId) {
 
         try {
-        // J'appelle AccountService pour récupérer les comptes du loggedInUser
+        // AccountService => récupérer les comptes du loggedInUser
         this.accountsList = await this.accountService.getAccountsByUser(+this.userId);
 
         } catch (error) {

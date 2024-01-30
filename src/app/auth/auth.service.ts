@@ -1,12 +1,42 @@
 import { Injectable } from '@angular/core';
 import { User } from '../user/user';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class AuthService {
   private apiUrl = 'http://localhost:8080';
   private loggedInUserId: number | null = null;
 
   constructor() { }
+
+  /*------------------------Inscription---------------------*/
+  async register(
+    gender: string,
+    firstname: string,
+    lastname: string,
+    email: string,
+    password: string)
+    : Promise<User | null> {
+    try {
+      const response = await fetch(`${this.apiUrl}/register`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ gender, firstname, lastname, email, password }),
+      });
+
+      if (response.ok) {
+        return await response.json();
+      } else {
+        return null;
+      }
+    } catch (error) {
+      console.error('Problem with your fetch operation:', error);
+      throw error;
+    }
+  }
 
   /*-----------------------Connection---------------------*/
   async login(email: string, password: string): Promise<User | null> {
@@ -41,45 +71,19 @@ export class AuthService {
     }
   }
 
+  /*-----------------------Déconnection---------------------*/
+  logout() {
+    // j'efface le jwt du localStorage
+    localStorage.removeItem('jwtToken');
+    // j'efface le userId du localStorage
+    localStorage.removeItem('loggedInUserId');
+    // ma variable loggedInUserId est null
+    this.loggedInUserId = null;
+  }
+
   /*--------------Récupération de l'id du loggedInUser-----------*/
   getLoggedInUserId(): number | null {
     return this.loggedInUserId;
-  }
-
-  /*--------------Vérification si le user est connecté-----------*/
-  isAuthenticated(): boolean {
-    // je vais chercher le Jwt dans lelocal storage
-    const jwtToken = localStorage.getItem('jwtToken');
-    // je renvoie true si le JWT est présent
-    return !!jwtToken;
-  }
-
-  /*------------------------Inscription---------------------*/
-  async register(
-    gender: string,
-    firstname: string,
-    lastname: string,
-    email: string,
-    password: string)
-    : Promise<User | null> {
-    try {
-      const response = await fetch(`${this.apiUrl}/register`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ gender, firstname, lastname, email, password }),
-      });
-
-      if (response.ok) {
-        return await response.json();
-      } else {
-        return null;
-      }
-    } catch (error) {
-      console.error('Problem with your fetch operation:', error);
-      throw error;
-    }
   }
 }
 

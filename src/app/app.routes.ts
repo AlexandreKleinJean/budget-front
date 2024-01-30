@@ -1,9 +1,11 @@
 import { Routes } from '@angular/router';
+import { AuthService } from './auth/auth.service';
 /*import { AuthGuard } from './auth.guard';*/
 
 export const routes: Routes = [
   {
     path: '',
+    providers:[AuthService],
     loadComponent: () =>  import('./home/home.component').then(module => module.HomeComponent)
   },
   {

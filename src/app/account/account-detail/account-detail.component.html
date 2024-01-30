@@ -2,15 +2,19 @@
   <h2 id="title">Account details</h2>
   <div class="container">
       <div class="account">
-        <div class="account__info">
+        <div class="account__details">
           <img id="account__img" src="../../../assets/images/Account.png" alt="account">
-          <div class="account__details">
-            <p>Name : {{ account.name }}</p>
-            <p>Bank : {{ account.bank }}</p>
+          <div class="account__detail">
+            <p class="account__detail-label">Name : </p>
+            <p>{{ account.name }}</p>
           </div>
-        </div>
-        <div class="account__amount">
-          <p>$ {{ totalExpenses }}</p>
+          <div class="account__detail">
+            <p class="account__detail-label">Bank : </p>
+            <p>{{ account.bank }}</p>
+          </div>
+          <div class="account__amount">
+            <p>$ {{ totalExpenses }}</p>
+          </div>
         </div>
       </div>
     </div>

@@ -1,0 +1,13 @@
+<nav id="navBar">
+  <div>
+    <a href="" id="navBar_title">
+      myBudget
+    </a>
+    @if(isLoggedIn){
+    <button (click)="onLogout()" routerLink="/auth/login">
+      Logout
+    </button>
+    } @else {
+    }
+  </div>
+</nav>
