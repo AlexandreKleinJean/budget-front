@@ -37,6 +37,7 @@ export class ForecastVisualComponent implements OnInit {
           if (client) {
             // ForecastService => récupération du forecast
             this.forecast = await this.forecastService.getForecastById(client.forecastId);
+            console.log("forcast:"+this.forecast?.foodRate)
             if(this.forecast){
               // ForeCast() => affichage du graphique (données du forecast)
               this.foreCast(

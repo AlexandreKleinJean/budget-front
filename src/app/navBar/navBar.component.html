@@ -1,13 +1,11 @@
 <nav id="navBar">
-  <div>
-    <a href="" id="navBar_title">
+    <a href="" id="navBar__title">
       myBudget
     </a>
     @if(isLoggedIn){
-    <button (click)="onLogout()">
+    <button id="navBar__logout" (click)="onLogout()">
       Logout
     </button>
     } @else {
     }
-  </div>
 </nav>
