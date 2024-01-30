@@ -1,5 +1,5 @@
 import { Component} from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { RouterLink, RouterOutlet, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../auth/auth.service';
 
@@ -13,7 +13,8 @@ import { AuthService } from '../auth/auth.service';
 
 export class NavBarComponent {
   constructor(
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {}
 
   get isLoggedIn(): boolean {
@@ -22,5 +23,7 @@ export class NavBarComponent {
 
   onLogout() {
     this.authService.logout();
+    // Je redirige vers le login
+    this.router.navigate(['/auth/login']);
   }
 }

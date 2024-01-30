@@ -3,7 +3,7 @@ import { User } from '../../user/user';
 import { AuthService } from '../auth.service';
 import { FormsModule } from '@angular/forms';
 
-import{ RouterLink } from '@angular/router';
+import{ RouterLink, Router } from '@angular/router';
 
 @Component({
   selector: 'app-auth-login',
@@ -22,6 +22,7 @@ export class AuthLoginComponent implements OnInit {
 
     constructor(
       private authService:  AuthService,
+      private router:  Router
     ) {}
 
     async ngOnInit() {
@@ -29,19 +30,20 @@ export class AuthLoginComponent implements OnInit {
     /*------------------------Bouton de connection--------------------*/
     async onSubmit() {
       try {
-        // J'appelle la method de authService pour récupérer le user de l'API
+        // AuthService => récupérer le user de l'API
         const user = await this.authService.login(this.email, this.password);
 
         if (user) {
-          // Un user correspond
+          // le user existe
           console.log('Authentification réussie', user);
+          // Je redirige vers le dashboard
+          this.router.navigate(['/dashboard']);
 
         } else {
-          // Un user ne correspond pas
+          // le user n'existe pas
           console.error('Erreur d\'authentification');
         }
       } catch (error) {
-        // Gérer les erreurs de l'appel à la méthode login
         console.error('Erreur lors de l\'authentification:', error);
       }
     }

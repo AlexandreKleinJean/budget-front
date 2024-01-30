@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-import { RouterLink } from '@angular/router';
+import { RouterLink, Router } from '@angular/router';
 import { Transaction } from '../transaction';
 import { TransactionService } from '../transaction.service';
 
@@ -28,6 +28,7 @@ export class TransactionCreationComponent implements OnInit {
 
   constructor(
     private transactionService: TransactionService,
+    private router: Router
   ){ }
 
   ngOnInit() {
@@ -60,6 +61,8 @@ export class TransactionCreationComponent implements OnInit {
 
         if (newTransaction) {
           console.log('Transaction successfully created', newTransaction);
+          // Je redirige vers le login
+          this.router.navigate(['/account']);
         } else {
           console.error('Transaction creation error');
         }
