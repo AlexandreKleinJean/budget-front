@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { Account } from '../account';
 import { AccountService } from '../account.service';
 import { FormsModule } from '@angular/forms';
@@ -8,7 +8,7 @@ import { FormsModule } from '@angular/forms';
   selector: 'app-account-creation',
   templateUrl: './account-creation.component.html',
   styleUrl: './account-creation.component.css',
-  imports: [FormsModule, RouterLink],
+  imports: [FormsModule],
   standalone: true
 })
 export class AccountCreationComponent implements OnInit{
@@ -18,7 +18,8 @@ export class AccountCreationComponent implements OnInit{
   bank: string = '';
 
     constructor(
-      private accountService: AccountService
+      private accountService: AccountService,
+      private router: Router
     ) {}
 
     async ngOnInit() {
@@ -42,6 +43,8 @@ export class AccountCreationComponent implements OnInit{
 
           if (newAccount) {
             console.log('Account successfully created', newAccount);
+            // je redirige vers la page dashboard
+            this.router.navigate(['/dashboard']);
 
             } else {
               console.error('Account creation error');

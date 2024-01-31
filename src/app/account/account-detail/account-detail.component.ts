@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import{ RouterLink } from '@angular/router';
+import{ RouterLink, Router } from '@angular/router';
 import { Account } from '../account';
 import { AccountService } from '../account.service';
 import { TransactionListComponent } from 'src/app/transaction/transaction-list/transaction-list.component';
@@ -19,7 +19,8 @@ export class AccountDetailComponent implements OnInit {
   totalExpenses: number;
 
   constructor(
-    private accountService: AccountService
+    private accountService: AccountService,
+    private router: Router
   ) {}
 
   async ngOnInit() {
@@ -56,6 +57,8 @@ export class AccountDetailComponent implements OnInit {
       try {
         await this.accountService.deleteOneAccountById(+this.accountId)
         this.accountId = null;
+        this.router.navigate(['/dashboard']);
+
       } catch (error) {
         console.error('Error deleting account:', error);
       }

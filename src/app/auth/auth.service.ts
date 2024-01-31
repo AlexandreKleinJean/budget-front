@@ -19,12 +19,14 @@ export class AuthService {
     password: string)
     : Promise<User | null> {
     try {
+      const forecastId = 1;
+
       const response = await fetch(`${this.apiUrl}/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ gender, firstname, lastname, email, password }),
+        body: JSON.stringify({ gender, firstname, lastname, email, password, forecastId }),
       });
 
       if (response.ok) {

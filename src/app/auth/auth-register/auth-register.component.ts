@@ -37,7 +37,7 @@ export class AuthRegisterComponent implements OnInit {
       if (user) {
         console.log('Inscription réussie', user);
         // Je redirige vers la page de connexion
-        this.router.navigate(['/login']);
+        this.router.navigate(['/auth/login']);
       } else {
         console.error('Inscription échouée');
       }

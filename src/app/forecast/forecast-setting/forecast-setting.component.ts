@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { RouterLink, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ForecastService } from '../forecast.service';
 
@@ -31,7 +31,9 @@ export class ForecastSettingComponent implements OnInit{
   leisureAmount: number = 0;
   realEstateAmount: number = 0;
 
-  constructor(private forecastService: ForecastService
+  constructor(
+    private forecastService: ForecastService,
+    private router: Router
     ) {}
 
     async ngOnInit() {
@@ -90,7 +92,7 @@ export class ForecastSettingComponent implements OnInit{
       if(loggedInUserId){
 
         this.userId =+ loggedInUserId;
-        // J'appelle la method de forecastService pour créer un forecast
+        // ForecastService => créer un forecast
         const newForecast = await this.forecastService.newForecast(
           this.salary,
           this.foodRate,
@@ -105,6 +107,9 @@ export class ForecastSettingComponent implements OnInit{
 
         if (newForecast) {
           console.log('Forecast successfully created', newForecast);
+
+          // je redirige vers le dahsboard
+          this.router.navigate(['/dashboard']);
 
           } else {
             console.error('Forecast creation error');
