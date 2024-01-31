@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -14,10 +14,10 @@ import { TransactionService } from '../transaction.service';
   styleUrl: `./transaction-creation.component.css`
 })
 
-export class TransactionCreationComponent implements OnInit {
+export class TransactionCreationComponent {
   userId: number | null;
   transaction: Transaction|undefined;
-  categories: string[];
+  categories: string[] = ['Food', 'Transport', 'Sport', 'Invoice', 'Shopping', 'Leisure', 'Real Estate'];
   subject: string = '';
   note: string = '';
   icon: string = '';
@@ -30,15 +30,6 @@ export class TransactionCreationComponent implements OnInit {
     private transactionService: TransactionService,
     private router: Router
   ){ }
-
-  ngOnInit() {
-    try {
-      // je récupère la liste des catégories
-      this.categories = this.transactionService.getTransactionCategoriesList();
-    } catch (error) {
-      console.error('Categories not found:', error);
-    }
-  }
 
   async addNewTransaction() {
 

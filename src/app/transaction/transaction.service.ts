@@ -5,12 +5,13 @@ import { Transaction } from './transaction';
 
 @Injectable()
 export class TransactionService {
+
   private apiUrl = 'http://localhost:8080';
   jwtToken: string | null = null;
 
   constructor() { }
 
-  /*-----------Récupérer les transactions par le compte------------*/
+  /*-----------Récupérer les transactions par account------------*/
   async getTransactionsByAccount(accountId: number): Promise<Transaction[]> {
     try {
       const response = await fetch(`${this.apiUrl}/${accountId}/transactions`);
@@ -67,17 +68,6 @@ export class TransactionService {
     }
   }
 
-  getTransactionCategoriesList(): string[] {
-    return [
-      'Food',
-      'Transport',
-      'Sport',
-      'Invoice', 'Shopping',
-      'Leisure',
-      'Real Estate'
-    ];
-  }
-
   /*-------------Supprimer une transaction----------------*/
   async deleteOneTransactionById(transactionId: number): Promise<void> {
 
@@ -109,20 +99,5 @@ export class TransactionService {
     }
   }
 
-  /*async getTransactionList(): Promise<Transaction[]> {
-    try {
-      const response = await fetch(`${this.apiUrl}/transactions`);
-      console.log(response)
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      return await response.json();
-    } catch (error) {
-      console.error('Problem with your fetch operation:', error);
-      throw error;
-    }
-  }
-
-  }*/
 }
 

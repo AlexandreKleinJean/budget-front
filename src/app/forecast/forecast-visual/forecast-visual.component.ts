@@ -34,11 +34,11 @@ export class ForecastVisualComponent implements OnInit {
         try {
           // UserService => récupération du client
           const client = await this.userService.getOneUserById(this.userId);
+
           if (client) {
-            console.log("forcastId:"+client.forecastId)
-            // ForecastService => récupération du forecast
+            // ForecastService => récupération du forecast depuis le client
             this.forecast = await this.forecastService.getForecastById(client.forecastId);
-            console.log("forcast:"+this.forecast?.foodRate)
+
             if(this.forecast){
               // ForeCast() => affichage du graphique (données du forecast)
               this.foreCast(
