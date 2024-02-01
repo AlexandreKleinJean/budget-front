@@ -44,7 +44,7 @@ export class AccountCreationComponent implements OnInit{
           if (newAccount) {
             console.log('Account successfully created', newAccount);
             // je redirige vers la page dashboard
-            this.router.navigate(['/dashboard']);
+            this.router.navigate(['/account/list']);
 
             } else {
               console.error('Account creation error');

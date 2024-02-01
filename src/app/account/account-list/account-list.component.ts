@@ -44,7 +44,7 @@ export class AccountListComponent implements OnInit {
     console.log('(AccountList) userID:', loggedInUserId);
 
     if(loggedInUserId){
-          this.userId =+ loggedInUserId;
+        this.userId =+ loggedInUserId;
 
         try {
           // AccountService => récupérer les accounts du user

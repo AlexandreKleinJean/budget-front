@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import{ ActivatedRoute, RouterLink } from '@angular/router';
+import{ ActivatedRoute, Router } from '@angular/router';
 import { Transaction } from '../transaction';
 import { TransactionService } from '../transaction.service';
 
@@ -9,7 +9,7 @@ import { TransactionService } from '../transaction.service';
   selector: 'app-transaction-detail',
   templateUrl: './transaction-detail.component.html',
   styleUrl: './transaction-detail.component.css',
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule],
   standalone: true
 })
 export class TransactionDetailComponent implements OnInit {
@@ -19,6 +19,7 @@ export class TransactionDetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private transactionService: TransactionService
   ) {}
 
@@ -44,6 +45,8 @@ export class TransactionDetailComponent implements OnInit {
       if (selectedAccountId) {
         // J'appelle TransactionService => afficher transactions liées à l'account
         this.transactionsListByAccount = await this.transactionService.getTransactionsByAccount(Number(selectedAccountId));
+        this.router.navigate(['/account/detail']);
+
       } else {
         console.error('No account with this id');
       }
@@ -56,7 +59,9 @@ export class TransactionDetailComponent implements OnInit {
   async deleteTransaction() {
     if (this.transactionId) {
       try {
-        await this.transactionService.deleteOneTransactionById(+this.transactionId)
+        await this.transactionService.deleteOneTransactionById(+this.transactionId);
+        this.router.navigate(['/account/detail']);
+
       } catch (error) {
         console.error('Error deleting transaction:', error);
       }

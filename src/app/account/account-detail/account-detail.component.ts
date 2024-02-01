@@ -23,16 +23,15 @@ export class AccountDetailComponent implements OnInit {
     private router: Router
   ) {}
 
+  //********************* INITIALIZATION **********************/
   async ngOnInit() {
 
     /*-----------Récupération de l'id du account sélectionné----------*/
     const selectedAccountId = localStorage.getItem('selectedAccountId');
-    console.log('(DashBoard-detail) accountID:', selectedAccountId);
+    console.log('(Account-detail) accountID:', selectedAccountId);
+
     if(selectedAccountId){
       this.accountId= +selectedAccountId
-    }
-
-    if(this.accountId){
 
       try {
         this.account = await this.accountService.getOneAccountById(+this.accountId);
@@ -46,18 +45,19 @@ export class AccountDetailComponent implements OnInit {
     }
   }
 
+  //********************* TOTAL $ EXPENSES **********************/
   handleTotalExpenses(total: number) {
     this.totalExpenses = total;
     console.log('(AccountDetail) total expenses:', this.totalExpenses);
   }
 
-  /*-----------Bouton pour supprimer l'account--------------*/
-   async deleteAccount() {
+  //********************* DELETE ACCOUNT **********************/
+  async deleteAccount() {
     if (this.accountId) {
       try {
         await this.accountService.deleteOneAccountById(+this.accountId)
         this.accountId = null;
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['/account/list']);
 
       } catch (error) {
         console.error('Error deleting account:', error);
