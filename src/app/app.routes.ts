@@ -13,11 +13,11 @@ export const routes: Routes = [
     /*canActivate: [AuthGuard],*/
     loadChildren: () => import('./auth/auth.routes')
   },
-  {
+  /*{
     path: 'dashboard',
-    /*canActivate: [AuthGuard],*/
+    canActivate: [AuthGuard],
     loadChildren: () => import('./dashboard/dashboard.routes')
-  },
+  },*/
   {
     path: 'forecast',
     /*canActivate: [AuthGuard],*/

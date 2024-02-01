@@ -1,3 +1,33 @@
 .container{
   margin: auto 10% 5% 10%;
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0 10% 6% 10%;
+  padding: 4em 4em;
+  border-radius: 1rem;
+  background-color:rgba(231, 219, 255, 0.213);
+  border: 1px solid rgba(114, 60, 201, 0.5);
+}
+
+.forecast__up{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 3em;
+}
+
+#title {
+  font-size: 3em;
+  font-weight: bold;
+}
+
+#button__manageForecast {
+  background: #754abf;
+  color: white;
+  border-radius: 0.5rem;
+  padding: 1.5% 3%;
+  font-size: 1.5em;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }

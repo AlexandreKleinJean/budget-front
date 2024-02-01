@@ -1,6 +1,8 @@
+//************************** CALCULS **************************//
+
 import { Transaction } from '../transaction/transaction';
 
-/*-------------Calculer les montants par category----------------*/
+/*--------------------Montants par category----------------------*/
 export function amountByCategory(transactions: Transaction[]): {} {
   let expensesByCategory:{ [category: string]: number } = {};
 
@@ -18,7 +20,7 @@ export function amountByCategory(transactions: Transaction[]): {} {
   return expensesByCategory;
 }
 
-/*----------------Calcul du total des montants------------------*/
+/*----------------------Total des montants-----------------------*/
 export function totalAmount(transactions: Transaction[]): number {
   let totalExpenses = 0;
 
@@ -28,3 +30,8 @@ export function totalAmount(transactions: Transaction[]): number {
 
   return totalExpenses
 }
+
+/*-----------------Conversion des montants en $-------------------*/
+export const rateToCash = (expense: number, salary: number): number => {
+  return (expense * 100) / salary;
+};

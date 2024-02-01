@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { User } from '../user/user';
+import { SharedService } from '../shared-services/expenses.shared-service';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +9,7 @@ export class AuthService {
   private apiUrl = 'http://localhost:8080';
   private loggedInUserId: number | null = null;
 
-  constructor() { }
+  constructor(private sharedService: SharedService) {}
 
   /*------------------------Inscription---------------------*/
   async register(
@@ -81,6 +82,8 @@ export class AuthService {
     localStorage.removeItem('loggedInUserId');
     // ma variable loggedInUserId est null
     this.loggedInUserId = null;
+    // je reset mes données de sharedService
+    this.sharedService.resetData()
   }
 
   /*--------------Récupération de l'id du loggedInUser-----------*/

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Transaction } from '../transaction';
 import { TransactionService } from '../transaction.service';
+import { amountByCategory, totalAmount } from '../../utils/expense.util';
 
 @Component({
   selector: 'app-transaction-list',

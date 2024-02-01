@@ -37,7 +37,7 @@ export class AuthLoginComponent implements OnInit {
           // le user existe
           console.log('Authentification réussie', user);
           // Je redirige vers le dashboard
-          this.router.navigate(['/dashboard']);
+          this.router.navigate(['/account/list']);
 
         } else {
           // le user n'existe pas

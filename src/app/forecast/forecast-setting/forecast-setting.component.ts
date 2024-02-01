@@ -109,7 +109,7 @@ export class ForecastSettingComponent implements OnInit{
           console.log('Forecast successfully created', newForecast);
 
           // je redirige vers le dahsboard
-          this.router.navigate(['/dashboard']);
+          this.router.navigate(['/account/list']);
 
           } else {
             console.error('Forecast creation error');

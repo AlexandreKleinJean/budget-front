@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class SharedService {
 
   private totalExpensesByAccount: { [accountId: number]: number } = {};
   private categoryExpensesByAccount: {[accountId: number]: { [category: string]: number }} = {};
-
 
   setTotalExpensesByAccount(data: { [accountId: number]: number }) {
     this.totalExpensesByAccount = data;
@@ -21,5 +22,10 @@ export class SharedService {
 
   getCategoryExpensesByAccount(): { [accountId: number]: { [category: string]: number } } {
     return this.categoryExpensesByAccount;
+  }
+
+  resetData() {
+    this.totalExpensesByAccount = {};
+    this.categoryExpensesByAccount = {};
   }
 }

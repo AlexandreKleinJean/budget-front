@@ -7,8 +7,8 @@ import * as Highcharts from 'highcharts/highstock';
 import { ForecastService } from '../forecast.service';
 import { UserService } from '../../user/user.service';
 import { SharedService } from '../../shared-services/expenses.shared-service';
+import { rateToCash } from '../../utils/expense.util';
 import { Forecast } from '../forecast';
-import { first } from 'rxjs';
 
 @Component({
   selector: 'app-forecast-visual',
@@ -38,26 +38,31 @@ export class ForecastVisualComponent implements OnInit {
       private sharedService: SharedService
       ) {}
 
+    //**************************** INITIALIZATION *****************************/
     async ngOnInit() {
 
       if(this.userId){
 
         try {
+          //******** FORECAST FETCH *********//
           // UserService => récupération du client
           const client = await this.userService.getOneUserById(this.userId);
+          console.log("clientId:"+client.id)
 
           if (client) {
             // ForecastService => récupération du forecast depuis le client
             this.forecast = await this.forecastService.getForecastById(client.forecastId);
 
             if(this.forecast){
+              console.log("forecast:"+this.forecast.id)
+
+              //******** EXPENSES FETCH *********//
               // SharedService => récupération des expenses par account
               this.totalExpensesByAccount = this.sharedService.getTotalExpensesByAccount();
               this.categoryExpensesByAccount = this.sharedService.getCategoryExpensesByAccount();
-              console.log(this.categoryExpensesByAccount)
 
-              // ForeCast() => affichage du graphique (données du forecast)
-              this.foreCast(
+              //******** BUDGET CHART BUILDING *********//
+              this.budgetChart(
                 this.forecast.foodRate,
                 this.forecast.transportRate,
                 this.forecast.sportRate,
@@ -74,31 +79,59 @@ export class ForecastVisualComponent implements OnInit {
       }
     }
 
-    /*------------------Method pour afficher le graphique------------------*/
-    foreCast(foodRate: number, transportRate: number, sportRate: number, invoiceRate: number,
+    //**************************** BUDGET CHART METHOD *****************************/
+    budgetChart(foodRate: number, transportRate: number, sportRate: number, invoiceRate: number,
       shoppingRate: number, leisureRate: number, realEstateRate: number) {
 
+        //******** EXPENSES DATA *********//
         let expensesData: { name: string, y: number, color: string }[] = [];
 
-        // Récupération des dépenses du 1er compte du user
+        // Object.keys => je récupère [accountId 1, accountId 2, ...]
         const accountIds: string[] = Object.keys(this.categoryExpensesByAccount);
 
         if (accountIds.length > 0) {
-          const firstAccountId = accountIds[0]; // Utilisez directement l'ID sans conversion
+          const firstAccountId = accountIds[0];
+
+          // Je récupère les dépenses($) par category du 1er account du user
           const firstAccountExpenses = this.categoryExpensesByAccount[+firstAccountId];
 
-          expensesData = [
-            { name: "Food Expenses", y: firstAccountExpenses["Food"] || 0, color: 'red' },
-            { name: "Transport Expenses", y: firstAccountExpenses["Transport"] || 0, color: 'red' },
-            { name: "Sport Expenses", y: firstAccountExpenses["Sport"] || 0, color: 'red' },
-            { name: "Invoice Expenses", y: firstAccountExpenses["Invoice"] || 0, color: 'red' },
-            { name: "Shopping Expenses", y: firstAccountExpenses["Shopping"] || 0, color: 'red' },
-            { name: "Leisure Expenses", y: firstAccountExpenses["Leisure"] || 0, color: 'red' },
-            { name: "Real Estate Expenses", y: firstAccountExpenses["RealEstate"] || 0, color: 'red' },
-          ];
+          // Je convertis les dépenses en %
+          if(this.forecast){
+            const foodExpenseRate = rateToCash(firstAccountExpenses["Food"], this.forecast.salary)
+            const transportExpenseRate = rateToCash(firstAccountExpenses["Transport"], this.forecast.salary)
+            const sportExpenseRate = rateToCash(firstAccountExpenses["Sport"], this.forecast.salary)
+            const invoiceExpenseRate = rateToCash(firstAccountExpenses["Invoice"], this.forecast.salary)
+            const shoppingExpenseRate = rateToCash(firstAccountExpenses["Shopping"], this.forecast.salary)
+            const leisureExpenseRate = rateToCash(firstAccountExpenses["Leisure"], this.forecast.salary)
+            const realEstateExpenseRate = rateToCash(firstAccountExpenses["RealEstate"], this.forecast.salary)
+
+            // Je crée la data des dépenses pour mon graphique
+            expensesData = [
+              { name: "Food Expenses", y: foodExpenseRate || 0, color: 'red' },
+              { name: "Transport Expenses", y: transportExpenseRate || 0, color: 'red' },
+              { name: "Sport Expenses", y: sportExpenseRate || 0, color: 'red' },
+              { name: "Invoice Expenses", y: invoiceExpenseRate || 0, color: 'red' },
+              { name: "Shopping Expenses", y: shoppingExpenseRate || 0, color: 'red' },
+              { name: "Leisure Expenses", y: leisureExpenseRate || 0, color: 'red' },
+              { name: "Real Estate Expenses", y: realEstateExpenseRate || 0, color: 'red' },
+            ];
+          }
         }
 
-        // Configuration des options de graphique Highcharts
+        //******** FORECAST DATA *********//
+        let forecastData: { name: string, y: number, color: string }[] = [];
+
+        forecastData = [
+          { name: "Food", y: foodRate, color: '#673AB7' },
+          { name: "Transport", y: transportRate, color: '#673AB7' },
+          { name: "Sport", y: sportRate, color: '#673AB7' },
+          { name: "Invoice", y: invoiceRate, color: '#673AB7' },
+          { name: "Shopping", y: shoppingRate, color: '#673AB7' },
+          { name: "Leisure", y: leisureRate, color: '#673AB7' },
+          { name: "Real Estate", y: realEstateRate, color: '#673AB7' },
+        ]
+
+        //******** BUDGET CHART OPTIONS *********//
         this.chartOptions = {
           chart: { type: 'column' },
           title: { text: 'Forecast vs Actual Spending' },
@@ -110,26 +143,18 @@ export class ForecastVisualComponent implements OnInit {
           series: [
             {
               name: 'Forecast',
-              data: [
-                { name: "Food", y: foodRate, color: 'green' },
-                { name: "Transport", y: transportRate, color: 'green' },
-                { name: "Sport", y: sportRate, color: 'green' },
-                { name: "Invoice", y: invoiceRate, color: 'green' },
-                { name: "Shopping", y: shoppingRate, color: 'green' },
-                { name: "Leisure", y: leisureRate, color: 'green' },
-                { name: "Real Estate", y: realEstateRate, color: 'green' },
-              ],
+              data: forecastData,
               pointPadding: 0.3,
             },
             {
-              name: 'Actual Spending',
+              name: 'Expense',
               data: expensesData,
-              pointPadding: 0.4,
+              pointPadding: 0.3,
             }
           ],
           plotOptions: {
             column: {
-              grouping: false, // Cela permet de superposer les barres
+              grouping: false,
               shadow: false,
               borderWidth: 0,
             }
