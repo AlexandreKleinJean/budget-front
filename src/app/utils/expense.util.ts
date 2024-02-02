@@ -31,7 +31,12 @@ export function totalAmount(transactions: Transaction[]): number {
   return totalExpenses
 }
 
-/*-----------------Conversion des montants en $-------------------*/
+/*-----------------Conversion des % en $-------------------*/
 export const rateToCash = (expense: number, salary: number): number => {
   return (expense * 100) / salary;
+};
+
+/*-----------------Conversion des % en $-------------------*/
+export const rateToAmount = (expense: number, salary: number): number => {
+  return (expense / 100) * salary;
 };

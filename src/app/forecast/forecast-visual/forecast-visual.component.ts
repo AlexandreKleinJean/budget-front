@@ -7,7 +7,7 @@ import * as Highcharts from 'highcharts/highstock';
 import { ForecastService } from '../forecast.service';
 import { UserService } from '../../user/user.service';
 import { SharedService } from '../../shared-services/expenses.shared-service';
-import { rateToCash } from '../../utils/expense.util';
+import { rateToCash, rateToAmount } from '../../utils/expense.util';
 import { Forecast } from '../forecast';
 
 @Component({
@@ -44,7 +44,7 @@ export class ForecastVisualComponent implements OnInit {
       if(this.userId){
 
         try {
-          //******** FORECAST FETCH *********//
+          //******** FORECAST DATA FETCH *********//
           // UserService => récupération du client
           const client = await this.userService.getOneUserById(this.userId);
           console.log("clientId:"+client.id)
@@ -56,12 +56,12 @@ export class ForecastVisualComponent implements OnInit {
             if(this.forecast){
               console.log("forecast:"+this.forecast.id)
 
-              //******** EXPENSES FETCH *********//
+              //******** EXPENSES DATA FETCH *********//
               // SharedService => récupération des expenses par account
               this.totalExpensesByAccount = this.sharedService.getTotalExpensesByAccount();
               this.categoryExpensesByAccount = this.sharedService.getCategoryExpensesByAccount();
 
-              //******** BUDGET CHART BUILDING *********//
+              //************ CHART BUILDING ************//
               this.budgetChart(
                 this.forecast.foodRate,
                 this.forecast.transportRate,
@@ -83,6 +83,8 @@ export class ForecastVisualComponent implements OnInit {
     budgetChart(foodRate: number, transportRate: number, sportRate: number, invoiceRate: number,
       shoppingRate: number, leisureRate: number, realEstateRate: number) {
 
+        if(this.forecast){
+
         //******** EXPENSES DATA *********//
         let expensesData: { name: string, y: number, color: string }[] = [];
 
@@ -96,7 +98,7 @@ export class ForecastVisualComponent implements OnInit {
           const firstAccountExpenses = this.categoryExpensesByAccount[+firstAccountId];
 
           // Je convertis les dépenses en %
-          if(this.forecast){
+
             const foodExpenseRate = rateToCash(firstAccountExpenses["Food"], this.forecast.salary)
             const transportExpenseRate = rateToCash(firstAccountExpenses["Transport"], this.forecast.salary)
             const sportExpenseRate = rateToCash(firstAccountExpenses["Sport"], this.forecast.salary)
@@ -115,11 +117,12 @@ export class ForecastVisualComponent implements OnInit {
               { name: "Leisure Expenses", y: leisureExpenseRate || 0, color: 'red' },
               { name: "Real Estate Expenses", y: realEstateExpenseRate || 0, color: 'red' },
             ];
-          }
+
         }
 
         //******** FORECAST DATA *********//
         let forecastData: { name: string, y: number, color: string }[] = [];
+        let forecastSalary: number;
 
         forecastData = [
           { name: "Food", y: foodRate, color: '#673AB7' },
@@ -131,24 +134,48 @@ export class ForecastVisualComponent implements OnInit {
           { name: "Real Estate", y: realEstateRate, color: '#673AB7' },
         ]
 
+
+          forecastSalary = this.forecast.salary
+          console.log("forecastSalary:"+forecastSalary)
+
+
         //******** BUDGET CHART OPTIONS *********//
         this.chartOptions = {
-          chart: { type: 'column' },
-          title: { text: 'Forecast vs Actual Spending' },
+          chart: {
+            type: 'column'
+          },
+          title: {
+            text: `Salary: <span style="color: #673AB7;">$ ${forecastSalary}</span>`,
+            useHTML: true,
+          },
           credits: { enabled: false },
           yAxis: { title: { text: 'Amount' } },
           xAxis: {
-            categories: ['Food', 'Transport', 'Sport', 'Invoice', 'Shopping', 'Leisure', 'Real Estate']
+            categories: ['Food', 'Transport', 'Sport', 'Invoice', 'Shopping', 'Leisure', 'Real Estate'],
+            labels: {
+              style: {
+                fontSize: '1.2 em',
+                fontWeight: 'bold'
+              },
+              y: 50
+            }
+          },
+          legend: {
+            align: 'center',
+            verticalAlign: 'top',
+            layout: 'horizontal'
           },
           series: [
             {
               name: 'Forecast',
               data: forecastData,
+              color: '#673AB7',
               pointPadding: 0.3,
             },
             {
-              name: 'Expense',
+              name: 'Expenses',
               data: expensesData,
+              color: 'red',
               pointPadding: 0.3,
             }
           ],
@@ -159,7 +186,24 @@ export class ForecastVisualComponent implements OnInit {
               borderWidth: 0,
             }
           },
+          tooltip: {
+            useHTML: true,
+            formatter: function(this: Highcharts.Point) {
+              if(this.y !== undefined){
+                const amount = rateToAmount(this.y, forecastSalary).toFixed(2);
+                return `
+                  <div style="text-align: center; line-height: 150%; font-size: 1.3em;">
+                  <strong style="font-weight: bold;">${this.series.name}</strong><br/>
+                  ${this.y} %<br/>
+                  $ ${amount}
+                  </div>`;
+              } else {
+                return ''
+            }
+          },
+        }
         };
+      };
     };
 };
 

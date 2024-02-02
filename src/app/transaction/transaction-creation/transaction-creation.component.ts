@@ -17,7 +17,7 @@ import { TransactionService } from '../transaction.service';
 export class TransactionCreationComponent {
   userId: number | null;
   transaction: Transaction|undefined;
-  categories: string[] = ['Food', 'Transport', 'Sport', 'Invoice', 'Shopping', 'Leisure', 'Real Estate'];
+  categories: string[] = ['Food', 'Transport', 'Sport', 'Invoice', 'Shopping', 'Leisure', 'RealEstate'];
   subject: string = '';
   note: string = '';
   icon: string = '';
@@ -53,7 +53,7 @@ export class TransactionCreationComponent {
         if (newTransaction) {
           console.log('Transaction successfully created', newTransaction);
           // Je redirige vers le login
-          this.router.navigate(['/account']);
+          this.router.navigate(['/account/detail']);
         } else {
           console.error('Transaction creation error');
         }
