@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-/*import { HttpClient } from '@angular/common/http';
-import { TRANSACTIONS } from './mock-transaction-list';*/
+import { HttpClient } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { Transaction } from './transaction';
 
 @Injectable()
@@ -9,20 +10,19 @@ export class TransactionService {
   private apiUrl = 'http://localhost:8080';
   jwtToken: string | null = null;
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   /*-----------Récupérer les transactions par account------------*/
-  async getTransactionsByAccount(accountId: number): Promise<Transaction[]> {
-    try {
-      const response = await fetch(`${this.apiUrl}/${accountId}/transactions`);
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      return await response.json();
-    } catch (error) {
-      console.error('Problem with your fetch operation:', error);
-      throw error;
-    }
+  getTransactionsByAccount(accountId: number): Observable<Transaction[]> {
+    const response = this.http.get<Transaction[]>(`${this.apiUrl}/${accountId}/transactions`).pipe(
+      catchError(error => {
+        // Log l'erreur ou traitez-la selon vos besoins
+        console.error('Error fetching transactions', error);
+        // Retournez une erreur ou un Observable vide pour ne pas interrompre le flux
+        return throwError(() => new Error('Error fetching transactions'));
+      })
+    );
+    return response;
   }
 
   /*--------------Récupérer une transaction par son id---------------*/

@@ -23,7 +23,6 @@ export class TransactionListComponent implements OnInit {
   transactionsListByAccount: Transaction[] = [];
   expensesByCategory: { [banane: string]: number };
 
-
   constructor(
     private transactionService: TransactionService
   ) {}
@@ -32,16 +31,19 @@ export class TransactionListComponent implements OnInit {
 
     if(this.accountId){
 
-      try {
         // je récupère les transactions
-        this.transactionsListByAccount = await this.transactionService.getTransactionsByAccount(+this.accountId);
-        // je calcul les dépenses par catégories
-        this.calculateExpensesByCategory();
-        // je calcul le total des dépenses
-        this.calculateTotalAmount();
-      } catch (error) {
-        console.error('Error fetching transactions:', error);
-      }
+        this.transactionService.getTransactionsByAccount(+this.accountId)
+          .subscribe({
+            next: (transactionsByAccount) => {
+              this.transactionsListByAccount = transactionsByAccount;
+              // je calcul les dépenses par catégories
+              this.calculateExpensesByCategory();
+              // je calcul le total des dépenses
+              this.calculateTotalAmount();
+            },
+            error: (error) => console.error('Error fetching transactions:', error),
+            complete: () => console.log('Transaction fetch completed')
+          });
 
     } else {
       console.error('No account with this id');
