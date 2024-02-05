@@ -14,62 +14,54 @@ export class TransactionService {
 
   /*-----------Récupérer les transactions par account------------*/
   getTransactionsByAccount(accountId: number): Observable<Transaction[]> {
+
     const response = this.http.get<Transaction[]>(`${this.apiUrl}/${accountId}/transactions`).pipe(
       catchError(error => {
-        // Log l'erreur ou traitez-la selon vos besoins
         console.error('Error fetching transactions', error);
-        // Retournez une erreur ou un Observable vide pour ne pas interrompre le flux
         return throwError(() => new Error('Error fetching transactions'));
       })
     );
+
     return response;
   }
 
   /*--------------Récupérer une transaction par son id---------------*/
-  async getOneTransactionById(transactionId: number): Promise<Transaction> {
-    try {
-      const response = await fetch(`${this.apiUrl}/transactions/${transactionId}`);
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      return await response.json();
-    } catch (error) {
-      console.error('Problem with your fetch operation:', error);
-      throw error;
-    }
+  getOneTransactionById(transactionId: number): Observable<Transaction> {
+
+      const response = this.http.get<Transaction>(`${this.apiUrl}/transactions/${transactionId}`).pipe(
+        catchError(error => {
+          console.error('Error fetching transactions', error);
+          return throwError(() => new Error('Error fetching transaction'));
+        })
+      );
+
+      return response;
   }
 
   /*------------------Créer une transaction-------------------*/
-  async newTransaction(
+  newTransaction(
     subject: string,
     note: string,
     category: string,
     amount: number,
     accountId: number
-    ): Promise<Transaction | null> {
+    ): Observable<Transaction | null> {
 
-    try {
-      const response = await fetch(`${this.apiUrl}/transaction`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ subject, note, category, amount, accountId }),
-      });
+      const body = { subject, note, category, amount, accountId };
+      const headers = { 'Content-Type': 'application/json' };
 
-      if (response.ok) {
-        return await response.json();
-      } else {
-        return null;
-      }
-    } catch (error) {
-      console.error('Problem with your fetch operation:', error);
-      throw error;
-    }
+      const response = this.http.post<Transaction>(`${this.apiUrl}/transaction`, body, { headers: headers }).pipe(
+        catchError(error => {
+          console.error('Error creating new transaction', error);
+          return throwError(() => new Error('Error creating new transaction'));
+        })
+      );
+
+      return response;
   }
 
   /*-------------Supprimer une transaction----------------*/
-  async deleteOneTransactionById(transactionId: number): Promise<void> {
+  deleteOneTransactionById(transactionId: number): Observable<Object> {
 
     // je récupère le JWT contenu dans le Local Storage
     this.jwtToken = localStorage.getItem('jwtToken');
@@ -77,27 +69,24 @@ export class TransactionService {
 
     // le JWT existe
     if (this.jwtToken) {
-      try {
-        const response = await fetch(`${this.apiUrl}/transaction/${transactionId}`, {
-          method: 'DELETE',
-          headers: {
-            'Authorization': `${this.jwtToken}`,
-            'Content-Type': 'application/json',
-          },
-        });
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
 
-      } catch (error) {
-        console.error('Problem with your fetch operation:', error);
-        throw error;
-      }
+      const headers = { 'Authorization': `${this.jwtToken}`, 'Content-Type': 'application/json' };
+
+      const response = this.http.delete(`${this.apiUrl}/transaction/${transactionId}`, { headers }).pipe(
+        catchError(error => {
+          console.error('Problem with your delete operation:', error);
+          return throwError(() => new Error('Error during the delete operation'));
+        })
+      );
+
+      return response;
+
     // le JWT n'existe pas
     } else {
+
       console.error('Jwt not found');
+      return throwError(() => new Error('Jwt not found'));
     }
   }
-
 }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+/*import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Account } from '../account';
 import { AccountService } from '../account.service';
@@ -56,5 +56,5 @@ export class AccountCreationComponent implements OnInit{
       } catch (error) {
         console.error('Error on account creation:', error);
       }
-    }
+    }*/
 }

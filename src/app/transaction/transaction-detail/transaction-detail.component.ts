@@ -23,20 +23,25 @@ export class TransactionDetailComponent implements OnInit {
     private transactionService: TransactionService
   ) {}
 
-  async ngOnInit() {
+  ngOnInit() {
     const selectedTransactionId = this.route.snapshot.paramMap.get('transactionId');
+
     if (selectedTransactionId) {
       this.transactionId=+ selectedTransactionId;
-      try {
-        this.transaction = await this.transactionService.getOneTransactionById(+this.transactionId);
-      } catch (error) {
-        console.error('Error fetching transaction:', error);
-      }
+
+      this.transactionService.getOneTransactionById(+this.transactionId)
+        .subscribe({
+          next: (trans) => {
+            this.transaction = trans;
+          },
+          error: (error) => console.error('Error fetching transaction:', error),
+          complete: () => console.log('Transaction fetch completed')
+        });
     }
   }
 
   /*-----------Bouton pour revenir à la liste de transactions------------*/
-  async goBackToTransactionList() {
+  /*async goBackToTransactionList() {
     try {
       // je récupère le accountId dans le localStorage
       const selectedAccountId = localStorage.getItem('selectedAccountId');
@@ -52,11 +57,11 @@ export class TransactionDetailComponent implements OnInit {
       }
     } catch (error) {
       console.error('Problem to get the transactions:', error);
-    }
+    }*/
   }
 
   /*-------------Bouton pour supprimer l'account--------------*/
-  async deleteTransaction() {
+  /*async deleteTransaction() {
     if (this.transactionId) {
       try {
         await this.transactionService.deleteOneTransactionById(+this.transactionId);
@@ -69,5 +74,5 @@ export class TransactionDetailComponent implements OnInit {
       console.log("id introuvable")
     }
   }
-}
+}*/
 

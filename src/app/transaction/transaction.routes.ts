@@ -2,10 +2,11 @@ import { Routes } from '@angular/router';
 import { TransactionService } from './transaction.service';
 import { AccountService } from '../account/account.service';
 import { AuthService } from '../auth/auth.service';
+import { HttpClient } from '@angular/common/http';
 
 export default [{
   path: '',
-  providers:[TransactionService, AccountService, AuthService],
+  providers:[TransactionService, AccountService, AuthService, HttpClient],
   children:[
     {
       path: 'create',

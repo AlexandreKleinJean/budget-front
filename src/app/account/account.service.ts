@@ -1,4 +1,7 @@
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHandler } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { Account } from './account';
 import { AuthService } from '../auth/auth.service';
 
@@ -8,7 +11,10 @@ export class AccountService {
   selectedAccountId: number | null = null;
   jwtToken: string | null = null;
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private http: HttpClient
+    ) {}
 
   /*----------Récupérer l'ID d'un account--------------*/
   setSelectedAccountId(accountId: number) {
@@ -16,7 +22,7 @@ export class AccountService {
   }
 
   /*------------------Créer un account-------------------*/
-  async newAccount(name: string, bank: string, clientId: number): Promise<Account | null> {
+  /*async newAccount(name: string, bank: string, clientId: number): Promise<Account | null> {
     try {
       const response = await fetch(`${this.apiUrl}/account`, {
         method: 'POST',
@@ -35,10 +41,10 @@ export class AccountService {
       console.error('Problem with your fetch operation:', error);
       throw error;
     }
-  }
+  }*/
 
   /*----------Récupérer les accounts par user-------------*/
-  async getAccountsByUser(userId: number): Promise<Account[]> {
+  getAccountsByUser(userId: number): Observable<Account[]> {
 
     // je récupère le JWT contenu dans le Local Storage
     this.jwtToken = localStorage.getItem('jwtToken');
@@ -47,28 +53,22 @@ export class AccountService {
     // l'id du user et le JWT existent
     if (this.jwtToken) {
 
-      try {
-        // appel API en fournissant le JWT au serveur
-        const response = await fetch(`${this.apiUrl}/${userId}/accounts`, {
-          headers: {
-            'Authorization': `${this.jwtToken}`,
-            'Content-Type': 'application/json',
-          },
-        });
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return await response.json();
+      const headers = { 'Authorization': `${this.jwtToken}`, 'Content-Type': 'application/json' };
 
-      } catch (error) {
-        console.error('Accounts fetch failed:', error);
-        throw error;
-      }
+      const response = this.http.get<Account[]>(`${this.apiUrl}/${userId}/accounts`, { headers: headers }).pipe(
+        catchError(error => {
+          console.error('Error fetching accounts', error);
+          return throwError(() => new Error('Error fetching accounts'));
+        })
+      );
 
-    // l'id du user ou le JWT n'existe pas
+      return response;
+
+    // le JWT n'existe pas
     } else {
-      console.error('UserId or Jwt not found');
-      return [];
+
+      console.error('Jwt not found');
+      return throwError(() => new Error('Jwt not found'));
     }
   }
 

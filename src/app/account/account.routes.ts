@@ -5,6 +5,7 @@ import { TransactionService } from '../transaction/transaction.service';
 import { ForecastService } from '../forecast/forecast.service';
 import { UserService } from '../user/user.service';
 import { SharedService } from '../shared-services/expenses.shared-service';
+import { HttpClient } from '@angular/common/http';
 
 export default [{
   path: '',
@@ -14,7 +15,8 @@ export default [{
     ForecastService,
     UserService,
     TransactionService,
-    SharedService
+    SharedService,
+    HttpClient
   ],
   children:[
     {
@@ -27,10 +29,10 @@ export default [{
       title: 'Your account',
       loadComponent: () =>  import('./account-detail/account-detail.component').then(module => module.AccountDetailComponent)
     },
-    {
+    /*{
       path: 'create',
       title: 'Create an account',
       loadComponent: () => import('./account-creation/account-creation.component').then(module => module.AccountCreationComponent)
-    }
+    }*/
   ]
 }] as Routes;
