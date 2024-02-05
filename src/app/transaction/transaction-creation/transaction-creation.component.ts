@@ -15,15 +15,12 @@ import { TransactionService } from '../transaction.service';
 })
 
 export class TransactionCreationComponent {
-  userId: number | null;
-  transaction: Transaction|undefined;
+  transaction: Transaction | null;
   categories: string[] = ['Food', 'Transport', 'Sport', 'Invoice', 'Shopping', 'Leisure', 'RealEstate'];
   subject: string = '';
   note: string = '';
-  icon: string = '';
-  date: Date;
   category: string = '';
-  amount: number;
+  amount: number = 0;
   accountId: number | null;
 
   constructor(
@@ -31,39 +28,36 @@ export class TransactionCreationComponent {
     private router: Router
   ){ }
 
-  async addNewTransaction() {
+  addNewTransaction() {
 
-    try{
-      // je récupère le userId dans le localStorage
-      const loggedInUserId = localStorage.getItem('loggedInUserId');
-      // je récupère le accountId dans le localStorage
-      const selectedAccountId = localStorage.getItem('selectedAccountId');
+    // je récupère le userId dans le localStorage
+    const loggedInUserId = localStorage.getItem('loggedInUserId');
+    // je récupère le accountId dans le localStorage
+    const selectedAccountId = localStorage.getItem('selectedAccountId');
 
-      if(loggedInUserId && selectedAccountId && this.categories){
-        this.accountId = +selectedAccountId;
-        // j'appelle la method de TransactionService pour créer une transaction
-        const newTransaction = await this.transactionService.newTransaction(
-          this.subject,
-          this.note,
-          this.category,
-          this.amount,
-          this.accountId
-        );
+    if(loggedInUserId && selectedAccountId){
+      this.accountId = +selectedAccountId;
 
-        if (newTransaction) {
-          console.log('Transaction successfully created', newTransaction);
-          // Je redirige vers le login
+      // TransactionService => créer une transaction
+      this.transactionService.newTransaction(
+        this.subject,
+        this.note,
+        this.category,
+        this.amount,
+        this.accountId
+      ).subscribe({
+
+        next: (tr) => {
+          this.transaction = tr
+          console.log('Transaction successfully created', this.transaction);
           this.router.navigate(['/account/detail']);
-        } else {
-          console.error('Transaction creation error');
-        }
+        },
 
-      } else {
-          console.error('UserId, AccountId are undefined');
-      }
+        error: (error) => console.error('Error creating transaction:', error),
+      })
 
-    } catch (error) {
-      console.error('Error on account creation:', error);
+    } else {
+      console.error('UserId and/or AccountId undefined');
     }
   }
 }

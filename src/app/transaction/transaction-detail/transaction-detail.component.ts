@@ -29,8 +29,7 @@ export class TransactionDetailComponent implements OnInit {
     if (selectedTransactionId) {
       this.transactionId=+ selectedTransactionId;
 
-      this.transactionService.getOneTransactionById(+this.transactionId)
-        .subscribe({
+      this.transactionService.getOneTransactionById(+this.transactionId).subscribe({
           next: (trans) => {
             this.transaction = trans;
           },

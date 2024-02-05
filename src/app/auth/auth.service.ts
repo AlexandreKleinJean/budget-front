@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { User } from '../user/user';
 import { SharedService } from '../shared-services/expenses.shared-service';
+import { HttpClient, HttpResponse } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -8,71 +11,60 @@ import { SharedService } from '../shared-services/expenses.shared-service';
 export class AuthService {
   private apiUrl = 'http://localhost:8080';
   private loggedInUserId: number | null = null;
+  jwtToken: string | null = null;
 
-  constructor(private sharedService: SharedService) {}
+  constructor(
+    private sharedService: SharedService,
+    private http: HttpClient) {}
 
   /*------------------------Inscription---------------------*/
-  async register(
+  register(
     gender: string,
     firstname: string,
     lastname: string,
     email: string,
     password: string)
-    : Promise<User | null> {
-    try {
+    : Observable<User | null> {
+
       const forecastId = 1;
+      const body = { gender, firstname, lastname, email, password, forecastId };
+      const headers = { 'Content-Type': 'application/json' };
 
-      const response = await fetch(`${this.apiUrl}/register`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ gender, firstname, lastname, email, password, forecastId }),
-      });
+      const response = this.http.post<User>(`${this.apiUrl}/register`, body, {headers: headers }).pipe(
+        catchError(error => {
+            console.error('Error creating new account', error);
+            return throwError(() => new Error('Error creating new account'));
+        })
+      );
 
-      if (response.ok) {
-        return await response.json();
-      } else {
-        return null;
-      }
-    } catch (error) {
-      console.error('Problem with your fetch operation:', error);
-      throw error;
+      return response;
     }
-  }
 
   /*-----------------------Connection---------------------*/
-  async login(email: string, password: string): Promise<User | null> {
-    try {
-      const response = await fetch(`${this.apiUrl}/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      });
+  login(email: string, password: string): Observable<User | null> {
+    const body = { email, password };
+    const headers = { 'Content-Type': 'application/json' };
 
-      if (response.ok) {
-        // je stocke la réponse du server dans "user"
-        const user = await response.json();
-        // j'extraie le JWT de l'en-tête "Authorization"
-        const jwtToken = response.headers.get('Authorization');
-        // je stocke le JWT dans le local storage
-        if (jwtToken) {localStorage.setItem('jwtToken', jwtToken);}
-        // je stocke l'ID du user connecté dans le localStorage
-        localStorage.setItem('loggedInUserId', user.id.toString());
-        // je retourne le user connecté
-        return user;
-
-      } else {
-        console.error('No response from the fetch');
-        return null;
-      }
-    } catch (error) {
-      console.error('Problem with your fetch operation:', error);
-      throw error;
-    }
+    return this.http.post<User>(`${this.apiUrl}/login`, body, { headers, observe: 'response' }).pipe(
+      tap((fullResponse: HttpResponse<User>) => {
+        this.jwtToken = fullResponse.headers.get('Authorization');
+        if (this.jwtToken) {
+          localStorage.setItem('jwtToken', this.jwtToken);
+          // Assurez-vous que votre API renvoie l'objet utilisateur avec un champ `id`
+          if (fullResponse.body?.id) {
+            localStorage.setItem('loggedInUserId', fullResponse.body.id.toString());
+          }
+        }
+      }),
+      map(fullResponse => fullResponse.body), // Transforme HttpResponse<User> en User
+      catchError(error => {
+        console.error('Error during login', error);
+        return throwError(() => new Error('Error during login'));
+      })
+    );
   }
+
+//****************************************** A TRAVAILLER *****************************************/
 
   /*-----------------------Déconnection---------------------*/
   logout() {

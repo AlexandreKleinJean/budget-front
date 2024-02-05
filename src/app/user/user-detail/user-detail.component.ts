@@ -19,14 +19,19 @@ export class UserDetailComponent implements OnInit {
     private userService: UserService
   ) {}
 
-  async ngOnInit() {
+  ngOnInit() {
     const userId: string | null = this.route.snapshot.paramMap.get('id');
+
     if (userId) {
-      try {
-        this.user = await this.userService.getOneUserById(+userId);
-      } catch (error) {
-        console.error('Error fetching user:', error);
-      }
+
+      this.userService.getOneUserById(+userId).subscribe({
+
+        next: (u) => {
+          this.user = u;
+        },
+        error: (error) => console.error('Error fetching user:', error),
+        complete: () => console.log('User fetch completed')
+      });
     }
   }
 

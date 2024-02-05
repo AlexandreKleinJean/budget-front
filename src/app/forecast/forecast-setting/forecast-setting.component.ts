@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { RouterLink, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ForecastService } from '../forecast.service';
+import { Forecast } from '../forecast';
 
 @Component({
   selector: 'app-forecast-setting',
@@ -12,6 +13,7 @@ import { ForecastService } from '../forecast.service';
 })
 export class ForecastSettingComponent implements OnInit{
   userId: number | null;
+  forecast: Forecast | null;
 
   salary: number = 0;
   foodRate: number = 0;
@@ -36,16 +38,54 @@ export class ForecastSettingComponent implements OnInit{
     private router: Router
     ) {}
 
-    async ngOnInit() {
-      const loggedInUserId = localStorage.getItem('loggedInUserId');
-      console.log("(forecastCreationInit) => userId:" + loggedInUserId)
+  async ngOnInit() {
+    const loggedInUserId = localStorage.getItem('loggedInUserId');
+    console.log("(forecastCreationInit) => userId:" + loggedInUserId)
 
-      if(loggedInUserId){
-        this.userId =+ loggedInUserId;
+    if(loggedInUserId){
+      this.userId =+ loggedInUserId;
     }
   }
 
-  /*------------Je calcul le pourcentage total--------------*/
+  //*************** FORECAST SETTING ****************/
+  setForecast() {
+
+      // je récupère le userId dans le localStorage
+      const loggedInUserId = localStorage.getItem('loggedInUserId');
+      console.log("(forecastSubmit) => userId:" + loggedInUserId)
+
+      if(loggedInUserId){
+        this.userId = +loggedInUserId;
+
+        // ForecastService => créer un forecast
+        this.forecastService.newForecast(
+          this.salary,
+          this.foodRate,
+          this.transportRate,
+          this.sportRate,
+          this.invoiceRate,
+          this.shoppingRate,
+          this.leisureRate,
+          this.realEstateRate,
+          this.userId
+        ).subscribe({
+
+          next: (fc) => {
+            this.forecast = fc
+            console.log('Forecast successfully created', this.forecast);
+            this.router.navigate(['/account/list']);
+          },
+
+          error: (error) => console.error('Error creating transaction:', error),
+      })
+
+    } else {
+      console.error('UserId undefined');
+    }
+  }
+
+
+  //*************** DISPATCH TOTAL % ****************/
   updateTotal() {
     this.totalRate =
       this.foodRate +
@@ -57,7 +97,7 @@ export class ForecastSettingComponent implements OnInit{
       this.realEstateRate;
   }
 
-  /*--------Je définit ma notification selon la situation-------*/
+  //*************** DISPATCH NOTIFICATION ****************/
   notificationCustom(): { style: string, text: string } {
     if (this.totalRate < 100) {
         return {
@@ -77,49 +117,8 @@ export class ForecastSettingComponent implements OnInit{
     };
   }
 
-  /*--------Bouton disable si le total n'est pas 100%--------*/
+  //*************** DISABLE SUBMIT BUTTON ****************/
   submitButton(): boolean {
     return this.totalRate !== 100;
-  }
-
-  /*--------Je soumet ma prévision-----------*/
-  async setForecast() {
-    try{
-      // je récupère le userId dans le localStorage
-      const loggedInUserId = localStorage.getItem('loggedInUserId');
-      console.log("(forecastSubmit) => userId:" + loggedInUserId)
-
-      if(loggedInUserId){
-
-        this.userId =+ loggedInUserId;
-        // ForecastService => créer un forecast
-        const newForecast = await this.forecastService.newForecast(
-          this.salary,
-          this.foodRate,
-          this.transportRate,
-          this.sportRate,
-          this.invoiceRate,
-          this.shoppingRate,
-          this.leisureRate,
-          this.realEstateRate,
-          this.userId
-        );
-
-        if (newForecast) {
-          console.log('Forecast successfully created', newForecast);
-
-          // je redirige vers le dahsboard
-          this.router.navigate(['/account/list']);
-
-          } else {
-            console.error('Forecast creation error');
-          }
-      } else {
-          console.error('UserId is not found');
-      }
-
-    } catch (error) {
-      console.error('Error on account creation:', error);
-    }
   }
 }

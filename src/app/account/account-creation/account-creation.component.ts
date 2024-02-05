@@ -1,4 +1,4 @@
-/*import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Account } from '../account';
 import { AccountService } from '../account.service';
@@ -11,50 +11,44 @@ import { FormsModule } from '@angular/forms';
   imports: [FormsModule],
   standalone: true
 })
-export class AccountCreationComponent implements OnInit{
-  userId: number | null;
-  account: Account;
+export class AccountCreationComponent{
+  account: Account | null;
   name: string = '';
   bank: string = '';
+  userId: number | null;
 
-    constructor(
-      private accountService: AccountService,
-      private router: Router
-    ) {}
+  constructor(
+    private accountService: AccountService,
+    private router: Router
+  ) {}
 
-    async ngOnInit() {
+  addNewAccount() {
+
+    // je récupère le userId dans le localStorage
+    const loggedInUserId = localStorage.getItem('loggedInUserId');
+    console.log("(accountCreationComponent) => userId:" + loggedInUserId)
+
+    if(loggedInUserId){
+      this.userId =+ loggedInUserId;
+
+      // AccountService => pour créer un account
+      this.accountService.newAccount(
+        this.name,
+        this.bank,
+        this.userId
+      ).subscribe({
+
+        next:(newAccount) => {
+          this.account = newAccount;
+          console.log('Account successfully created', newAccount);
+          this.router.navigate(['/account/list']);
+        },
+
+        error: (error) => console.error('Error creating account:', error),
+      })
+
+    } else {
+      console.error('UserId undefined');
     }
-
-    async addNewAccount() {
-      try{
-        // je récupère le userId dans le localStorage
-        const loggedInUserId = localStorage.getItem('loggedInUserId');
-        console.log("(accountCreationComponent) => userId:" + loggedInUserId)
-
-        if(loggedInUserId){
-
-          this.userId =+ loggedInUserId;
-          // J'appelle la method de accountService pour créer un account
-          const newAccount = await this.accountService.newAccount(
-            this.name,
-            this.bank,
-            this.userId
-          );
-
-          if (newAccount) {
-            console.log('Account successfully created', newAccount);
-            // je redirige vers la page dashboard
-            this.router.navigate(['/account/list']);
-
-            } else {
-              console.error('Account creation error');
-            }
-        } else {
-            console.error('UserId is not found');
-        }
-
-      } catch (error) {
-        console.error('Error on account creation:', error);
-      }
-    }*/
+  }
 }

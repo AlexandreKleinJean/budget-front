@@ -24,7 +24,7 @@ export class AccountDetailComponent implements OnInit {
   ) {}
 
   //********************* INITIALIZATION **********************/
-  async ngOnInit() {
+  ngOnInit() {
 
     /*-----------Récupération de l'id du account sélectionné----------*/
     const selectedAccountId = localStorage.getItem('selectedAccountId');
@@ -33,15 +33,40 @@ export class AccountDetailComponent implements OnInit {
     if(selectedAccountId){
       this.accountId= +selectedAccountId
 
-      try {
-        this.account = await this.accountService.getOneAccountById(+this.accountId);
+      /*-----------Récupération du compte sélectionné----------*/
+      this.accountService.getOneAccountById(+this.accountId).subscribe({
 
-      } catch (error) {
-        console.error('Error fetching account:', error);
-      }
+        next: (acc) => {
+          this.account = acc;
+        },
+
+        error: (error) => console.error('Error fetching account::', error),
+
+        complete: () => console.log('Account fetch completed')
+      });
 
     } else {
       console.error('AccountId undefined');
+    }
+  }
+
+  //********************* DELETE ACCOUNT **********************/
+  deleteAccount() {
+
+    if (this.accountId) {
+
+        this.accountService.deleteOneAccountById(+this.accountId).subscribe({
+          next: () => {
+            this.accountId = null;
+            this.router.navigate(['/account/list']);
+          },
+          error: (error) => {
+            console.error('Error deleting account:', error);
+          }
+        });
+
+    } else {
+      console.log("id introuvable");
     }
   }
 
@@ -51,20 +76,5 @@ export class AccountDetailComponent implements OnInit {
     console.log('(AccountDetail) total expenses:', this.totalExpenses);
   }
 
-  //********************* DELETE ACCOUNT **********************/
-  async deleteAccount() {
-    if (this.accountId) {
-      try {
-        await this.accountService.deleteOneAccountById(+this.accountId)
-        this.accountId = null;
-        this.router.navigate(['/account/list']);
-
-      } catch (error) {
-        console.error('Error deleting account:', error);
-      }
-    } else {
-      console.log("id introuvable")
-    }
-  }
 }
 

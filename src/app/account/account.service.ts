@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHandler } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Account } from './account';
-import { AuthService } from '../auth/auth.service';
 
 @Injectable()
 export class AccountService {
@@ -12,7 +11,6 @@ export class AccountService {
   jwtToken: string | null = null;
 
   constructor(
-    private authService: AuthService,
     private http: HttpClient
     ) {}
 
@@ -20,28 +18,6 @@ export class AccountService {
   setSelectedAccountId(accountId: number) {
     this.selectedAccountId = accountId;
   }
-
-  /*------------------Créer un account-------------------*/
-  /*async newAccount(name: string, bank: string, clientId: number): Promise<Account | null> {
-    try {
-      const response = await fetch(`${this.apiUrl}/account`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ name, bank, clientId }),
-      });
-
-      if (response.ok) {
-        return await response.json();
-      } else {
-        return null;
-      }
-    } catch (error) {
-      console.error('Problem with your fetch operation:', error);
-      throw error;
-    }
-  }*/
 
   /*----------Récupérer les accounts par user-------------*/
   getAccountsByUser(userId: number): Observable<Account[]> {
@@ -66,14 +42,13 @@ export class AccountService {
 
     // le JWT n'existe pas
     } else {
-
       console.error('Jwt not found');
       return throwError(() => new Error('Jwt not found'));
     }
   }
 
   /*----------Récupérer un account par son ID-------------*/
-  async getOneAccountById(accountId: number): Promise<Account|undefined> {
+  getOneAccountById(accountId: number): Observable<Account> {
 
     // je récupère le JWT contenu dans le Local Storage
     this.jwtToken = localStorage.getItem('jwtToken');
@@ -82,32 +57,42 @@ export class AccountService {
     // le JWT existe
     if (this.jwtToken) {
 
-      try {
-        // appel API en fournissant le JWT au serveur
-        const response = await fetch(`${this.apiUrl}/accounts/${accountId}`, {
-            headers: {
-              'Authorization': `${this.jwtToken}`,
-              'Content-Type': 'application/json',
-            },
-        });
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return await response.json();
+      const headers = { 'Authorization': `${this.jwtToken}`, 'Content-Type': 'application/json' };
 
-      } catch (error) {
-        console.error('One account fetch failed:', error);
-        throw error;
-      }
+      const response = this.http.get<Account>(`${this.apiUrl}/accounts/${accountId}`, { headers: headers }).pipe(
+        catchError(error => {
+          console.error('Error fetching account', error);
+          return throwError(() => new Error('Error fetching account'));
+        })
+      );
+
+      return response;
+
     // le JWT n'existe pas
     } else {
       console.error('Jwt not found');
-      return undefined;
+      return throwError(() => new Error('Jwt not found'));
     }
   }
 
+  /*------------------Créer un account-------------------*/
+  newAccount(name: string, bank: string, clientId: number): Observable<Account | null> {
+
+    const body = { name, bank, clientId };
+    const headers = { 'Content-Type': 'application/json' };
+
+    const response = this.http.post<Account>(`${this.apiUrl}/account`, body, { headers: headers }).pipe(
+      catchError(error => {
+        console.error('Error creating new account', error);
+        return throwError(() => new Error('Error creating new account'));
+      })
+    );
+
+    return response;
+  }
+
   /*-------------Supprimer un account----------------*/
-  async deleteOneAccountById(accountId: number): Promise<void> {
+  deleteOneAccountById(accountId: number): Observable<Object> {
 
     // je récupère le JWT contenu dans le Local Storage
     this.jwtToken = localStorage.getItem('jwtToken');
@@ -115,25 +100,23 @@ export class AccountService {
 
     // le JWT existe
     if (this.jwtToken) {
-      try {
-        const response = await fetch(`${this.apiUrl}/account/${accountId}`, {
-          method: 'DELETE',
-          headers: {
-            'Authorization': `${this.jwtToken}`,
-            'Content-Type': 'application/json',
-          },
-        });
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
 
-      } catch (error) {
-        console.error('Problem with your fetch operation:', error);
-        throw error;
-      }
+      const headers = { 'Authorization': `${this.jwtToken}`, 'Content-Type': 'application/json' };
+
+      const response = this.http.delete(`${this.apiUrl}/account/${accountId}`, { headers }).pipe(
+        catchError(error => {
+          console.error('Problem with your delete operation:', error);
+          return throwError(() => new Error('Error during the delete operation'));
+        })
+      );
+
+      return response;
+
     // le JWT n'existe pas
     } else {
+
       console.error('Jwt not found');
+      return throwError(() => new Error('Jwt not found'));
     }
   }
 

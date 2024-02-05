@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
 import { User } from './user';
+import { HttpClient } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class UserService {
   private apiUrl = 'http://localhost:8080';
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   /*----------Stocker l'id d'un user-------------*/
   loggedInUserId: number | null = null;
@@ -15,43 +18,30 @@ export class UserService {
   }
 
   /*----------Récupérer tous les users-------------*/
-  async getUserList(): Promise<User[]> {
-    try {
-      const response = await fetch(`${this.apiUrl}/clients`);
-      console.log(response)
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      return await response.json();
-    } catch (error) {
-      console.error('Problem with your fetch operation:', error);
-      throw error;
-    }
+  getUserList(): Observable<User[]> {
+
+    const response = this.http.get<User[]>(`${this.apiUrl}/clients`).pipe(
+      catchError(error => {
+        console.error('Error fetching users', error);
+        return throwError(() => new Error('Error fetching users'));
+      })
+    );
+
+    return response;
   }
 
   /*----------Récupérer un user par son id-------------*/
-  async getOneUserById(userId: number): Promise<User> {
-    try {
-      const response = await fetch(`${this.apiUrl}/client/${userId}`);
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      return await response.json();
-    } catch (error) {
-      console.error('Problem with your fetch operation:', error);
-      throw error;
-    }
+  getOneUserById(userId: number): Observable<User> {
+
+    const response = this.http.get<User>(`${this.apiUrl}/client/${userId}`).pipe(
+      catchError(error => {
+        console.error('Error fetching user', error);
+        return throwError(() => new Error('Error fetching user'));
+      })
+    );
+
+    return response;
   }
 
 }
-
-  /*getTransationList(): Transaction[] {
-    return TRANSACTIONS;
-  }
-
-  getTransactionById(transactionID: number): Transaction|undefined {
-    return TRANSACTIONS.find(transaction => transaction.id == transactionID)
-  }
-
-  }*/
 

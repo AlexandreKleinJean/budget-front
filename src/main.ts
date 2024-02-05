@@ -1,4 +1,4 @@
-import { enableProdMode, importProvidersFrom } from '@angular/core';
+import { enableProdMode } from '@angular/core';
 import { AppComponent } from './app/app.component';
 import { environment } from './environments/environment';
 import { appConfig } from './app/app.config';

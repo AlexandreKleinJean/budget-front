@@ -6,6 +6,7 @@ import { HighchartsChartModule } from 'highcharts-angular';
 import * as Highcharts from 'highcharts/highstock';
 import { ForecastService } from '../forecast.service';
 import { UserService } from '../../user/user.service';
+import { User } from 'src/app/user/user';
 import { SharedService } from '../../shared-services/expenses.shared-service';
 import { rateToCash, rateToAmount } from '../../utils/expense.util';
 import { Forecast } from '../forecast';
@@ -19,16 +20,13 @@ import { Forecast } from '../forecast';
 })
 export class ForecastVisualComponent implements OnInit {
     @Input() userId: number | null;
-
-    totalExpensesByAccount: {
-      [accountId: number]: number
-    } = {};
-
-    categoryExpensesByAccount: {
-      [accountId: number]: { [category: string]: number }
-    } = {};
-
+    user: User | undefined;
+    forecastId: number | null;
     forecast: Forecast | undefined;
+
+    totalExpensesByAccount: { [accountId: number]: number } = {};
+    categoryExpensesByAccount: { [accountId: number]: { [category: string]: number } } = {};
+
     Highcharts: typeof Highcharts = Highcharts;
     chartOptions: any;
 
@@ -39,56 +37,69 @@ export class ForecastVisualComponent implements OnInit {
       ) {}
 
     //**************************** INITIALIZATION *****************************/
-    async ngOnInit() {
+    ngOnInit() {
 
       if(this.userId){
 
-        try {
-          //******** FORECAST DATA FETCH *********//
           // UserService => récupération du client
-          const client = await this.userService.getOneUserById(this.userId);
-          console.log("clientId:"+client.id)
+          this.userService.getOneUserById(this.userId).subscribe({
 
-          if (client) {
-            // ForecastService => récupération du forecast depuis le client
-            this.forecast = await this.forecastService.getForecastById(client.forecastId);
+            next: (u) => {
+              this.userId = u.id;
+              console.log("clientId:" + this.userId)
 
-            if(this.forecast){
-              console.log("forecast:"+this.forecast.id)
+              this.forecastId = u.forecastId;
+              if (this.forecastId) {
+                // forecastService => récupération du forecast
+                this.loadForecast(this.forecastId);
+              }
+            },
 
-              //******** EXPENSES DATA FETCH *********//
-              // SharedService => récupération des expenses par account
-              this.totalExpensesByAccount = this.sharedService.getTotalExpensesByAccount();
-              this.categoryExpensesByAccount = this.sharedService.getCategoryExpensesByAccount();
+            error: (error) => console.error('Error fetching user:', error),
+          });
 
-              //************ CHART BUILDING ************//
-              this.budgetChart(
-                this.forecast.foodRate,
-                this.forecast.transportRate,
-                this.forecast.sportRate,
-                this.forecast.invoiceRate,
-                this.forecast.shoppingRate,
-                this.forecast.leisureRate,
-                this.forecast.realEstateRate
-                );
-            }
-          }
-        } catch (error) {
-          console.error('Error fetching forecast:', error);
-        }
+      } else {
+        console.error('UserId undefined');
       }
+    }
+
+    //**************************** FORECAST LOADING *****************************/
+    loadForecast(forecastId: number) {
+
+      // ForecastService => récupération du forecast depuis le client
+      this.forecastService.getForecastById(forecastId).subscribe({
+        next: (forecast) => {
+          this.forecast = forecast;
+          console.log("forecast:" + this.forecast.id);
+
+          // SharedService => récupération des expenses par account
+          this.totalExpensesByAccount = this.sharedService.getTotalExpensesByAccount();
+          this.categoryExpensesByAccount = this.sharedService.getCategoryExpensesByAccount();
+
+          // BudgetChart => construction du graphique
+          this.budgetChart(
+            this.forecast.foodRate,
+            this.forecast.transportRate,
+            this.forecast.sportRate,
+            this.forecast.invoiceRate,
+            this.forecast.shoppingRate,
+            this.forecast.leisureRate,
+            this.forecast.realEstateRate);
+        },
+        error: (error) => console.error('Error fetching forecast:', error),
+      });
     }
 
     //**************************** BUDGET CHART METHOD *****************************/
     budgetChart(foodRate: number, transportRate: number, sportRate: number, invoiceRate: number,
       shoppingRate: number, leisureRate: number, realEstateRate: number) {
 
-        if(this.forecast){
+      if(this.forecast){
 
         //******** EXPENSES DATA *********//
         let expensesData: { name: string, y: number, color: string }[] = [];
 
-        // Object.keys => je récupère [accountId 1, accountId 2, ...]
+        // Object.keys => je récupère tableau des Ids [accountId 1, accountId 2, ...]
         const accountIds: string[] = Object.keys(this.categoryExpensesByAccount);
 
         if (accountIds.length > 0) {
@@ -98,26 +109,24 @@ export class ForecastVisualComponent implements OnInit {
           const firstAccountExpenses = this.categoryExpensesByAccount[+firstAccountId];
 
           // Je convertis les dépenses en %
+          const foodExpenseRate = rateToCash(firstAccountExpenses["Food"], this.forecast.salary)
+          const transportExpenseRate = rateToCash(firstAccountExpenses["Transport"], this.forecast.salary)
+          const sportExpenseRate = rateToCash(firstAccountExpenses["Sport"], this.forecast.salary)
+          const invoiceExpenseRate = rateToCash(firstAccountExpenses["Invoice"], this.forecast.salary)
+          const shoppingExpenseRate = rateToCash(firstAccountExpenses["Shopping"], this.forecast.salary)
+          const leisureExpenseRate = rateToCash(firstAccountExpenses["Leisure"], this.forecast.salary)
+          const realEstateExpenseRate = rateToCash(firstAccountExpenses["RealEstate"], this.forecast.salary)
 
-            const foodExpenseRate = rateToCash(firstAccountExpenses["Food"], this.forecast.salary)
-            const transportExpenseRate = rateToCash(firstAccountExpenses["Transport"], this.forecast.salary)
-            const sportExpenseRate = rateToCash(firstAccountExpenses["Sport"], this.forecast.salary)
-            const invoiceExpenseRate = rateToCash(firstAccountExpenses["Invoice"], this.forecast.salary)
-            const shoppingExpenseRate = rateToCash(firstAccountExpenses["Shopping"], this.forecast.salary)
-            const leisureExpenseRate = rateToCash(firstAccountExpenses["Leisure"], this.forecast.salary)
-            const realEstateExpenseRate = rateToCash(firstAccountExpenses["RealEstate"], this.forecast.salary)
-
-            // Je crée la data des dépenses pour mon graphique
-            expensesData = [
-              { name: "Food Expenses", y: foodExpenseRate || 0, color: 'red' },
-              { name: "Transport Expenses", y: transportExpenseRate || 0, color: 'red' },
-              { name: "Sport Expenses", y: sportExpenseRate || 0, color: 'red' },
-              { name: "Invoice Expenses", y: invoiceExpenseRate || 0, color: 'red' },
-              { name: "Shopping Expenses", y: shoppingExpenseRate || 0, color: 'red' },
-              { name: "Leisure Expenses", y: leisureExpenseRate || 0, color: 'red' },
-              { name: "Real Estate Expenses", y: realEstateExpenseRate || 0, color: 'red' },
-            ];
-
+          // Je crée la data des dépenses pour mon graphique
+          expensesData = [
+            { name: "Food Expenses", y: foodExpenseRate || 0, color: 'red' },
+            { name: "Transport Expenses", y: transportExpenseRate || 0, color: 'red' },
+            { name: "Sport Expenses", y: sportExpenseRate || 0, color: 'red' },
+            { name: "Invoice Expenses", y: invoiceExpenseRate || 0, color: 'red' },
+            { name: "Shopping Expenses", y: shoppingExpenseRate || 0, color: 'red' },
+            { name: "Leisure Expenses", y: leisureExpenseRate || 0, color: 'red' },
+            { name: "Real Estate Expenses", y: realEstateExpenseRate || 0, color: 'red' },
+          ];
         }
 
         //******** FORECAST DATA *********//
@@ -135,8 +144,8 @@ export class ForecastVisualComponent implements OnInit {
         ]
 
 
-          forecastSalary = this.forecast.salary
-          console.log("forecastSalary:"+forecastSalary)
+        forecastSalary = this.forecast.salary
+        console.log("forecastSalary:"+forecastSalary)
 
 
         //******** BUDGET CHART OPTIONS *********//
@@ -199,9 +208,9 @@ export class ForecastVisualComponent implements OnInit {
                   </div>`;
               } else {
                 return ''
-            }
-          },
-        }
+              }
+            },
+          }
         };
       };
     };

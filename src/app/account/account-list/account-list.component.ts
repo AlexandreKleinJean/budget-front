@@ -7,13 +7,12 @@ import { TransactionService } from 'src/app/transaction/transaction.service';
 import { amountByCategory, totalAmount } from '../../utils/expense.util';
 import { SharedService } from '../../shared-services/expenses.shared-service';
 import { ForecastVisualComponent } from 'src/app/forecast/forecast-visual/forecast-visual.component';
-import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-account-list',
   templateUrl: './account-list.component.html',
   styleUrl: './account-list.component.css',
-  imports: [RouterLink, ForecastVisualComponent, HttpClientModule],
+  imports: [RouterLink, ForecastVisualComponent],
   standalone: true
 })
 
@@ -52,9 +51,10 @@ export class AccountListComponent implements OnInit {
 
             next: (accounts) => {
 
-              // Je boucle sur chaque account
-              accounts.forEach(account => {
+              this.accountsList = accounts;
 
+              // Je boucle sur chaque account
+              this.accountsList.forEach(account => {
                 // TransactionService => récupérer les transactions
                 this.loadTransactionsByAccount(account.id);
               });
@@ -63,9 +63,9 @@ export class AccountListComponent implements OnInit {
             error: (error) => console.error('Error fetching accounts:', error)
           });
 
-      } else {
-        console.error('UserId undefined');
-      }
+    } else {
+      console.error('UserId undefined');
+    }
   }
 
   //************************* TRANSACTIONS LOADING *************************/

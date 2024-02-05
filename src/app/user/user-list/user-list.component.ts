@@ -18,12 +18,16 @@ export class UserListComponent implements OnInit {
     private userService: UserService
   ) {}
 
-  async ngOnInit() {
-    try {
-      this.usersList = await this.userService.getUserList();
-    } catch (error) {
-      console.error('PROBLEME:', error);
-    }
+  ngOnInit() {
+
+      this.userService.getUserList().subscribe({
+
+        next: (allUsers) => {
+          this.usersList = allUsers;
+        },
+        error: (error) => console.error('Error fetching users:', error),
+        complete: () => console.log('Users fetch completed')
+      });
   }
 
   goToOneUser(user: User){
