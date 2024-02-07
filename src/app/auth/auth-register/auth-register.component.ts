@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../auth.service';
@@ -10,7 +10,7 @@ import { AuthService } from '../auth.service';
   imports: [FormsModule, RouterLink],
   standalone: true
 })
-export class AuthRegisterComponent implements OnInit {
+export class AuthRegisterComponent {
   gender: string = '';
   firstname: string = '';
   lastname: string = '';
@@ -22,27 +22,24 @@ export class AuthRegisterComponent implements OnInit {
     private authService: AuthService
   ) {}
 
-  ngOnInit() {}
+  onRegister() {
 
-  async onRegister() {
-    try {
-      const user = await this.authService.register(
+    // AuthService => créer un user en API
+      this.authService.register(
         this.gender,
         this.firstname,
         this.lastname,
         this.email,
         this.password
-      );
+      ).subscribe({
 
-      if (user) {
-        console.log('Inscription réussie', user);
-        // Je redirige vers la page de connexion
-        this.router.navigate(['/auth/login']);
-      } else {
-        console.error('Inscription échouée');
-      }
-    } catch (error) {
-      console.error('Erreur lors de l\'inscription:', error);
-    }
+        next:(u) => {
+          console.log('Inscription réussie', u);
+          // Je redirige vers la page de connexion
+          this.router.navigate(['/auth/login']);
+        },
+
+        error: (error) => console.error('Error register:', error),
+      })
   }
 }

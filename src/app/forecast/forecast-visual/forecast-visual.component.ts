@@ -20,6 +20,7 @@ import { Forecast } from '../forecast';
 })
 export class ForecastVisualComponent implements OnInit {
     @Input() userId: number | null;
+    @Input() dataLoading: boolean;
     user: User | undefined;
     forecastId: number | null;
     forecast: Forecast | undefined;
@@ -49,10 +50,12 @@ export class ForecastVisualComponent implements OnInit {
               console.log("clientId:" + this.userId)
 
               this.forecastId = u.forecastId;
-              if (this.forecastId) {
+
+              if (this.forecastId && this.dataLoading==true) {
                 // forecastService => récupération du forecast
                 this.loadForecast(this.forecastId);
               }
+
             },
 
             error: (error) => console.error('Error fetching user:', error),

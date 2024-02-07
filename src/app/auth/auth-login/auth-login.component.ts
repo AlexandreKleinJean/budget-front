@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { User } from '../../user/user';
 import { AuthService } from '../auth.service';
 import { FormsModule } from '@angular/forms';
-
+import { Observable, BehaviorSubject } from 'rxjs';
 import{ RouterLink, Router } from '@angular/router';
 
 @Component({
@@ -13,40 +13,33 @@ import{ RouterLink, Router } from '@angular/router';
   standalone: true
 })
 
-export class AuthLoginComponent implements OnInit {
+export class AuthLoginComponent {
     user: User|undefined;
     email: string = '';
     password: string = '';
     loggedInUser: User | undefined;
     loggedInUserId: number | undefined;
+    loggedInUser$ = new BehaviorSubject<User | null>(null);
 
     constructor(
-      private authService:  AuthService,
-      private router:  Router
+      private authService: AuthService,
+      private router: Router
     ) {}
 
-    async ngOnInit() {
-    }
     /*------------------------Bouton de connection--------------------*/
-    async onSubmit() {
-      try {
+    onSubmit() {
+
         // AuthService => récupérer le user de l'API
-        const user = await this.authService.login(this.email, this.password);
+        this.authService.login(this.email, this.password).subscribe({
 
-        if (user) {
-          // le user existe
-          console.log('Authentification réussie', user);
-          // Je redirige vers le dashboard
-          this.router.navigate(['/account/list']);
+          next: (u) => {
+            console.log('Authentification réussie', u);
+            this.router.navigate(['/account/list']);
+          },
 
-        } else {
-          // le user n'existe pas
-          console.error('Erreur d\'authentification');
-        }
-      } catch (error) {
-        console.error('Erreur lors de l\'authentification:', error);
-      }
-    }
+        error: (error) => console.error('Error register:', error)
+      })
+  }
 
     /*--------Bouton pour aller sur le formulaire d'inscription--------*/
     /*goToRegistration(){

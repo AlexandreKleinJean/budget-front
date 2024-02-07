@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { User } from '../user/user';
 import { SharedService } from '../shared-services/expenses.shared-service';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { Observable, BehaviorSubject, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
 @Injectable({
@@ -13,9 +13,53 @@ export class AuthService {
   private loggedInUserId: number | null = null;
   jwtToken: string | null = null;
 
+  // je crée une conteneur vide (null) => contiendra le User connecté
+  currentUserSubject = new BehaviorSubject<Number | null>(null);
+  // je crée une observable ($ à la fin) => accessible aux components (ils pourront juste l'observer)
+  currentUser$ = this.currentUserSubject.asObservable();
+
   constructor(
     private sharedService: SharedService,
     private http: HttpClient) {}
+
+  /*-----------------------Connection---------------------*/
+  login(email: string, password: string): Observable<User | null> {
+
+    const body = { email, password };
+    const headers = { 'Content-Type': 'application/json' };
+
+    // observe: 'response' => on veut la réponse http COMPLETE (normalement on a que le body)
+    const response = this.http.post<User>(`${this.apiUrl}/login`, body, { headers, observe: 'response' }).pipe(
+
+      // Tap => logique métier sans modifier le flux
+      tap((fullResponse: HttpResponse<User>) => {
+        // je récupère le jwt dans le header de la fullResponse
+        this.jwtToken = fullResponse.headers.get('Authorization');
+
+        if (this.jwtToken) {
+          // je stock le jwt dans le localStorage
+          localStorage.setItem('jwtToken', this.jwtToken);
+
+          if (fullResponse.body?.id) {
+            console.log("userId:" + fullResponse.body?.id)
+            // je stock le userId dans le localStorage
+            localStorage.setItem('loggedInUserId', fullResponse.body.id.toString());
+          }
+        }
+
+      }),
+
+      // Map => modification flux (fullResponse en response classique = que le body)
+      map(fullResponse => fullResponse.body),
+
+      catchError(error => {
+        console.error('Error during login', error);
+        return throwError(() => new Error('Error during login'));
+      })
+    );
+
+    return response;
+  }
 
   /*------------------------Inscription---------------------*/
   register(
@@ -39,30 +83,6 @@ export class AuthService {
 
       return response;
     }
-
-  /*-----------------------Connection---------------------*/
-  login(email: string, password: string): Observable<User | null> {
-    const body = { email, password };
-    const headers = { 'Content-Type': 'application/json' };
-
-    return this.http.post<User>(`${this.apiUrl}/login`, body, { headers, observe: 'response' }).pipe(
-      tap((fullResponse: HttpResponse<User>) => {
-        this.jwtToken = fullResponse.headers.get('Authorization');
-        if (this.jwtToken) {
-          localStorage.setItem('jwtToken', this.jwtToken);
-          // Assurez-vous que votre API renvoie l'objet utilisateur avec un champ `id`
-          if (fullResponse.body?.id) {
-            localStorage.setItem('loggedInUserId', fullResponse.body.id.toString());
-          }
-        }
-      }),
-      map(fullResponse => fullResponse.body), // Transforme HttpResponse<User> en User
-      catchError(error => {
-        console.error('Error during login', error);
-        return throwError(() => new Error('Error during login'));
-      })
-    );
-  }
 
 //****************************************** A TRAVAILLER *****************************************/
 

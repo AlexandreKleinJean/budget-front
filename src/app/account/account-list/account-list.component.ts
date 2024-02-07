@@ -6,6 +6,7 @@ import { Transaction } from '../../transaction/transaction';
 import { TransactionService } from 'src/app/transaction/transaction.service';
 import { amountByCategory, totalAmount } from '../../utils/expense.util';
 import { SharedService } from '../../shared-services/expenses.shared-service';
+import { AuthService } from 'src/app/auth/auth.service';
 import { ForecastVisualComponent } from 'src/app/forecast/forecast-visual/forecast-visual.component';
 
 @Component({
@@ -18,6 +19,7 @@ import { ForecastVisualComponent } from 'src/app/forecast/forecast-visual/foreca
 
 export class AccountListComponent implements OnInit {
   userId: number | null;
+  dataLoading: boolean = false;
 
   totalExpensesByAccount: {
     [accountId: number]: number
@@ -33,40 +35,38 @@ export class AccountListComponent implements OnInit {
   constructor(
     private accountService: AccountService,
     private transactionService: TransactionService,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private authService: AuthService
   ) {}
 
   //********************* INITIALIZATION **********************/
   ngOnInit() {
+    // AuthService => abo à l'observable currentUser$ => récupération User connecté
+    this.authService.currentUser$.subscribe(u => {
+      if (u) {
+        console.log('User connected:', u);
+        // Récupérer l'ID de l'utilisateur à partir de l'objet User
+        this.userId = +u;
 
-    // LocalStorage => récupérer l'Id du user
-    const loggedInUserId = localStorage.getItem('loggedInUserId');
-    console.log('(AccountList) userID:', loggedInUserId);
-
-    if(loggedInUserId){
-        this.userId =+ loggedInUserId;
-
-          // AccountService => récupérer les accounts du user
-          this.accountService.getAccountsByUser(this.userId).subscribe({
-
-            next: (accounts) => {
-
-              this.accountsList = accounts;
-
-              // Je boucle sur chaque account
-              this.accountsList.forEach(account => {
-                // TransactionService => récupérer les transactions
-                this.loadTransactionsByAccount(account.id);
-              });
-            },
-
-            error: (error) => console.error('Error fetching accounts:', error)
-          });
-
-    } else {
-      console.error('UserId undefined');
-    }
+        // AccountService => récupérer les comptes de l'utilisateur
+        this.accountService.getAccountsByUser(this.userId).subscribe({
+          next: (accounts) => {
+            this.accountsList = accounts;
+            // Je boucle sur chaque compte
+            this.accountsList.forEach(account => {
+              // TransactionService => récupérer les transactions
+              this.loadTransactionsByAccount(account.id);
+            });
+            this.dataLoading = true;
+          },
+          error: (error) => console.error('Error fetching accounts:', error)
+        });
+      } else {
+        console.log('No user connected.');
+      }
+    });
   }
+
 
   //************************* TRANSACTIONS LOADING *************************/
   loadTransactionsByAccount(accountId: number) {
