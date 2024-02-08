@@ -3,6 +3,7 @@ import{ RouterLink, Router } from '@angular/router';
 import { Account } from '../account';
 import { AccountService } from '../account.service';
 import { TransactionListComponent } from 'src/app/transaction/transaction-list/transaction-list.component';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-account-detail',
@@ -20,7 +21,8 @@ export class AccountDetailComponent implements OnInit {
 
   constructor(
     private accountService: AccountService,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {}
 
   //********************* INITIALIZATION **********************/

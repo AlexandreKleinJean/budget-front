@@ -8,6 +8,7 @@ import { amountByCategory, totalAmount } from '../../utils/expense.util';
 import { SharedService } from '../../shared-services/expenses.shared-service';
 import { AuthService } from 'src/app/auth/auth.service';
 import { ForecastVisualComponent } from 'src/app/forecast/forecast-visual/forecast-visual.component';
+import { BehaviorService } from 'src/app/behavior.service';
 
 @Component({
   selector: 'app-account-list',
@@ -36,17 +37,24 @@ export class AccountListComponent implements OnInit {
     private accountService: AccountService,
     private transactionService: TransactionService,
     private sharedService: SharedService,
+    private behaviorService: BehaviorService,
     private authService: AuthService
   ) {}
 
   //********************* INITIALIZATION **********************/
   ngOnInit() {
-    // AuthService => abo à l'observable currentUser$ => récupération User connecté
-    this.authService.currentUser$.subscribe(u => {
-      if (u) {
-        console.log('User connected:', u);
-        // Récupérer l'ID de l'utilisateur à partir de l'objet User
-        this.userId = +u;
+
+    /*const loggedInUserId = localStorage.getItem('loggedInUserId');
+
+    if(loggedInUserId){
+        this.userId= +loggedInUserId*/
+
+    //BehaviorService => abo à l'observable currentUser$ => récupération User connecté
+    this.behaviorService.currentUser$.subscribe((userId) => {
+      console.log('AccountList => Observable User ID =>', userId);
+
+      if (userId) {
+        this.userId = userId;
 
         // AccountService => récupérer les comptes de l'utilisateur
         this.accountService.getAccountsByUser(this.userId).subscribe({
@@ -61,12 +69,12 @@ export class AccountListComponent implements OnInit {
           },
           error: (error) => console.error('Error fetching accounts:', error)
         });
+
       } else {
-        console.log('No user connected.');
+      console.log('No user connected.');
       }
     });
   }
-
 
   //************************* TRANSACTIONS LOADING *************************/
   loadTransactionsByAccount(accountId: number) {

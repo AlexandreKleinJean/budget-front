@@ -4,7 +4,9 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Transaction } from './transaction';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class TransactionService {
 
   private apiUrl = 'http://localhost:8080';

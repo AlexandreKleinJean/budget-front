@@ -4,7 +4,9 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Account } from './account';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class AccountService {
   private apiUrl = 'http://localhost:8080';
   selectedAccountId: number | null = null;

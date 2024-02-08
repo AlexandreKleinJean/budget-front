@@ -4,7 +4,9 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class ForecastService {
   private apiUrl = 'http://localhost:8080';
   selectedAccountId: number | null = null;

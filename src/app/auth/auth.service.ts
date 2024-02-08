@@ -4,6 +4,7 @@ import { SharedService } from '../shared-services/expenses.shared-service';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable, BehaviorSubject, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
+import { BehaviorService } from '../behavior.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,13 +15,15 @@ export class AuthService {
   jwtToken: string | null = null;
 
   // je crée une conteneur vide (null) => contiendra le User connecté
-  currentUserSubject = new BehaviorSubject<Number | null>(null);
+  /*currentUserSubject = new BehaviorSubject<Number | null>(0);
   // je crée une observable ($ à la fin) => accessible aux components (ils pourront juste l'observer)
-  currentUser$ = this.currentUserSubject.asObservable();
+  currentUser$ = this.currentUserSubject.asObservable();*/
 
   constructor(
     private sharedService: SharedService,
-    private http: HttpClient) {}
+    private http: HttpClient,
+    private behaviorService: BehaviorService
+    ) {}
 
   /*-----------------------Connection---------------------*/
   login(email: string, password: string): Observable<User | null> {
@@ -41,12 +44,11 @@ export class AuthService {
           localStorage.setItem('jwtToken', this.jwtToken);
 
           if (fullResponse.body?.id) {
-            console.log("userId:" + fullResponse.body?.id)
             // je stock le userId dans le localStorage
             localStorage.setItem('loggedInUserId', fullResponse.body.id.toString());
+            this.behaviorService.userIdToBehavior(fullResponse.body.id);
           }
         }
-
       }),
 
       // Map => modification flux (fullResponse en response classique = que le body)
@@ -84,16 +86,17 @@ export class AuthService {
       return response;
     }
 
-//****************************************** A TRAVAILLER *****************************************/
-
   /*-----------------------Déconnection---------------------*/
   logout() {
     // j'efface le jwt du localStorage
     localStorage.removeItem('jwtToken');
     // j'efface le userId du localStorage
     localStorage.removeItem('loggedInUserId');
+
+    //************* A MODIFIER **************/
     // ma variable loggedInUserId est null
     this.loggedInUserId = null;
+
     // je reset mes données de sharedService
     this.sharedService.resetData()
   }
