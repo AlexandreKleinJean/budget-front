@@ -4,6 +4,7 @@ import { Account } from '../account';
 import { AccountService } from '../account.service';
 import { TransactionListComponent } from 'src/app/transaction/transaction-list/transaction-list.component';
 import { AuthService } from 'src/app/auth/auth.service';
+import { BehaviorService } from 'src/app/behavior.service';
 
 @Component({
   selector: 'app-account-detail',
@@ -22,34 +23,35 @@ export class AccountDetailComponent implements OnInit {
   constructor(
     private accountService: AccountService,
     private router: Router,
-    private authService: AuthService
+    private behaviorService: BehaviorService
   ) {}
 
   //********************* INITIALIZATION **********************/
   ngOnInit() {
 
-    /*-----------Récupération de l'id du account sélectionné----------*/
-    const selectedAccountId = localStorage.getItem('selectedAccountId');
-    console.log('(Account-detail) accountID:', selectedAccountId);
+      //BehaviorService => abo à l'observable currentAccount$ => récupération AccountId concerné
+      this.behaviorService.currentAccount$.subscribe((accountId) => {
+      console.log('AccountDetail => Observable Account ID =>', accountId);
 
-    if(selectedAccountId){
-      this.accountId= +selectedAccountId
+      if(accountId){
+        this.accountId= accountId
 
-      /*-----------Récupération du compte sélectionné----------*/
-      this.accountService.getOneAccountById(+this.accountId).subscribe({
+        /*-----------Récupération du compte sélectionné----------*/
+        this.accountService.getOneAccountById(+this.accountId).subscribe({
 
-        next: (acc) => {
-          this.account = acc;
-        },
+          next: (acc) => {
+            this.account = acc;
+          },
 
-        error: (error) => console.error('Error fetching account::', error),
+          error: (error) => console.error('Error fetching account:', error),
 
-        complete: () => console.log('Account fetch completed')
-      });
+          complete: () => console.log('Account fetch completed')
+        })
 
-    } else {
-      console.error('AccountId undefined');
-    }
+      } else {
+        console.error('AccountId undefined');
+      }
+    });
   }
 
   //********************* DELETE ACCOUNT **********************/

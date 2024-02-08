@@ -7,7 +7,7 @@
   <div class="accounts">
       @for (account of accountsList; track account.name) {
         <div class="account">
-          <div routerLink="/account/detail" (click)="saveAccountId(account)" class="account__infos">
+          <div routerLink="/account/detail" (click)="saveAccountId(account.id)" class="account__infos">
             <div class="account__details">
               <img id="account__left" src="../../../assets/images/Account.png" alt="account">
               <p id="account__center">{{ account.name }}</p>

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Account } from '../account';
 import { AccountService } from '../account.service';
@@ -44,12 +44,7 @@ export class AccountListComponent implements OnInit {
   //********************* INITIALIZATION **********************/
   ngOnInit() {
 
-    /*const loggedInUserId = localStorage.getItem('loggedInUserId');
-
-    if(loggedInUserId){
-        this.userId= +loggedInUserId*/
-
-    //BehaviorService => abo à l'observable currentUser$ => récupération User connecté
+    // BehaviorService => récupération User connecté
     this.behaviorService.currentUser$.subscribe((userId) => {
       console.log('AccountList => Observable User ID =>', userId);
 
@@ -71,7 +66,7 @@ export class AccountListComponent implements OnInit {
         });
 
       } else {
-      console.log('No user connected.');
+        console.log('No user connected.');
       }
     });
   }
@@ -98,10 +93,10 @@ export class AccountListComponent implements OnInit {
     });
   }
 
-  //**************** ACCOUNT CLIC = (ACCOUNT ID => LOCAL STORAGE) ****************/
-  saveAccountId(account: Account){
-    // je stocke le accountId dans le localStorage
-    localStorage.setItem('selectedAccountId', account.id.toString());
+  //**************** ACCOUNT CLIC = (ACCOUNT ID => BEHAVIORSUBJECT) ****************/
+  saveAccountId(accountId: number){
+    // je stocke accountId dans le behaviorSubject
+    this.behaviorService.accountIdToBehavior(accountId);
   }
 }
 

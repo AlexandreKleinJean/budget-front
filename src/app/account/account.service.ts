@@ -121,19 +121,5 @@ export class AccountService {
       return throwError(() => new Error('Jwt not found'));
     }
   }
-
-  /*----------Récupérer tous les accounts-------------*/
-  /*async getAccountList(): Promise<Account[]> {
-    try {
-      const response = await fetch(`${this.apiUrl}/accounts`);
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      return await response.json();
-    } catch (error) {
-      console.error('Problem with your fetch operation:', error);
-      throw error;
-    }
-  }*/
 }
 

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { User } from '../user/user';
 import { SharedService } from '../shared-services/expenses.shared-service';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Observable, BehaviorSubject, throwError } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { BehaviorService } from '../behavior.service';
 
@@ -11,13 +11,7 @@ import { BehaviorService } from '../behavior.service';
 })
 export class AuthService {
   private apiUrl = 'http://localhost:8080';
-  private loggedInUserId: number | null = null;
   jwtToken: string | null = null;
-
-  // je crée une conteneur vide (null) => contiendra le User connecté
-  /*currentUserSubject = new BehaviorSubject<Number | null>(0);
-  // je crée une observable ($ à la fin) => accessible aux components (ils pourront juste l'observer)
-  currentUser$ = this.currentUserSubject.asObservable();*/
 
   constructor(
     private sharedService: SharedService,
@@ -44,8 +38,7 @@ export class AuthService {
           localStorage.setItem('jwtToken', this.jwtToken);
 
           if (fullResponse.body?.id) {
-            // je stock le userId dans le localStorage
-            localStorage.setItem('loggedInUserId', fullResponse.body.id.toString());
+            // je stocke userId dans le behaviorSubject
             this.behaviorService.userIdToBehavior(fullResponse.body.id);
           }
         }
@@ -95,15 +88,11 @@ export class AuthService {
 
     //************* A MODIFIER **************/
     // ma variable loggedInUserId est null
-    this.loggedInUserId = null;
+    /*this.loggedInUserId = null;*/
+    //***************************************/
 
     // je reset mes données de sharedService
     this.sharedService.resetData()
-  }
-
-  /*--------------Récupération de l'id du loggedInUser-----------*/
-  getLoggedInUserId(): number | null {
-    return this.loggedInUserId;
   }
 }
 
