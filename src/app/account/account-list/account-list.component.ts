@@ -5,7 +5,7 @@ import { AccountService } from '../account.service';
 import { Transaction } from '../../transaction/transaction';
 import { TransactionService } from 'src/app/transaction/transaction.service';
 import { amountByCategory, totalAmount } from '../../utils/expense.util';
-import { SharedService } from '../../shared-services/expenses.shared-service';
+import { ExpensesStorageService } from '../../shared-services/expensesStorage.service';
 import { AuthService } from 'src/app/auth/auth.service';
 import { ForecastVisualComponent } from 'src/app/forecast/forecast-visual/forecast-visual.component';
 import { BehaviorService } from 'src/app/behavior.service';
@@ -22,13 +22,8 @@ export class AccountListComponent implements OnInit {
   userId: number | null;
   dataLoading: boolean = false;
 
-  totalExpensesByAccount: {
-    [accountId: number]: number
-  } = {};
-
-  categoryExpensesByAccount: {
-    [accountId: number]: { [category: string]: number }
-  } = {};
+  totalExpensesByAccount: {[accountId: number]: number} = {};
+  categoryExpensesByAccount: {[accountId: number]: {[category: string]: number }} = {};
 
   accountsList: Account[] = [];
   transactionsList: Transaction[] = [];
@@ -36,15 +31,14 @@ export class AccountListComponent implements OnInit {
   constructor(
     private accountService: AccountService,
     private transactionService: TransactionService,
-    private sharedService: SharedService,
-    private behaviorService: BehaviorService,
-    private authService: AuthService
+    private storageService: ExpensesStorageService,
+    private behaviorService: BehaviorService
   ) {}
 
   //********************* INITIALIZATION **********************/
   ngOnInit() {
 
-    // BehaviorService => récupération User connecté
+    // BehaviorService => récupération User connecté ( dans observable$ )
     this.behaviorService.currentUser$.subscribe((userId) => {
       console.log('AccountList => Observable User ID =>', userId);
 
@@ -60,7 +54,8 @@ export class AccountListComponent implements OnInit {
               // TransactionService => récupérer les transactions
               this.loadTransactionsByAccount(account.id);
             });
-            this.dataLoading = true;
+            // BehaviorService => statut de data = TRUE
+            this.behaviorService.dataState(true);
           },
           error: (error) => console.error('Error fetching accounts:', error)
         });
@@ -83,10 +78,8 @@ export class AccountListComponent implements OnInit {
         this.categoryExpensesByAccount[accountId] = amountByCategory(transactions);
 
         // SharedService => je stock les calculs
-        this.sharedService.setTotalExpensesByAccount(this.totalExpensesByAccount);
-        console.log("Expense total du account " + accountId + " a été mis à jour");
-        this.sharedService.setCategoryExpensesByAccount(this.categoryExpensesByAccount);
-        console.log("Expense par catégorie du account " + accountId + " a été mis à jour");
+        this.storageService.setTotalExpensesByAccount(this.totalExpensesByAccount);
+        this.storageService.setCategoryExpensesByAccount(this.categoryExpensesByAccount);
       },
 
       error: (error) => console.error(`Error fetching transactions by account ${accountId}:`, error)
@@ -96,7 +89,7 @@ export class AccountListComponent implements OnInit {
   //**************** ACCOUNT CLIC = (ACCOUNT ID => BEHAVIORSUBJECT) ****************/
   saveAccountId(accountId: number){
     // je stocke accountId dans le behaviorSubject
-    this.behaviorService.accountIdToBehavior(accountId);
+    this.behaviorService.accountId(accountId);
   }
 }
 

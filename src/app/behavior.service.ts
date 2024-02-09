@@ -5,22 +5,31 @@ import { BehaviorSubject, Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class BehaviorService {
-  // je crée une conteneur vide (null) => contiendra l'id du User/Account concerné
+
+  //***************** Conteneur vide (null) => contiendra les données à jour ******************/
   private currentUserId: BehaviorSubject<number | null> = new BehaviorSubject<number | null>(null);
   private currentAccountId: BehaviorSubject<number | null> = new BehaviorSubject<number | null>(null);
-  // je crée une observable ($ à la fin) => accessible aux components (ils pourront juste l'observer)
+  private dataIsLoaded: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
+  //***************** Observable ($ à la fin) => accessible aux components ********************/
   currentUser$: Observable<number | null> = this.currentUserId.asObservable();
   currentAccount$: Observable<number | null> = this.currentAccountId.asObservable();
+  dataIsLoaded$: Observable<boolean> = this.dataIsLoaded.asObservable();
 
   constructor() {}
 
-  // UserIdToBehavior => stock de userId dans BehaviorSubject
-  userIdToBehavior(userId: number): void {
+  //*** Stockage du userId dans observable ****/
+  userId(userId: number): void {
     this.currentUserId.next(userId);
   }
 
-  // AccountIdToBehavior => stock de userId dans BehaviorSubject
-  accountIdToBehavior(accountId: number): void {
+  //*** Stockage du accountId dans observable ****//
+  accountId(accountId: number): void {
     this.currentAccountId.next(accountId);
+  }
+
+  //*** Stockage du accountId dans observable ****//
+  dataState(dataState: boolean): void {
+    this.dataIsLoaded.next(dataState);
   }
 }

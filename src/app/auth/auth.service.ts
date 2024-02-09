@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { User } from '../user/user';
-import { SharedService } from '../shared-services/expenses.shared-service';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-import { BehaviorService } from '../behavior.service';
+import { ExpensesStorageService } from '../shared-services/expensesStorage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,12 +13,11 @@ export class AuthService {
   jwtToken: string | null = null;
 
   constructor(
-    private sharedService: SharedService,
-    private http: HttpClient,
-    private behaviorService: BehaviorService
+    private storageService: ExpensesStorageService,
+    private http: HttpClient
     ) {}
 
-  /*-----------------------Connection---------------------*/
+  //*************************** Login **************************/
   login(email: string, password: string): Observable<User | null> {
 
     const body = { email, password };
@@ -36,11 +34,6 @@ export class AuthService {
         if (this.jwtToken) {
           // je stock le jwt dans le localStorage
           localStorage.setItem('jwtToken', this.jwtToken);
-
-          if (fullResponse.body?.id) {
-            // je stocke userId dans le behaviorSubject
-            this.behaviorService.userIdToBehavior(fullResponse.body.id);
-          }
         }
       }),
 
@@ -56,7 +49,7 @@ export class AuthService {
     return response;
   }
 
-  /*------------------------Inscription---------------------*/
+  //************************* Register *************************/
   register(
     gender: string,
     firstname: string,
@@ -92,7 +85,7 @@ export class AuthService {
     //***************************************/
 
     // je reset mes données de sharedService
-    this.sharedService.resetData()
+    this.storageService.resetData()
   }
 }
 

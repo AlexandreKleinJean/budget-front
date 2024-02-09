@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class SharedService {
+export class ExpensesStorageService {
 
   private totalExpensesByAccount: { [accountId: number]: number } = {};
   private categoryExpensesByAccount: {[accountId: number]: { [category: string]: number }} = {};

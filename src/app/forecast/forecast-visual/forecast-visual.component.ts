@@ -7,9 +7,10 @@ import * as Highcharts from 'highcharts/highstock';
 import { ForecastService } from '../forecast.service';
 import { UserService } from '../../user/user.service';
 import { User } from 'src/app/user/user';
-import { SharedService } from '../../shared-services/expenses.shared-service';
+import { ExpensesStorageService } from '../../shared-services/expensesStorage.service';
 import { rateToCash, rateToAmount } from '../../utils/expense.util';
 import { Forecast } from '../forecast';
+import { BehaviorService } from 'src/app/behavior.service';
 
 @Component({
   selector: 'app-forecast-visual',
@@ -20,7 +21,6 @@ import { Forecast } from '../forecast';
 })
 export class ForecastVisualComponent implements OnInit {
     @Input() userId: number | null;
-    @Input() dataLoading: boolean;
     user: User | undefined;
     forecastId: number | null;
     forecast: Forecast | undefined;
@@ -34,36 +34,39 @@ export class ForecastVisualComponent implements OnInit {
     constructor(
       private forecastService: ForecastService,
       private userService: UserService,
-      private sharedService: SharedService
+      private storageService: ExpensesStorageService,
+      private behaviorService: BehaviorService
       ) {}
 
     //**************************** INITIALIZATION *****************************/
     ngOnInit() {
 
-      if(this.userId){
+      this.behaviorService.dataIsLoaded$.subscribe(dataLoaded => {
+        if (dataLoaded) {
 
-          // UserService => récupération du client
-          this.userService.getOneUserById(this.userId).subscribe({
+          if(this.userId){
 
-            next: (u) => {
-              this.userId = u.id;
-              console.log("clientId:" + this.userId)
+              // UserService => récupération du client
+              this.userService.getOneUserById(this.userId).subscribe({
 
-              this.forecastId = u.forecastId;
+                next: (u) => {
 
-              if (this.forecastId && this.dataLoading==true) {
-                // forecastService => récupération du forecast
-                this.loadForecast(this.forecastId);
-              }
+                  // Je récupère forecastId depuis le client
+                  this.forecastId = u.forecastId;
 
-            },
+                  if (this.forecastId) {
+                    this.loadForecast(this.forecastId);
+                  }
+                },
 
-            error: (error) => console.error('Error fetching user:', error),
-          });
+                error: (error) => console.error('Error fetching user:', error),
+              });
 
-      } else {
-        console.error('UserId undefined');
-      }
+          } else {
+            console.error('UserId undefined');
+          }
+        }
+      })
     }
 
     //**************************** FORECAST LOADING *****************************/
@@ -76,8 +79,8 @@ export class ForecastVisualComponent implements OnInit {
           console.log("forecast:" + this.forecast.id);
 
           // SharedService => récupération des expenses par account
-          this.totalExpensesByAccount = this.sharedService.getTotalExpensesByAccount();
-          this.categoryExpensesByAccount = this.sharedService.getCategoryExpensesByAccount();
+          this.totalExpensesByAccount = this.storageService.getTotalExpensesByAccount();
+          this.categoryExpensesByAccount = this.storageService.getCategoryExpensesByAccount();
 
           // BudgetChart => construction du graphique
           this.budgetChart(
@@ -146,10 +149,7 @@ export class ForecastVisualComponent implements OnInit {
           { name: "Real Estate", y: realEstateRate, color: '#673AB7' },
         ]
 
-
         forecastSalary = this.forecast.salary
-        console.log("forecastSalary:"+forecastSalary)
-
 
         //******** BUDGET CHART OPTIONS *********//
         this.chartOptions = {

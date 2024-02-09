@@ -4,18 +4,17 @@ import { AuthService } from '../auth/auth.service';
 import { TransactionService } from '../transaction/transaction.service';
 import { ForecastService } from '../forecast/forecast.service';
 import { UserService } from '../user/user.service';
-import { SharedService } from '../shared-services/expenses.shared-service';
+import { ExpensesStorageService } from '../shared-services/expensesStorage.service';
 import { HttpClient } from '@angular/common/http';
 
 export default [{
   path: '',
   providers:[
-    AuthService,
     AccountService,
     ForecastService,
     UserService,
     TransactionService,
-    SharedService,
+    ExpensesStorageService,
     HttpClient
   ],
   children:[
