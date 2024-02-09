@@ -67,7 +67,6 @@ export class TransactionService {
 
     // je récupère le JWT contenu dans le Local Storage
     this.jwtToken = localStorage.getItem('jwtToken');
-    console.log(this.jwtToken)
 
     // le JWT existe
     if (this.jwtToken) {

@@ -50,12 +50,7 @@ export class AuthService {
   }
 
   //************************* Register *************************/
-  register(
-    gender: string,
-    firstname: string,
-    lastname: string,
-    email: string,
-    password: string)
+  register(gender: string, firstname: string, lastname: string, email: string, password: string)
     : Observable<User | null> {
 
       const forecastId = 1;
@@ -76,15 +71,7 @@ export class AuthService {
   logout() {
     // j'efface le jwt du localStorage
     localStorage.removeItem('jwtToken');
-    // j'efface le userId du localStorage
-    localStorage.removeItem('loggedInUserId');
-
-    //************* A MODIFIER **************/
-    // ma variable loggedInUserId est null
-    /*this.loggedInUserId = null;*/
-    //***************************************/
-
-    // je reset mes données de sharedService
+    // je reset mes données de storageService
     this.storageService.resetData()
   }
 }

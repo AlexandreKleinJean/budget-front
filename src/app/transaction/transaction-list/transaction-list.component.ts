@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Transaction } from '../transaction';
 import { TransactionService } from '../transaction.service';
-import { amountByCategory, totalAmount } from '../../utils/expense.util';
 
 @Component({
   selector: 'app-transaction-list',
@@ -14,14 +13,12 @@ import { amountByCategory, totalAmount } from '../../utils/expense.util';
 })
 
 export class TransactionListComponent implements OnInit {
-  @Input() userId: Number | null;
-  @Input() accountId: Number | null;
-
-  @Output() totalExpensesEvent = new EventEmitter<number>();
-  totalExpenses: number;
-
+  @Input() userId: number | null;
+  @Input() accountId: number | null;
   transactionsListByAccount: Transaction[] = [];
-  expensesByCategory: { [banane: string]: number };
+
+  totalExpenses: number;
+  @Output() totalExpensesEvent = new EventEmitter<number>();
 
   constructor(
     private transactionService: TransactionService
@@ -32,17 +29,14 @@ export class TransactionListComponent implements OnInit {
     if(this.accountId){
 
         // je récupère les transactions
-        this.transactionService.getTransactionsByAccount(+this.accountId)
+        this.transactionService.getTransactionsByAccount(this.accountId)
           .subscribe({
             next: (transactionsByAccount) => {
               this.transactionsListByAccount = transactionsByAccount;
-              // je calcul les dépenses par catégories
-              this.calculateExpensesByCategory();
               // je calcul le total des dépenses
               this.calculateTotalAmount();
             },
-            error: (error) => console.error('Error fetching transactions:', error),
-            complete: () => console.log('Transaction fetch completed')
+            error: (error) => console.error('Error fetching transactions:', error)
           });
 
     } else {
@@ -62,7 +56,7 @@ export class TransactionListComponent implements OnInit {
   }
 
   /*-------------Calcul du total des montants par catégorie--------------*/
-  calculateExpensesByCategory() {
+  /*calculateExpensesByCategory() {
     this.expensesByCategory = {};
 
     this.transactionsListByAccount.forEach(transaction => {
@@ -73,6 +67,6 @@ export class TransactionListComponent implements OnInit {
 
       this.expensesByCategory[transaction.category] += transaction.amount;
     });
-  }
+  }*/
 }
 

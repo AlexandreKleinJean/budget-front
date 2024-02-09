@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { RouterLink, Router } from '@angular/router';
 import { Transaction } from '../transaction';
 import { TransactionService } from '../transaction.service';
+import { BehaviorService } from 'src/app/behavior.service';
 
 @Component({
   selector: 'app-transaction-creation',
@@ -14,7 +15,7 @@ import { TransactionService } from '../transaction.service';
   styleUrl: `./transaction-creation.component.css`
 })
 
-export class TransactionCreationComponent {
+export class TransactionCreationComponent implements OnInit {
   transaction: Transaction | null;
   categories: string[] = ['Food', 'Transport', 'Sport', 'Invoice', 'Shopping', 'Leisure', 'RealEstate'];
   subject: string = '';
@@ -25,18 +26,24 @@ export class TransactionCreationComponent {
 
   constructor(
     private transactionService: TransactionService,
+    private behaviorService: BehaviorService,
     private router: Router
   ){ }
 
+  ngOnInit(){
+
+    // BehaviorService => récupération Account sélectionné ( dans observable$ )
+    this.behaviorService.currentAccount$.subscribe((accountId) => {
+
+      if(accountId){
+        this.accountId = accountId
+      }
+    })
+  }
+
   addNewTransaction() {
 
-    // je récupère le userId dans le localStorage
-    const loggedInUserId = localStorage.getItem('loggedInUserId');
-    // je récupère le accountId dans le localStorage
-    const selectedAccountId = localStorage.getItem('selectedAccountId');
-
-    if(loggedInUserId && selectedAccountId){
-      this.accountId = +selectedAccountId;
+    if(this.accountId){
 
       // TransactionService => créer une transaction
       this.transactionService.newTransaction(
@@ -48,8 +55,7 @@ export class TransactionCreationComponent {
       ).subscribe({
 
         next: (tr) => {
-          this.transaction = tr
-          console.log('Transaction successfully created', this.transaction);
+          console.log('Transaction successfully created', tr);
           this.router.navigate(['/account/detail']);
         },
 
@@ -57,7 +63,7 @@ export class TransactionCreationComponent {
       })
 
     } else {
-      console.error('UserId and/or AccountId undefined');
+      console.error('AccountId undefined');
     }
   }
 }

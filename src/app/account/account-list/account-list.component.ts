@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Account } from '../account';
-import { AccountService } from '../account.service';
 import { Transaction } from '../../transaction/transaction';
+import { AccountService } from '../account.service';
 import { TransactionService } from 'src/app/transaction/transaction.service';
 import { amountByCategory, totalAmount } from '../../utils/expense.util';
 import { ExpensesStorageService } from '../../shared-services/expensesStorage.service';
-import { AuthService } from 'src/app/auth/auth.service';
 import { ForecastVisualComponent } from 'src/app/forecast/forecast-visual/forecast-visual.component';
 import { BehaviorService } from 'src/app/behavior.service';
 
@@ -22,11 +21,11 @@ export class AccountListComponent implements OnInit {
   userId: number | null;
   dataLoading: boolean = false;
 
-  totalExpensesByAccount: {[accountId: number]: number} = {};
-  categoryExpensesByAccount: {[accountId: number]: {[category: string]: number }} = {};
-
   accountsList: Account[] = [];
   transactionsList: Transaction[] = [];
+
+  totalExpensesByAccount: {[accountId: number]: number} = {};
+  categoryExpensesByAccount: {[accountId: number]: {[category: string]: number }} = {};
 
   constructor(
     private accountService: AccountService,
@@ -39,11 +38,11 @@ export class AccountListComponent implements OnInit {
   ngOnInit() {
 
     // BehaviorService => récupération User connecté ( dans observable$ )
-    this.behaviorService.currentUser$.subscribe((userId) => {
-      console.log('AccountList => Observable User ID =>', userId);
+    this.behaviorService.currentUser$.subscribe((u) => {
+      console.log('User ID :', u);
 
-      if (userId) {
-        this.userId = userId;
+      if (u) {
+        this.userId = u;
 
         // AccountService => récupérer les comptes de l'utilisateur
         this.accountService.getAccountsByUser(this.userId).subscribe({

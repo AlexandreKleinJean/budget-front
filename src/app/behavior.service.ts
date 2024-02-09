@@ -19,12 +19,12 @@ export class BehaviorService {
   constructor() {}
 
   //*** Stockage du userId dans observable ****/
-  userId(userId: number): void {
+  userId(userId: number | null): void {
     this.currentUserId.next(userId);
   }
 
   //*** Stockage du accountId dans observable ****//
-  accountId(accountId: number): void {
+  accountId(accountId: number | null): void {
     this.currentAccountId.next(accountId);
   }
 

@@ -20,7 +20,6 @@ export class ForecastService {
 
     // je récupère le JWT contenu dans le Local Storage
     this.jwtToken = localStorage.getItem('jwtToken');
-    console.log(this.jwtToken)
 
     // l'id du user et le JWT existent
     if (this.jwtToken) {

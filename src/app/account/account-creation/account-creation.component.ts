@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Account } from '../account';
 import { AccountService } from '../account.service';
 import { FormsModule } from '@angular/forms';
+import { BehaviorService } from 'src/app/behavior.service';
 
 @Component({
   selector: 'app-account-creation',
@@ -11,35 +11,37 @@ import { FormsModule } from '@angular/forms';
   imports: [FormsModule],
   standalone: true
 })
-export class AccountCreationComponent{
-  account: Account | null;
+export class AccountCreationComponent implements OnInit{
   name: string = '';
   bank: string = '';
   userId: number | null;
 
   constructor(
     private accountService: AccountService,
+    private behaviorService: BehaviorService,
     private router: Router
   ) {}
 
+  ngOnInit() {
+
+    // BehaviorService => récupération User connecté ( dans observable$ )
+    this.behaviorService.currentUser$.subscribe((u) => {
+      console.log('AccountCreation => User ID', u);
+
+      if (u) {
+        this.userId = u;
+      }
+    })
+  }
+
   addNewAccount() {
 
-    // je récupère le userId dans le localStorage
-    const loggedInUserId = localStorage.getItem('loggedInUserId');
-    console.log("(accountCreationComponent) => userId:" + loggedInUserId)
-
-    if(loggedInUserId){
-      this.userId =+ loggedInUserId;
+    if(this.userId){
 
       // AccountService => pour créer un account
-      this.accountService.newAccount(
-        this.name,
-        this.bank,
-        this.userId
-      ).subscribe({
+      this.accountService.newAccount(this.name, this.bank, this.userId).subscribe({
 
         next:(newAccount) => {
-          this.account = newAccount;
           console.log('Account successfully created', newAccount);
           this.router.navigate(['/account/list']);
         },

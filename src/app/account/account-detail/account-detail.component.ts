@@ -1,10 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
-import{ RouterLink, Router } from '@angular/router';
+import { RouterLink, Router } from '@angular/router';
 import { Account } from '../account';
 import { AccountService } from '../account.service';
-import { TransactionListComponent } from 'src/app/transaction/transaction-list/transaction-list.component';
-import { AuthService } from 'src/app/auth/auth.service';
-import { BehaviorService } from 'src/app/behavior.service';
+import { TransactionListComponent } from '../../transaction/transaction-list/transaction-list.component';
+import { BehaviorService } from '../../behavior.service';
 
 @Component({
   selector: 'app-account-detail',
@@ -14,38 +13,36 @@ import { BehaviorService } from 'src/app/behavior.service';
   standalone: true
 })
 export class AccountDetailComponent implements OnInit {
-  @Input() userId: Number | null;
-  accountId: Number | null;
+  @Input() userId: number | null;
+  accountId: number | null;
   account: Account | undefined;
 
   totalExpenses: number;
 
   constructor(
     private accountService: AccountService,
-    private router: Router,
-    private behaviorService: BehaviorService
+    private behaviorService: BehaviorService,
+    private router: Router
   ) {}
 
   //********************* INITIALIZATION **********************/
   ngOnInit() {
 
-      //BehaviorService => abo à l'observable currentAccount$ => récupération AccountId concerné
+      // BehaviorService => récupération Account sélectionné ( dans observable$ )
       this.behaviorService.currentAccount$.subscribe((accountId) => {
-      console.log('AccountDetail => Observable Account ID =>', accountId);
+      console.log('Account ID :', accountId);
 
       if(accountId){
-        this.accountId= accountId
+        this.accountId = accountId
 
         /*-----------Récupération du compte sélectionné----------*/
-        this.accountService.getOneAccountById(+this.accountId).subscribe({
+        this.accountService.getOneAccountById(this.accountId).subscribe({
 
           next: (acc) => {
             this.account = acc;
           },
 
-          error: (error) => console.error('Error fetching account:', error),
-
-          complete: () => console.log('Account fetch completed')
+          error: (error) => console.error('Error fetching account:', error)
         })
 
       } else {
@@ -54,14 +51,19 @@ export class AccountDetailComponent implements OnInit {
     });
   }
 
-  //********************* DELETE ACCOUNT **********************/
+  //*********** TOTAL $ EXPENSES RECEIVED FROM CHILD **************/
+  handleTotalExpenses(totalReceivedFromChild: number) {
+    this.totalExpenses = totalReceivedFromChild;
+  }
+
+  //****************** DELETE ACCOUNT BUTTON **********************/
   deleteAccount() {
 
     if (this.accountId) {
 
-        this.accountService.deleteOneAccountById(+this.accountId).subscribe({
+        this.accountService.deleteOneAccountById(this.accountId).subscribe({
           next: () => {
-            this.accountId = null;
+            this.behaviorService.accountId(null);
             this.router.navigate(['/account/list']);
           },
           error: (error) => {
@@ -73,12 +75,5 @@ export class AccountDetailComponent implements OnInit {
       console.log("id introuvable");
     }
   }
-
-  //********************* TOTAL $ EXPENSES **********************/
-  handleTotalExpenses(total: number) {
-    this.totalExpenses = total;
-    console.log('(AccountDetail) total expenses:', this.totalExpenses);
-  }
-
 }
 

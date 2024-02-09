@@ -76,7 +76,7 @@ export class ForecastVisualComponent implements OnInit {
       this.forecastService.getForecastById(forecastId).subscribe({
         next: (forecast) => {
           this.forecast = forecast;
-          console.log("forecast:" + this.forecast.id);
+          console.log("Forecast ID :", this.forecast.id);
 
           // SharedService => récupération des expenses par account
           this.totalExpensesByAccount = this.storageService.getTotalExpensesByAccount();

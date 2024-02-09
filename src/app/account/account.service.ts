@@ -16,17 +16,11 @@ export class AccountService {
     private http: HttpClient
     ) {}
 
-  /*----------Récupérer l'ID d'un account--------------*/
-  setSelectedAccountId(accountId: number) {
-    this.selectedAccountId = accountId;
-  }
-
   /*----------Récupérer les accounts par user-------------*/
   getAccountsByUser(userId: number): Observable<Account[]> {
 
     // je récupère le JWT contenu dans le Local Storage
     this.jwtToken = localStorage.getItem('jwtToken');
-    console.log(this.jwtToken)
 
     // l'id du user et le JWT existent
     if (this.jwtToken) {
@@ -54,7 +48,6 @@ export class AccountService {
 
     // je récupère le JWT contenu dans le Local Storage
     this.jwtToken = localStorage.getItem('jwtToken');
-    console.log(this.jwtToken)
 
     // le JWT existe
     if (this.jwtToken) {
@@ -98,7 +91,6 @@ export class AccountService {
 
     // je récupère le JWT contenu dans le Local Storage
     this.jwtToken = localStorage.getItem('jwtToken');
-    console.log(this.jwtToken)
 
     // le JWT existe
     if (this.jwtToken) {
