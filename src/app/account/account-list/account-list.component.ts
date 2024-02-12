@@ -4,10 +4,12 @@ import { Account } from '../account';
 import { Transaction } from '../../transaction/transaction';
 import { AccountService } from '../account.service';
 import { TransactionService } from 'src/app/transaction/transaction.service';
-import { amountByCategory, totalAmount } from '../../utils/expense.util';
+import { amountByCategoryByAccount, totalAmount, amountByCategoryFusion } from '../../utils/expense.util';
 import { ExpensesStorageService } from '../../shared-services/expensesStorage.service';
 import { ForecastVisualComponent } from 'src/app/forecast/forecast-visual/forecast-visual.component';
 import { BehaviorService } from 'src/app/behavior.service';
+import { Observable, mapTo, tap } from 'rxjs';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-account-list',
@@ -24,8 +26,9 @@ export class AccountListComponent implements OnInit {
   accountsList: Account[] = [];
   transactionsList: Transaction[] = [];
 
-  totalExpensesByAccount: {[accountId: number]: number} = {};
-  categoryExpensesByAccount: {[accountId: number]: {[category: string]: number }} = {};
+  expensesByAccount: {[accountId: number]: number} = {};
+  expensesByCategoryByAccount: {[accountId: number]: {[category: string]: number }} = {};
+  globalExpensesByCategory: { [category: string]: number } = {};
 
   constructor(
     private accountService: AccountService,
@@ -46,18 +49,35 @@ export class AccountListComponent implements OnInit {
 
         // AccountService => récupérer les comptes de l'utilisateur
         this.accountService.getAccountsByUser(this.userId).subscribe({
+
           next: (accounts) => {
             this.accountsList = accounts;
-            // Je boucle sur chaque compte
+
+            // Créer un tableau pour stocker les observables des transactions
+            const observablesArray: any[] = [];
+
+            // Pour chaque compte, charger les transactions et les stocker dans le tableau d'observables
             this.accountsList.forEach(account => {
-              // TransactionService => récupérer les transactions
-              this.loadTransactionsByAccount(account.id);
+              const transactionsObservables = this.calculOnTransactionsLoading(account.id);
+              observablesArray.push(transactionsObservables);
             });
-            // BehaviorService => statut de data = TRUE
+
+            // ForkJoin attends que chaque loadTransactionsByAccount soit effectué
+            forkJoin(observablesArray).subscribe(() => {
+
+            this.globalExpensesByCategory = amountByCategoryFusion(this.expensesByCategoryByAccount);
+            console.log("GLOBALE" + JSON.stringify(this.globalExpensesByCategory));
+
+            // Enregistrer les dépenses par catégorie
+            this.storageService.setExpensesByCategory(this.globalExpensesByCategory);
+            const blabla = this.storageService.getExpensesByCategory();
+            console.log("blabla",blabla)
+
+            // Signaler que les données sont chargées
             this.behaviorService.dataState(true);
+            });
           },
-          error: (error) => console.error('Error fetching accounts:', error)
-        });
+        })
 
       } else {
         console.log('No user connected.');
@@ -66,23 +86,21 @@ export class AccountListComponent implements OnInit {
   }
 
   //************************* TRANSACTIONS LOADING *************************/
-  loadTransactionsByAccount(accountId: number) {
-    this.transactionService.getTransactionsByAccount(accountId).subscribe({
+  calculOnTransactionsLoading(accountId: number): Observable<void> {
+    return this.transactionService.getTransactionsByAccount(accountId).pipe(
+      tap((transactions) => {
+        // je calcul les dépenses de chaque category de ${ACCOUNT}
+        this.expensesByCategoryByAccount[accountId] = amountByCategoryByAccount(transactions);
 
-      next: (transactions) => {
-        // TotalAmount() => calcul du montant total [par account]
-        this.totalExpensesByAccount[accountId] = totalAmount(transactions);
-
-        // AmountByCategory() => calcul du montant de chaque category [par account]
-        this.categoryExpensesByAccount[accountId] = amountByCategory(transactions);
+        // je calcul les dépenses de ${ACCOUNT}
+        this.expensesByAccount[accountId] = totalAmount(transactions);
 
         // SharedService => je stock les calculs
-        this.storageService.setTotalExpensesByAccount(this.totalExpensesByAccount);
-        this.storageService.setCategoryExpensesByAccount(this.categoryExpensesByAccount);
-      },
-
-      error: (error) => console.error(`Error fetching transactions by account ${accountId}:`, error)
-    });
+        this.storageService.setExpensesByAccount(this.expensesByAccount);
+        this.storageService.setExpensesByCategoryByAccount(this.expensesByCategoryByAccount);
+      }),
+      mapTo(undefined)
+    );
   }
 
   //**************** ACCOUNT CLIC = (ACCOUNT ID => BEHAVIORSUBJECT) ****************/

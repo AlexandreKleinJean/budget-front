@@ -5,27 +5,37 @@ import { Injectable } from '@angular/core';
 })
 export class ExpensesStorageService {
 
-  private totalExpensesByAccount: { [accountId: number]: number } = {};
-  private categoryExpensesByAccount: {[accountId: number]: { [category: string]: number }} = {};
+  private expensesByAccount: { [accountId: number]: number } = {};
+  private expensesByCategoryByAccount: {[accountId: number]: { [category: string]: number }} = {};
+  private expensesByCategory: { [category: string]: number } = {};
 
-  setTotalExpensesByAccount(data: { [accountId: number]: number }) {
-    this.totalExpensesByAccount = data;
+  setExpensesByAccount(data: { [accountId: number]: number }) {
+    this.expensesByAccount = data;
   }
 
-  getTotalExpensesByAccount(): { [accountId: number]: number } {
-    return this.totalExpensesByAccount;
+  getExpensesByAccount(): { [accountId: number]: number } {
+    return this.expensesByAccount;
   }
 
-  setCategoryExpensesByAccount(data: { [accountId: number]: { [category: string]: number } }) {
-    this.categoryExpensesByAccount = data;
+  setExpensesByCategoryByAccount(data: { [accountId: number]: { [category: string]: number } }) {
+    this.expensesByCategoryByAccount = data;
   }
 
-  getCategoryExpensesByAccount(): { [accountId: number]: { [category: string]: number } } {
-    return this.categoryExpensesByAccount;
+  getExpensesByCategoryByAccount(): { [accountId: number]: { [category: string]: number } } {
+    return this.expensesByCategoryByAccount;
+  }
+
+  setExpensesByCategory(data: { [accountId: number]: number }) {
+    this.expensesByAccount = data;
+  }
+
+  getExpensesByCategory(): { [category: string]: number } {
+    return this.expensesByCategory;
   }
 
   resetData() {
-    this.totalExpensesByAccount = {};
-    this.categoryExpensesByAccount = {};
+    this.expensesByAccount = {};
+    this.expensesByCategoryByAccount = {};
+    this.expensesByCategory = {};
   }
 }

@@ -25,8 +25,8 @@ export class ForecastVisualComponent implements OnInit {
     forecastId: number | null;
     forecast: Forecast | undefined;
 
-    totalExpensesByAccount: { [accountId: number]: number } = {};
-    categoryExpensesByAccount: { [accountId: number]: { [category: string]: number } } = {};
+    expensesByAccount: { [accountId: number]: number } = {};
+    expensesByCategory: { [category: string]: number } = {};
 
     Highcharts: typeof Highcharts = Highcharts;
     chartOptions: any;
@@ -44,7 +44,10 @@ export class ForecastVisualComponent implements OnInit {
       this.behaviorService.dataIsLoaded$.subscribe(dataLoaded => {
         if (dataLoaded) {
 
-          if(this.userId){
+          const blabla = this.storageService.getExpensesByCategory();
+          console.log("blabla",blabla)
+
+          if(this.userId && Object.keys(blabla).length !== 0){
 
               // UserService => récupération du client
               this.userService.getOneUserById(this.userId).subscribe({
@@ -78,9 +81,13 @@ export class ForecastVisualComponent implements OnInit {
           this.forecast = forecast;
           console.log("Forecast ID :", this.forecast.id);
 
-          // SharedService => récupération des expenses par account
-          this.totalExpensesByAccount = this.storageService.getTotalExpensesByAccount();
-          this.categoryExpensesByAccount = this.storageService.getCategoryExpensesByAccount();
+          // SharedService => récupération des expenses par category
+          this.expensesByCategory = this.storageService.getExpensesByCategory();
+          console.log("Expenses By Category :", this.expensesByCategory);
+
+          // SharedService => récupération des expenses par compte
+          this.expensesByAccount = this.storageService.getExpensesByAccount();
+          console.log("Expenses By Account :", this.expensesByAccount);
 
           // BudgetChart => construction du graphique
           this.budgetChart(
@@ -105,23 +112,18 @@ export class ForecastVisualComponent implements OnInit {
         //******** EXPENSES DATA *********//
         let expensesData: { name: string, y: number, color: string }[] = [];
 
-        // Object.keys => je récupère tableau des Ids [accountId 1, accountId 2, ...]
-        const accountIds: string[] = Object.keys(this.categoryExpensesByAccount);
-
-        if (accountIds.length > 0) {
-          const firstAccountId = accountIds[0];
-
           // Je récupère les dépenses($) par category du 1er account du user
-          const firstAccountExpenses = this.categoryExpensesByAccount[+firstAccountId];
+          const expenses = this.expensesByCategory;
+          console.log(expenses)
 
           // Je convertis les dépenses en %
-          const foodExpenseRate = rateToCash(firstAccountExpenses["Food"], this.forecast.salary)
-          const transportExpenseRate = rateToCash(firstAccountExpenses["Transport"], this.forecast.salary)
-          const sportExpenseRate = rateToCash(firstAccountExpenses["Sport"], this.forecast.salary)
-          const invoiceExpenseRate = rateToCash(firstAccountExpenses["Invoice"], this.forecast.salary)
-          const shoppingExpenseRate = rateToCash(firstAccountExpenses["Shopping"], this.forecast.salary)
-          const leisureExpenseRate = rateToCash(firstAccountExpenses["Leisure"], this.forecast.salary)
-          const realEstateExpenseRate = rateToCash(firstAccountExpenses["RealEstate"], this.forecast.salary)
+          const foodExpenseRate = rateToCash(expenses["Food"], this.forecast.salary)
+          const transportExpenseRate = rateToCash(expenses["Transport"], this.forecast.salary)
+          const sportExpenseRate = rateToCash(expenses["Sport"], this.forecast.salary)
+          const invoiceExpenseRate = rateToCash(expenses["Invoice"], this.forecast.salary)
+          const shoppingExpenseRate = rateToCash(expenses["Shopping"], this.forecast.salary)
+          const leisureExpenseRate = rateToCash(expenses["Leisure"], this.forecast.salary)
+          const realEstateExpenseRate = rateToCash(expenses["RealEstate"], this.forecast.salary)
 
           // Je crée la data des dépenses pour mon graphique
           expensesData = [
@@ -133,7 +135,6 @@ export class ForecastVisualComponent implements OnInit {
             { name: "Leisure Expenses", y: leisureExpenseRate || 0, color: 'red' },
             { name: "Real Estate Expenses", y: realEstateExpenseRate || 0, color: 'red' },
           ];
-        }
 
         //******** FORECAST DATA *********//
         let forecastData: { name: string, y: number, color: string }[] = [];

@@ -1,23 +1,48 @@
-//************************** CALCULS **************************//
-
 import { Transaction } from '../transaction/transaction';
 
-/*--------------------Montants par category----------------------*/
-export function amountByCategory(transactions: Transaction[]): {} {
-  let expensesByCategory:{ [category: string]: number } = {};
+//************* Montants par category par transaction *****************/
+export function amountByCategoryByAccount(transactions: Transaction[]): {} {
+
+  // je crée un objet vide { [clé]: valeur }
+  let expensesByCategoryByAccount:{ [category: string]: number } = {};
 
   transactions.forEach(transaction => {
 
-    // (exemple) => si "food" n'existe pas => "{food: 0}"
-    if (!expensesByCategory[transaction.category]) {
-      expensesByCategory[transaction.category] = 0;
+    // (exemple) => si "Food" n'existe pas => {food: 0}
+    if (!expensesByCategoryByAccount[transaction.category]) {
+      expensesByCategoryByAccount[transaction.category] = 0;
     }
 
-    // (exemple) => "{food: (0 + montant de la transaction de category "food")}
-    expensesByCategory[transaction.category] += transaction.amount;
+    // (exemple) => {Food: (0 + montant de la transaction de category "food")}
+    expensesByCategoryByAccount[transaction.category] += transaction.amount;
   });
 
-  return expensesByCategory;
+  // (exemple) => {Food: 50, Transport: 120 }
+  return expensesByCategoryByAccount;
+}
+
+/*--------------------Montants par category----------------------*/
+
+export function amountByCategoryFusion(
+  expensesByCategoryByAccount: { [accountId: number]: { [category: string]: number } })
+  : { [category: string]: number } {
+
+  let globalExpensesByCategory: { [category: string]: number } = {};
+
+  // Object.values = { 1: {Food: 50}, 2: {Leisure: 100} } => [{Food: 50}, {Leisure: 100}]
+  Object.values(expensesByCategoryByAccount).forEach(oneAccount => {
+
+    // Object.entries = [{Food: 50}, {Leisure: 100}] => [["Food", 50], ["Leisure", 100]]
+    Object.entries(oneAccount).forEach(([category, amount]) => {
+
+      if (!globalExpensesByCategory[category]) {
+        globalExpensesByCategory[category] = 0;
+      }
+      globalExpensesByCategory[category] += amount;
+    });
+  });
+
+  return globalExpensesByCategory;
 }
 
 /*----------------------Total des montants-----------------------*/

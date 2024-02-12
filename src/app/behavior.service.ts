@@ -10,11 +10,13 @@ export class BehaviorService {
   private currentUserId: BehaviorSubject<number | null> = new BehaviorSubject<number | null>(null);
   private currentAccountId: BehaviorSubject<number | null> = new BehaviorSubject<number | null>(null);
   private dataIsLoaded: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  private expensesAreLoaded: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   //***************** Observable ($ à la fin) => accessible aux components ********************/
   currentUser$: Observable<number | null> = this.currentUserId.asObservable();
   currentAccount$: Observable<number | null> = this.currentAccountId.asObservable();
   dataIsLoaded$: Observable<boolean> = this.dataIsLoaded.asObservable();
+  expenses$: Observable<boolean> = this.expensesAreLoaded.asObservable();
 
   constructor() {}
 
@@ -31,5 +33,10 @@ export class BehaviorService {
   //*** Stockage du accountId dans observable ****//
   dataState(dataState: boolean): void {
     this.dataIsLoaded.next(dataState);
+  }
+
+  //*** Stockage des dépenses/caregory dans observable ****//
+  expenses(expensesState: boolean): void {
+  this.expensesAreLoaded.next(expensesState);
   }
 }
