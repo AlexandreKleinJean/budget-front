@@ -8,7 +8,7 @@ import { ForecastService } from '../forecast.service';
 import { UserService } from '../../user/user.service';
 import { User } from 'src/app/user/user';
 import { ExpensesStorageService } from '../../shared-services/expensesStorage.service';
-import { rateToCash, rateToAmount } from '../../utils/expense.util';
+import { rateToCash, rateToAmount, amountByCategoryFusion } from '../../utils/expense.util';
 import { Forecast } from '../forecast';
 import { BehaviorService } from 'src/app/behavior.service';
 
@@ -26,7 +26,7 @@ export class ForecastVisualComponent implements OnInit {
     forecast: Forecast | undefined;
 
     expensesByAccount: { [accountId: number]: number } = {};
-    expensesByCategory: { [category: string]: number } = {};
+    globalExpensesByCategory: { [category: string]: number } = {};
 
     Highcharts: typeof Highcharts = Highcharts;
     chartOptions: any;
@@ -44,10 +44,7 @@ export class ForecastVisualComponent implements OnInit {
       this.behaviorService.dataIsLoaded$.subscribe(dataLoaded => {
         if (dataLoaded) {
 
-          const blabla = this.storageService.getExpensesByCategory();
-          console.log("blabla",blabla)
-
-          if(this.userId && Object.keys(blabla).length !== 0){
+          if(this.userId){
 
               // UserService => récupération du client
               this.userService.getOneUserById(this.userId).subscribe({
@@ -81,13 +78,14 @@ export class ForecastVisualComponent implements OnInit {
           this.forecast = forecast;
           console.log("Forecast ID :", this.forecast.id);
 
-          // SharedService => récupération des expenses par category
-          this.expensesByCategory = this.storageService.getExpensesByCategory();
-          console.log("Expenses By Category :", this.expensesByCategory);
-
           // SharedService => récupération des expenses par compte
           this.expensesByAccount = this.storageService.getExpensesByAccount();
-          console.log("Expenses By Account :", this.expensesByAccount);
+
+          // StorageService => récupération des dépenses par category par account
+          const expensesByCategoryByAccount = this.storageService.getExpensesByCategoryByAccount();
+
+          // Util method => fusion des comptes = dépenses globales par category
+          this.globalExpensesByCategory = amountByCategoryFusion(expensesByCategoryByAccount);
 
           // BudgetChart => construction du graphique
           this.budgetChart(
@@ -103,54 +101,48 @@ export class ForecastVisualComponent implements OnInit {
       });
     }
 
-    //**************************** BUDGET CHART METHOD *****************************/
-    budgetChart(foodRate: number, transportRate: number, sportRate: number, invoiceRate: number,
-      shoppingRate: number, leisureRate: number, realEstateRate: number) {
+    //**************************** GRAPHIC METHOD *****************************/
+    budgetChart(foodBudget: number, transportBudget: number, sportBudget: number, invoiceBudget: number,
+      shoppingBudget: number, leisureBudget: number, realEstateBudget: number) {
 
       if(this.forecast){
 
         //******** EXPENSES DATA *********//
         let expensesData: { name: string, y: number, color: string }[] = [];
 
-          // Je récupère les dépenses($) par category du 1er account du user
-          const expenses = this.expensesByCategory;
-          console.log(expenses)
-
           // Je convertis les dépenses en %
-          const foodExpenseRate = rateToCash(expenses["Food"], this.forecast.salary)
-          const transportExpenseRate = rateToCash(expenses["Transport"], this.forecast.salary)
-          const sportExpenseRate = rateToCash(expenses["Sport"], this.forecast.salary)
-          const invoiceExpenseRate = rateToCash(expenses["Invoice"], this.forecast.salary)
-          const shoppingExpenseRate = rateToCash(expenses["Shopping"], this.forecast.salary)
-          const leisureExpenseRate = rateToCash(expenses["Leisure"], this.forecast.salary)
-          const realEstateExpenseRate = rateToCash(expenses["RealEstate"], this.forecast.salary)
+          const foodExp = rateToCash(this.globalExpensesByCategory["Food"], this.forecast.salary)
+          const transportExp = rateToCash(this.globalExpensesByCategory["Transport"], this.forecast.salary)
+          const sportExp = rateToCash(this.globalExpensesByCategory["Sport"], this.forecast.salary)
+          const invoiceExp = rateToCash(this.globalExpensesByCategory["Invoice"], this.forecast.salary)
+          const shoppingExp = rateToCash(this.globalExpensesByCategory["Shopping"], this.forecast.salary)
+          const leisureExp = rateToCash(this.globalExpensesByCategory["Leisure"], this.forecast.salary)
+          const realEstateExp = rateToCash(this.globalExpensesByCategory["RealEstate"], this.forecast.salary)
 
           // Je crée la data des dépenses pour mon graphique
           expensesData = [
-            { name: "Food Expenses", y: foodExpenseRate || 0, color: 'red' },
-            { name: "Transport Expenses", y: transportExpenseRate || 0, color: 'red' },
-            { name: "Sport Expenses", y: sportExpenseRate || 0, color: 'red' },
-            { name: "Invoice Expenses", y: invoiceExpenseRate || 0, color: 'red' },
-            { name: "Shopping Expenses", y: shoppingExpenseRate || 0, color: 'red' },
-            { name: "Leisure Expenses", y: leisureExpenseRate || 0, color: 'red' },
-            { name: "Real Estate Expenses", y: realEstateExpenseRate || 0, color: 'red' },
+            { name: "Food Expenses", y: foodExp || 0, color: 'red' },
+            { name: "Transport Expenses", y: transportExp || 0, color: 'red' },
+            { name: "Sport Expenses", y: sportExp || 0, color: 'red' },
+            { name: "Invoice Expenses", y: invoiceExp || 0, color: 'red' },
+            { name: "Shopping Expenses", y: shoppingExp || 0, color: 'red' },
+            { name: "Leisure Expenses", y: leisureExp || 0, color: 'red' },
+            { name: "Real Estate Expenses", y: realEstateExp || 0, color: 'red' },
           ];
 
         //******** FORECAST DATA *********//
         let forecastData: { name: string, y: number, color: string }[] = [];
-        let forecastSalary: number;
+        let salaryBudget: number = this.forecast.salary
 
         forecastData = [
-          { name: "Food", y: foodRate, color: '#673AB7' },
-          { name: "Transport", y: transportRate, color: '#673AB7' },
-          { name: "Sport", y: sportRate, color: '#673AB7' },
-          { name: "Invoice", y: invoiceRate, color: '#673AB7' },
-          { name: "Shopping", y: shoppingRate, color: '#673AB7' },
-          { name: "Leisure", y: leisureRate, color: '#673AB7' },
-          { name: "Real Estate", y: realEstateRate, color: '#673AB7' },
+          { name: "Food", y: foodBudget, color: '#673AB7' },
+          { name: "Transport", y: transportBudget, color: '#673AB7' },
+          { name: "Sport", y: sportBudget, color: '#673AB7' },
+          { name: "Invoice", y: invoiceBudget, color: '#673AB7' },
+          { name: "Shopping", y: shoppingBudget, color: '#673AB7' },
+          { name: "Leisure", y: leisureBudget, color: '#673AB7' },
+          { name: "Real Estate", y: realEstateBudget, color: '#673AB7' },
         ]
-
-        forecastSalary = this.forecast.salary
 
         //******** BUDGET CHART OPTIONS *********//
         this.chartOptions = {
@@ -158,7 +150,7 @@ export class ForecastVisualComponent implements OnInit {
             type: 'column'
           },
           title: {
-            text: `Salary: <span style="color: #673AB7;">$ ${forecastSalary}</span>`,
+            text: `Salary: <span style="color: #673AB7;">$ ${salaryBudget}</span>`,
             useHTML: true,
           },
           credits: { enabled: false },
@@ -203,7 +195,7 @@ export class ForecastVisualComponent implements OnInit {
             useHTML: true,
             formatter: function(this: Highcharts.Point) {
               if(this.y !== undefined){
-                const amount = rateToAmount(this.y, forecastSalary).toFixed(2);
+                const amount = rateToAmount(this.y, salaryBudget).toFixed(2);
                 return `
                   <div style="text-align: center; line-height: 150%; font-size: 1.3em;">
                   <strong style="font-weight: bold;">${this.series.name}</strong><br/>

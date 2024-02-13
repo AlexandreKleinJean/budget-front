@@ -39,56 +39,44 @@ export class AccountListComponent implements OnInit {
 
   //********************* INITIALIZATION **********************/
   ngOnInit() {
+    // BehaviorService => récupération User connecté (dans observable$)
+    this.behaviorService.currentUser$.subscribe({
+      next: (u) => {
+        console.log('User ID :', u);
 
-    // BehaviorService => récupération User connecté ( dans observable$ )
-    this.behaviorService.currentUser$.subscribe((u) => {
-      console.log('User ID :', u);
+        if (u) {
+          this.userId = u;
 
-      if (u) {
-        this.userId = u;
+          // AccountService => récupérer les comptes de l'utilisateur
+          this.accountService.getAccountsByUser(this.userId).subscribe({
+            next: (accounts) => {
+              this.accountsList = accounts;
 
-        // AccountService => récupérer les comptes de l'utilisateur
-        this.accountService.getAccountsByUser(this.userId).subscribe({
+              // Pour chaque compte, je charge les transactions
+              this.accountsList.forEach(account => {
+                this.transactionsLoading(account.id);
+              });
 
-          next: (accounts) => {
-            this.accountsList = accounts;
+              // BehaviorService => signal que les données sont chargées
+              this.behaviorService.dataState(true);
+            },
 
-            // Créer un tableau pour stocker les observables des transactions
-            const observablesArray: any[] = [];
+            error: (error) => console.error('Error fetching accounts:', error),
+          });
 
-            // Pour chaque compte, charger les transactions et les stocker dans le tableau d'observables
-            this.accountsList.forEach(account => {
-              const transactionsObservables = this.calculOnTransactionsLoading(account.id);
-              observablesArray.push(transactionsObservables);
-            });
+        } else {
+          console.log('No user connected.');
+        }
+      },
 
-            // ForkJoin attends que chaque loadTransactionsByAccount soit effectué
-            forkJoin(observablesArray).subscribe(() => {
-
-            this.globalExpensesByCategory = amountByCategoryFusion(this.expensesByCategoryByAccount);
-            console.log("GLOBALE" + JSON.stringify(this.globalExpensesByCategory));
-
-            // Enregistrer les dépenses par catégorie
-            this.storageService.setExpensesByCategory(this.globalExpensesByCategory);
-            const blabla = this.storageService.getExpensesByCategory();
-            console.log("blabla",blabla)
-
-            // Signaler que les données sont chargées
-            this.behaviorService.dataState(true);
-            });
-          },
-        })
-
-      } else {
-        console.log('No user connected.');
-      }
+      error: (error) => console.error('Error fetching user:', error),
     });
   }
 
   //************************* TRANSACTIONS LOADING *************************/
-  calculOnTransactionsLoading(accountId: number): Observable<void> {
-    return this.transactionService.getTransactionsByAccount(accountId).pipe(
-      tap((transactions) => {
+  transactionsLoading(accountId: number): void {
+    this.transactionService.getTransactionsByAccount(accountId).subscribe({
+      next: (transactions) => {
         // je calcul les dépenses de chaque category de ${ACCOUNT}
         this.expensesByCategoryByAccount[accountId] = amountByCategoryByAccount(transactions);
 
@@ -98,9 +86,8 @@ export class AccountListComponent implements OnInit {
         // SharedService => je stock les calculs
         this.storageService.setExpensesByAccount(this.expensesByAccount);
         this.storageService.setExpensesByCategoryByAccount(this.expensesByCategoryByAccount);
-      }),
-      mapTo(undefined)
-    );
+      }
+    });
   }
 
   //**************** ACCOUNT CLIC = (ACCOUNT ID => BEHAVIORSUBJECT) ****************/
