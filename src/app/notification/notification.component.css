@@ -1,0 +1,10 @@
+.notification {
+  font-size: 1.7rem;
+  top: 9%;
+  text-align: center;
+  position: fixed;
+  padding: 1% 1.5%;
+  border-radius: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+}

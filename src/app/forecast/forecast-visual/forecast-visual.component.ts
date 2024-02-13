@@ -10,7 +10,7 @@ import { User } from 'src/app/user/user';
 import { ExpensesStorageService } from '../../shared-services/expensesStorage.service';
 import { rateToCash, rateToAmount, amountByCategoryFusion } from '../../utils/expense.util';
 import { Forecast } from '../forecast';
-import { BehaviorService } from 'src/app/behavior.service';
+import { BehaviorService } from 'src/app/shared-services/behavior.service';
 
 @Component({
   selector: 'app-forecast-visual',

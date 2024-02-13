@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AccountService } from '../account.service';
 import { FormsModule } from '@angular/forms';
-import { BehaviorService } from 'src/app/behavior.service';
+import { BehaviorService } from 'src/app/shared-services/behavior.service';
 
 @Component({
   selector: 'app-account-creation',

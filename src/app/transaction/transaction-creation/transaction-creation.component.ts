@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterLink, Router } from '@angular/router';
 import { Transaction } from '../transaction';
 import { TransactionService } from '../transaction.service';
-import { BehaviorService } from 'src/app/behavior.service';
+import { BehaviorService } from 'src/app/shared-services/behavior.service';
 
 @Component({
   selector: 'app-transaction-creation',

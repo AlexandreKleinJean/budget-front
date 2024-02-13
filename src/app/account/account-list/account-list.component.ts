@@ -7,7 +7,7 @@ import { TransactionService } from 'src/app/transaction/transaction.service';
 import { amountByCategoryByAccount, totalAmount, amountByCategoryFusion } from '../../utils/expense.util';
 import { ExpensesStorageService } from '../../shared-services/expensesStorage.service';
 import { ForecastVisualComponent } from 'src/app/forecast/forecast-visual/forecast-visual.component';
-import { BehaviorService } from 'src/app/behavior.service';
+import { BehaviorService } from 'src/app/shared-services/behavior.service';
 import { Observable, mapTo, tap } from 'rxjs';
 import { forkJoin } from 'rxjs';
 

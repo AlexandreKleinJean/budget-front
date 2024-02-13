@@ -3,7 +3,7 @@ import { RouterLink, Router } from '@angular/router';
 import { Account } from '../account';
 import { AccountService } from '../account.service';
 import { TransactionListComponent } from '../../transaction/transaction-list/transaction-list.component';
-import { BehaviorService } from '../../behavior.service';
+import { BehaviorService } from '../../shared-services/behavior.service';
 
 @Component({
   selector: 'app-account-detail',

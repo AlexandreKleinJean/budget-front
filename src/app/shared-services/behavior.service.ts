@@ -1,6 +1,11 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
+interface Notification {
+  type: 'success' | 'error';
+  message: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -10,13 +15,13 @@ export class BehaviorService {
   private currentUserId: BehaviorSubject<number | null> = new BehaviorSubject<number | null>(null);
   private currentAccountId: BehaviorSubject<number | null> = new BehaviorSubject<number | null>(null);
   private dataIsLoaded: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  private expensesAreLoaded: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  private notifContent = new BehaviorSubject<Notification | null>(null);
 
   //***************** Observable ($ à la fin) => accessible aux components ********************/
   currentUser$: Observable<number | null> = this.currentUserId.asObservable();
   currentAccount$: Observable<number | null> = this.currentAccountId.asObservable();
   dataIsLoaded$: Observable<boolean> = this.dataIsLoaded.asObservable();
-  expenses$: Observable<boolean> = this.expensesAreLoaded.asObservable();
+  notifContent$: Observable<Notification | null> = this.notifContent.asObservable();
 
   constructor() {}
 
@@ -35,8 +40,10 @@ export class BehaviorService {
     this.dataIsLoaded.next(dataState);
   }
 
-  //*** Stockage des dépenses/caregory dans observable ****//
-  expenses(expensesState: boolean): void {
-  this.expensesAreLoaded.next(expensesState);
+  //*** Stockage de la notification dans observable ****//
+  notifState(notif: Notification | null): void {
+    this.notifContent.next(notif);
+    console.log("behavior is called with :", notif)
   }
 }
+

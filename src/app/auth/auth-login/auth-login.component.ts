@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { User } from '../../user/user';
 import { AuthService } from '../auth.service';
 import { FormsModule } from '@angular/forms';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import{ RouterLink, Router } from '@angular/router';
-import { BehaviorService } from 'src/app/behavior.service';
+import { BehaviorService } from 'src/app/shared-services/behavior.service';
 
 @Component({
   selector: 'app-auth-login',
@@ -39,16 +39,15 @@ export class AuthLoginComponent {
             if(u){
               console.log('Authentification réussie', u);
               this.behaviorService.userId(u.id);
+              this.behaviorService.notifState({type: 'success', message: 'Connexion réussie !'});
               this.router.navigate(['/account/list']);
             }
           },
 
-        error: (error) => console.error('Error register:', error)
+        error: (error) => {
+          console.error('Error register:', error),
+          this.behaviorService.notifState({type: 'error', message: 'Connexion failed !'});
+        }
       })
   }
-
-    /*--------Bouton pour aller sur le formulaire d'inscription--------*/
-    /*goToRegistration(){
-      this.router.navigate(['/register'])
-    }*/
-  }
+}
