@@ -3,6 +3,7 @@ import { RouterLink, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ForecastService } from '../forecast.service';
 import { Forecast } from '../forecast';
+import { BehaviorService } from 'src/app/shared-services/behavior.service';
 
 @Component({
   selector: 'app-forecast-setting',
@@ -35,27 +36,26 @@ export class ForecastSettingComponent implements OnInit{
 
   constructor(
     private forecastService: ForecastService,
-    private router: Router
+    private router: Router,
+    private behaviorService: BehaviorService
     ) {}
 
   async ngOnInit() {
-    const loggedInUserId = localStorage.getItem('loggedInUserId');
-    console.log("(forecastCreationInit) => userId:" + loggedInUserId)
+    // BehaviorService => récupération User connecté (dans observable$)
+    this.behaviorService.currentUser$.subscribe({
+      next: (u) => {
 
-    if(loggedInUserId){
-      this.userId =+ loggedInUserId;
-    }
+        if (u) {
+          this.userId = u;
+        }
+      }
+    })
   }
 
   //*************** FORECAST SETTING ****************/
   setForecast() {
 
-      // je récupère le userId dans le localStorage
-      const loggedInUserId = localStorage.getItem('loggedInUserId');
-      console.log("(forecastSubmit) => userId:" + loggedInUserId)
-
-      if(loggedInUserId){
-        this.userId = +loggedInUserId;
+      if(this.userId){
 
         // ForecastService => créer un forecast
         this.forecastService.newForecast(
