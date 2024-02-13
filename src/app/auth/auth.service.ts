@@ -40,12 +40,14 @@ export class AuthService {
       // Map => modification flux (fullResponse en response classique = que le body)
       map(fullResponse => fullResponse.body),
 
-      catchError(error => {
-        console.error('Error during login', error);
-        return throwError(() => new Error('Error during login'));
+      // CatchError => si une erreur dans le flux est présente, je l'intercepte
+      catchError(e => {
+        console.error('Error during login', e);
+        // ThrowError => je retourne une observable avec le body de la reponse d'erreur
+        return throwError(e.error);
       })
     );
-
+    // je retourne l'observable attendu
     return response;
   }
 

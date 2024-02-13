@@ -39,14 +39,14 @@ export class AuthLoginComponent {
             if(u){
               console.log('Authentification réussie', u);
               this.behaviorService.userId(u.id);
-              this.behaviorService.notifState({type: 'success', message: 'Connexion réussie !'});
+              this.behaviorService.notifState({type: 'success', message: 'Good to see you !'});
               this.router.navigate(['/account/list']);
             }
           },
 
         error: (error) => {
-          console.error('Error register:', error),
-          this.behaviorService.notifState({type: 'error', message: 'Connexion failed !'});
+          console.error('Error:', error),
+          this.behaviorService.notifState({ type: 'error', message: error });
         }
       })
   }
