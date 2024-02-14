@@ -60,9 +60,10 @@ export class AuthService {
       const headers = { 'Content-Type': 'application/json' };
 
       const response = this.http.post<User>(`${this.apiUrl}/register`, body, {headers: headers }).pipe(
-        catchError(error => {
-            console.error('Error creating new account', error);
-            return throwError(() => new Error('Error creating new account'));
+        catchError(e => {
+          console.error('Error during register', e);
+          // ThrowError => je retourne une observable avec le body de la reponse d'erreur
+          return throwError(e.error);
         })
       );
 
