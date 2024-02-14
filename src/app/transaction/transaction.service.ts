@@ -53,9 +53,10 @@ export class TransactionService {
       const headers = { 'Content-Type': 'application/json' };
 
       const response = this.http.post<Transaction>(`${this.apiUrl}/transaction`, body, { headers: headers }).pipe(
-        catchError(error => {
-          console.error('Error creating new transaction', error);
-          return throwError(() => new Error('Error creating new transaction'));
+        catchError(e => {
+          console.error('Error creating transaction', e);
+          // ThrowError => retourne new observable avec e.error (= body de la errorResponse)
+          return throwError(e.error);
         })
       );
 
@@ -74,9 +75,10 @@ export class TransactionService {
       const headers = { 'Authorization': `${this.jwtToken}`, 'Content-Type': 'application/json' };
 
       const response = this.http.delete(`${this.apiUrl}/transaction/${transactionId}`, { headers }).pipe(
-        catchError(error => {
-          console.error('Problem with your delete operation:', error);
-          return throwError(() => new Error('Error during the delete operation'));
+        catchError(e => {
+          console.error('Error deleting transaction', e);
+          // ThrowError => retourne new observable avec e.error (= body de la errorResponse)
+          return throwError(e.error);
         })
       );
 

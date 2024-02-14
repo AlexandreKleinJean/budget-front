@@ -56,10 +56,14 @@ export class TransactionCreationComponent implements OnInit {
 
         next: (tr) => {
           console.log('Transaction successfully created', tr);
+          this.behaviorService.notifState({ type: 'success', message: "Transaction successfully created" });
           this.router.navigate(['/account/detail']);
         },
 
-        error: (error) => console.error('Error creating transaction:', error),
+        error: (error) => {
+          console.error('Error:', error),
+          this.behaviorService.notifState({ type: 'error', message: error });
+        }
       })
 
     } else {

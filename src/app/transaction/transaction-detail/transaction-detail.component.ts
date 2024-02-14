@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import{ ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Transaction } from '../transaction';
 import { TransactionService } from '../transaction.service';
+import { BehaviorService } from 'src/app/shared-services/behavior.service';
 
 @Component({
   selector: 'app-transaction-detail',
@@ -20,7 +21,8 @@ export class TransactionDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private transactionService: TransactionService,
-    private router: Router
+    private router: Router,
+    private behaviorService: BehaviorService
   ) {}
 
   //*********************** INITIALIZATION *************************/
@@ -47,10 +49,12 @@ export class TransactionDetailComponent implements OnInit {
       this.transactionService.deleteOneTransactionById(this.transactionId).subscribe({
         next: (tr) => {
           console.log('transaction:', tr);
+          this.behaviorService.notifState({ type: 'success', message: "Transaction deleted" });
           this.router.navigate(['/account/detail']);
         },
         error: (error) => {
-          console.error('Error deleting transaction:', error);
+          console.error('Error:', error),
+          this.behaviorService.notifState({ type: 'error', message: error });
         }
       });
 

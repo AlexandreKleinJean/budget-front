@@ -64,10 +64,12 @@ export class AccountDetailComponent implements OnInit {
         this.accountService.deleteOneAccountById(this.accountId).subscribe({
           next: () => {
             this.behaviorService.accountId(null);
+            this.behaviorService.notifState({type: 'success', message: 'Account deleted'});
             this.router.navigate(['/account/list']);
           },
           error: (error) => {
-            console.error('Error deleting account:', error);
+            console.error('Error:', error),
+            this.behaviorService.notifState({ type: 'error', message: error });
           }
         });
 

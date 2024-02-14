@@ -77,9 +77,10 @@ export class AccountService {
     const headers = { 'Content-Type': 'application/json' };
 
     const response = this.http.post<Account>(`${this.apiUrl}/account`, body, { headers: headers }).pipe(
-      catchError(error => {
-        console.error('Error creating new account', error);
-        return throwError(() => new Error('Error creating new account'));
+      catchError(e => {
+        console.error('Error creating new account', e);
+        // ThrowError => je retourne une observable avec le body de la reponse d'erreur
+        return throwError(e.error);
       })
     );
 
@@ -98,9 +99,10 @@ export class AccountService {
       const headers = { 'Authorization': `${this.jwtToken}`, 'Content-Type': 'application/json' };
 
       const response = this.http.delete(`${this.apiUrl}/account/${accountId}`, { headers }).pipe(
-        catchError(error => {
-          console.error('Problem with your delete operation:', error);
-          return throwError(() => new Error('Error during the delete operation'));
+        catchError(e => {
+          console.error('Error deleting account', e);
+          // ThrowError => retourne new observable avec e.error (= body de la errorResponse)
+          return throwError(e.error);
         })
       );
 

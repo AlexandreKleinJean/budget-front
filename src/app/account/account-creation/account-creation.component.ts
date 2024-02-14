@@ -43,10 +43,14 @@ export class AccountCreationComponent implements OnInit{
 
         next:(newAccount) => {
           console.log('Account successfully created', newAccount);
+          this.behaviorService.notifState({type: 'success', message: 'Account successfully created'});
           this.router.navigate(['/account/list']);
         },
 
-        error: (error) => console.error('Error creating account:', error),
+        error: (error) => {
+          console.error('Error:', error),
+          this.behaviorService.notifState({ type: 'error', message: error });
+        }
       })
 
     } else {
