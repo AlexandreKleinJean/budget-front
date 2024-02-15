@@ -1,20 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AccountService } from '../account.service';
-import { FormsModule } from '@angular/forms';
 import { BehaviorService } from 'src/app/shared-services/behavior.service';
+import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
+
 
 @Component({
   selector: 'app-account-creation',
   templateUrl: './account-creation.component.html',
   styleUrl: './account-creation.component.css',
-  imports: [FormsModule],
+  imports: [ReactiveFormsModule],
   standalone: true
 })
 export class AccountCreationComponent implements OnInit{
-  name: string = '';
-  bank: string = '';
   userId: number | null;
+  reactiveAccountForm: FormGroup;
 
   constructor(
     private accountService: AccountService,
@@ -23,6 +23,11 @@ export class AccountCreationComponent implements OnInit{
   ) {}
 
   ngOnInit() {
+
+    this.reactiveAccountForm = new FormGroup({
+      name: new FormControl(null, [Validators.required, Validators.pattern("^[a-zA-Z ]+$")]),
+      bank: new FormControl(null, [Validators.required, Validators.pattern("^[a-zA-Z ]+$")])
+    })
 
     // BehaviorService => récupération User connecté ( dans observable$ )
     this.behaviorService.currentUser$.subscribe((u) => {
@@ -34,12 +39,27 @@ export class AccountCreationComponent implements OnInit{
     })
   }
 
+  invalidField(fieldName: string) {
+    const field = this.reactiveAccountForm.get(fieldName);
+    if (field && field.invalid && field.value !== null) {
+      if (fieldName === 'name') {
+        this.behaviorService.notifState({type: 'error', message: 'Account name is required in a valid format'});
+      } else if (fieldName === 'bank') {
+        this.behaviorService.notifState({type: 'error', message: 'Account bank is required in a valid format'});
+      }
+    }
+  }
+
   addNewAccount() {
+
+    // ReactiveLoginForm => récupérer les values d'input
+    const name: string = this.reactiveAccountForm.get('name').value;
+    const bank: string = this.reactiveAccountForm.get('bank').value;
 
     if(this.userId){
 
       // AccountService => pour créer un account
-      this.accountService.newAccount(this.name, this.bank, this.userId).subscribe({
+      this.accountService.newAccount(name, bank, this.userId).subscribe({
 
         next:(newAccount) => {
           console.log('Account successfully created', newAccount);

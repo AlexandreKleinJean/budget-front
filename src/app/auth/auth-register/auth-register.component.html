@@ -1,9 +1,9 @@
 <div id="container">
   <h2 id="title">Register</h2>
-  <form (ngSubmit)="onRegister()" id="form">
+  <form id="form" [formGroup]="reactiveRegisterForm" (ngSubmit)="onRegister()">
   <div class="form_input">
     <label for="gender">Gender</label>
-    <select id="gender" [(ngModel)]="gender" name="gender" required>
+    <select id="gender" type="text" formControlName="gender" (blur)="invalidField('gender')">
       <option value="male">Male</option>
       <option value="female">Female</option>
       <option value="other">Other</option>
@@ -11,21 +11,21 @@
   </div>
   <div class="form_input">
     <label for="firstname">First Name</label>
-    <input type="text" id="firstname" [(ngModel)]="firstname" name="firstname" required>
+    <input id="firstname" type="text" formControlName="firstname" (blur)="invalidField('firstname')">
   </div>
   <div class="form_input">
     <label for="lastname">Last Name</label>
-    <input type="text" id="lastname" [(ngModel)]="lastname" name="lastname" required>
+    <input id="lastname" type="text"  formControlName="lastname" (blur)="invalidField('lastname')">
   </div>
   <div class="form_input">
     <label for="email">Email</label>
-    <input type="email" id="email" [(ngModel)]="email" name="email" required>
+    <input id="email" type="email" formControlName="email" (blur)="invalidField('email')">
   </div>
   <div class="form_input">
     <label for="password">Password</label>
-    <input type="password" id="password" [(ngModel)]="password" name="password" required>
+    <input id="password" type="password" formControlName="password" (blur)="invalidField('password')">
   </div>
   <div class="form_button">
-    <button type="submit" id="form_submitButton">Register</button>
+    <button id="form_submitButton" type="submit">Register</button>
   </div>
 </form>

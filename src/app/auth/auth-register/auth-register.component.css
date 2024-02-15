@@ -59,3 +59,9 @@
 #form_submitButton:hover {
   background-color: #673AB7; /* Couleur au survol */
 }
+
+/*-----------------REACTIVE FORM-------------------*/
+
+input.ng-invalid.ng-touched {
+  border: 2px solid rgba(255, 0, 0, 0.5);
+}

@@ -1,16 +1,16 @@
 <div class="container">
   <h2 id="title">Create a new account</h2>
-  <form id="form">
+  <form id="form" [formGroup]="reactiveAccountForm" (ngSubmit)="addNewAccount()">
     <div class="form-input">
       <label for="name">Name:</label>
-      <input type="text" id="name" [(ngModel)]="name" name="name" required>
+      <input type="text" id="name" formControlName="name" (blur)="invalidField('name')">
     </div>
     <div class="form-input">
       <label for="bank">Bank:</label>
-      <input type="text" id="bank" [(ngModel)]="bank" name="bank" required>
+      <input type="text" id="bank" formControlName="bank" (blur)="invalidField('bank')">
     </div>
     <div class="form-button">
-      <button type="button" (click)="addNewAccount()" id="form-submitButton">Create account</button>
+      <button type="submit" id="form-submitButton">Create account</button>
     </div>
   </form>
 </div>

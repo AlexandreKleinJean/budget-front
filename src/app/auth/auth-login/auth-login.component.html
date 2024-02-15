@@ -4,11 +4,11 @@
     <div>
       <div class="form_input">
         <label for="email">Email</label>
-        <input id="email" type="text" formControlName="email">
+        <input id="email" type="email" formControlName="email" (blur)="invalidField('email')">
       </div>
       <div class="form_input">
         <label for="password">Password</label>
-        <input id="password" type="password" formControlName="password">
+        <input id="password" type="password" formControlName="password" (blur)="invalidField('password')">
       </div>
       <div class="form_button">
         <button id="form_submitButton" type="submit">Login</button>
