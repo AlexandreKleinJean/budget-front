@@ -1,26 +1,25 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { User } from '../../user/user';
 import { AuthService } from '../auth.service';
-import { FormsModule } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
 import{ RouterLink, Router } from '@angular/router';
 import { BehaviorService } from 'src/app/shared-services/behavior.service';
+import { FormsModule, ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-auth-login',
   templateUrl: `./auth-login.component.html`,
   styleUrl:`./auth-login.component.css`,
-  imports: [FormsModule, RouterLink],
+  imports: [FormsModule, ReactiveFormsModule, RouterLink],
   standalone: true
 })
 
-export class AuthLoginComponent {
+export class AuthLoginComponent implements OnInit {
     user: User|undefined;
-    email: string = '';
-    password: string = '';
     loggedInUser: User | undefined;
     loggedInUserId: number | undefined;
     loggedInUser$ = new BehaviorSubject<User | null>(null);
+    reactiveLoginForm: FormGroup;
 
     constructor(
       private authService: AuthService,
@@ -28,11 +27,23 @@ export class AuthLoginComponent {
       private behaviorService: BehaviorService
     ) {}
 
-    /*------------------------Bouton de connection--------------------*/
+    ngOnInit(){
+      this.reactiveLoginForm = new FormGroup({
+        email: new FormControl(null, [Validators.required, Validators.email]),
+        password: new FormControl(null, Validators.required)
+      })
+    }
+
+    //****************** Bouton de connection ************************/
     onSubmit() {
 
+      // ReactiveLoginForm => récupérer les values d'input
+      if (this.reactiveLoginForm.valid) {
+        const email: string = this.reactiveLoginForm.get('email').value;
+        const password = this.reactiveLoginForm.get('password').value;
+
         // AuthService => récupérer le user de l'API
-        this.authService.login(this.email, this.password).subscribe({
+        this.authService.login(email, password).subscribe({
 
           next: (u) => {
 
@@ -49,5 +60,6 @@ export class AuthLoginComponent {
           this.behaviorService.notifState({ type: 'error', message: error });
         }
       })
+    }
   }
 }

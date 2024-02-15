@@ -66,3 +66,9 @@
 #form_createButton:hover {
   text-decoration: underline;
 }
+
+/*-----------------REACTIVE FORM-------------------*/
+
+input.ng-invalid.ng-touched {
+  background-color: rgba(255, 0, 0, 0.5);
+}
