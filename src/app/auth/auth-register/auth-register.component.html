@@ -1,31 +1,33 @@
 <div id="container">
   <h2 id="title">Register</h2>
   <form id="form" [formGroup]="reactiveRegisterForm" (ngSubmit)="onRegister()">
-  <div class="form_input">
-    <label for="gender">Gender</label>
-    <select id="gender" type="text" formControlName="gender" (blur)="invalidField('gender')">
-      <option value="male">Male</option>
-      <option value="female">Female</option>
-      <option value="other">Other</option>
-    </select>
-  </div>
-  <div class="form_input">
-    <label for="firstname">First Name</label>
-    <input id="firstname" type="text" formControlName="firstname" (blur)="invalidField('firstname')">
-  </div>
-  <div class="form_input">
-    <label for="lastname">Last Name</label>
-    <input id="lastname" type="text"  formControlName="lastname" (blur)="invalidField('lastname')">
-  </div>
-  <div class="form_input">
-    <label for="email">Email</label>
-    <input id="email" type="email" formControlName="email" (blur)="invalidField('email')">
-  </div>
-  <div class="form_input">
-    <label for="password">Password</label>
-    <input id="password" type="password" formControlName="password" (blur)="invalidField('password')">
-  </div>
-  <div class="form_button">
-    <button id="form_submitButton" type="submit">Register</button>
-  </div>
-</form>
+    <div class="form_input">
+      <label for="gender">Gender</label>
+      <select id="gender" type="text" formControlName="gender" (blur)="invalidField('gender')">
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+        <option value="other">Other</option>
+      </select>
+    </div>
+    <div class="form_input">
+      <label for="firstname">First Name</label>
+      <input id="firstname" type="text" formControlName="firstname" (blur)="invalidField('firstname')">
+    </div>
+    <div class="form_input">
+      <label for="lastname">Last Name</label>
+      <input id="lastname" type="text"  formControlName="lastname" (blur)="invalidField('lastname')">
+    </div>
+    <div class="form_input">
+      <label for="email">Email</label>
+      <input id="email" type="email" formControlName="email" (blur)="invalidField('email')">
+    </div>
+    <div class="form_input">
+      <label for="password">Password</label>
+      <input id="password" type="password" formControlName="password" (blur)="invalidField('password')">
+    </div>
+    <div class="form_button">
+      <button id="form_submitButton" type="submit">Register</button>
+    </div>
+  </form>
+</div>
+

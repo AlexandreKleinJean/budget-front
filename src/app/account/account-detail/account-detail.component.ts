@@ -16,7 +16,6 @@ export class AccountDetailComponent implements OnInit {
   @Input() userId: number | null;
   accountId: number | null;
   account: Account | undefined;
-
   totalExpenses: number;
 
   constructor(

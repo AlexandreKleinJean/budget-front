@@ -1,3 +1,5 @@
+/*-------------------------FORM------------------------*/
+
 .container {
   text-align: center;
   margin-top: 2em;
@@ -60,7 +62,7 @@
   background-color: #673AB7; /* Couleur au survol */
 }
 
-/*-----------------REACTIVE FORM-------------------*/
+/*--------------------REACTIVE FORM--------------------*/
 
 input.ng-invalid.ng-touched {
   border: 2px solid rgba(255, 0, 0, 0.5);
