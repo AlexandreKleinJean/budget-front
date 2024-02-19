@@ -34,6 +34,7 @@ export class AuthLoginComponent implements OnInit {
       })
     }
 
+    //********************** Blur => msg d'erreur ************************/
     invalidField(fieldName: string) {
       const field = this.reactiveLoginForm.get(fieldName);
       if (field && field.invalid && field.value !== null) {
@@ -45,31 +46,39 @@ export class AuthLoginComponent implements OnInit {
       }
     }
 
-    //****************** Bouton de connection ************************/
+    //********************** Bouton de connection ************************/
     onSubmit() {
 
       // ReactiveLoginForm => récupérer les values d'input
       const email: string = this.reactiveLoginForm.get('email').value;
       const password: string = this.reactiveLoginForm.get('password').value;
 
-      // AuthService => récupérer le user de l'API
-      this.authService.login(email, password).subscribe({
+      // Je check que les champs sont remplis
+      if(email && password){
 
-        next: (u) => {
+        // AuthService => récupérer le user de l'API
+        this.authService.login(email, password).subscribe({
 
-          if(u){
-            console.log('Authentification réussie', u);
-            this.behaviorService.userId(u.id);
-            this.behaviorService.notifState({type: 'success', message: 'Good to see you !'});
-            this.router.navigate(['/account/list']);
+          next: (u) => {
+
+            if(u){
+              console.log('Authentification réussie', u);
+              this.behaviorService.userId(u.id);
+              this.behaviorService.notifState({type: 'success', message: 'Good to see you !'});
+              this.router.navigate(['/account/list']);
+            }
+          },
+
+          error: (error) => {
+            console.error('Error:', error),
+            this.behaviorService.notifState({ type: 'error', message: error });
           }
-        },
+        })
 
-        error: (error) => {
-          console.error('Error:', error),
-          this.behaviorService.notifState({ type: 'error', message: error });
-        }
-      })
+      } else {
+        this.behaviorService.notifState({type: 'error', message: 'All inputs must have a value'});
+      }
+
     }
 }
 

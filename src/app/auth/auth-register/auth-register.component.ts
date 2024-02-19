@@ -30,6 +30,7 @@ export class AuthRegisterComponent {
     })
   }
 
+  //********************** Blur => msg d'erreur ************************/
   invalidField(fieldName: string) {
     const field = this.reactiveRegisterForm.get(fieldName);
     if (field && field.invalid && field.value !== null) {
@@ -56,7 +57,10 @@ export class AuthRegisterComponent {
     const email: string = this.reactiveRegisterForm.get('email').value;
     const password: string = this.reactiveRegisterForm.get('password').value;
 
-    // AuthService => créer un user en API
+    // Je check que les champs sont remplis
+    if(gender && firstname && lastname && email && password){
+
+      // AuthService => créer un user en API
       this.authService.register(gender, firstname, lastname, email, password).subscribe({
 
         next:(u) => {
@@ -70,5 +74,9 @@ export class AuthRegisterComponent {
           this.behaviorService.notifState({ type: 'error', message: error });
         }
       })
+
+    } else {
+      this.behaviorService.notifState({type: 'error', message: 'All inputs must have a value'});
+    }
   }
 }

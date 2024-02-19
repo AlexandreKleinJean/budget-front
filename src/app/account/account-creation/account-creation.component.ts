@@ -39,6 +39,7 @@ export class AccountCreationComponent implements OnInit{
     })
   }
 
+  //********************** Blur => msg d'erreur ************************/
   invalidField(fieldName: string) {
     const field = this.reactiveAccountForm.get(fieldName);
     if (field && field.invalid && field.value !== null) {
@@ -56,7 +57,7 @@ export class AccountCreationComponent implements OnInit{
     const name: string = this.reactiveAccountForm.get('name').value;
     const bank: string = this.reactiveAccountForm.get('bank').value;
 
-    if(this.userId){
+    if(this.userId && name && bank){
 
       // AccountService => pour créer un account
       this.accountService.newAccount(name, bank, this.userId).subscribe({
@@ -74,7 +75,7 @@ export class AccountCreationComponent implements OnInit{
       })
 
     } else {
-      console.error('UserId undefined');
+      this.behaviorService.notifState({ type: 'error', message: 'All inputs must have a value' });
     }
   }
 }

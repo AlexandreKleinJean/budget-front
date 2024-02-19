@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { RouterLink, Router } from '@angular/router';
 import { Transaction } from '../transaction';
@@ -10,7 +11,7 @@ import { BehaviorService } from 'src/app/shared-services/behavior.service';
 @Component({
   selector: 'app-transaction-creation',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink, ReactiveFormsModule],
   templateUrl: `./transaction-creation.component.html`,
   styleUrl: `./transaction-creation.component.css`
 })
@@ -18,11 +19,8 @@ import { BehaviorService } from 'src/app/shared-services/behavior.service';
 export class TransactionCreationComponent implements OnInit {
   transaction: Transaction | null;
   categories: string[] = ['Food', 'Transport', 'Sport', 'Invoice', 'Shopping', 'Leisure', 'RealEstate'];
-  subject: string = '';
-  note: string = '';
-  category: string = '';
-  amount: number = 0;
   accountId: number | null;
+  reactiveTransactionForm: FormGroup;
 
   constructor(
     private transactionService: TransactionService,
@@ -31,6 +29,13 @@ export class TransactionCreationComponent implements OnInit {
   ){ }
 
   ngOnInit(){
+
+    this.reactiveTransactionForm = new FormGroup({
+      subject: new FormControl(null, [Validators.required, Validators.pattern("^[a-zA-Z0-9 ]+$")]),
+      note: new FormControl(null),
+      category: new FormControl(null, [Validators.required, Validators.pattern("^[a-zA-Z]+$")]),
+      amount: new FormControl(null, [Validators.required, Validators.pattern("^[0-9]+$")])
+    })
 
     // BehaviorService => récupération Account sélectionné ( dans observable$ )
     this.behaviorService.currentAccount$.subscribe((accountId) => {
@@ -41,16 +46,36 @@ export class TransactionCreationComponent implements OnInit {
     })
   }
 
+  //********************** Blur => msg d'erreur ************************/
+  invalidField(fieldName: string) {
+    const field = this.reactiveTransactionForm.get(fieldName);
+    if (field && field.invalid && field.value !== null) {
+      if (fieldName === 'subject') {
+        this.behaviorService.notifState({type: 'error', message: 'Transaction subject is required in a valid format'});
+      } else if (fieldName === 'category') {
+        this.behaviorService.notifState({type: 'error', message: 'Transaction category is required in a valid format'});
+      } else if (fieldName === 'amount') {
+        this.behaviorService.notifState({type: 'error', message: 'Transaction amount is required in a valid format'});
+      }
+    }
+  }
+
   addNewTransaction() {
 
-    if(this.accountId){
+    // ReactiveTransactionForm => récupérer les values d'input
+    const subject: string = this.reactiveTransactionForm.get('subject').value;
+    const note: string = this.reactiveTransactionForm.get('note').value;
+    const category: string = this.reactiveTransactionForm.get('category').value;
+    const amount: number = this.reactiveTransactionForm.get('amount').value;
+
+    if(this.accountId && subject && category && amount){
 
       // TransactionService => créer une transaction
       this.transactionService.newTransaction(
-        this.subject,
-        this.note,
-        this.category,
-        this.amount,
+        subject,
+        note,
+        category,
+        amount,
         this.accountId
       ).subscribe({
 
@@ -67,7 +92,7 @@ export class TransactionCreationComponent implements OnInit {
       })
 
     } else {
-      console.error('AccountId undefined');
+      this.behaviorService.notifState({ type: 'error', message: "All inputs must have a value" });
     }
   }
 }

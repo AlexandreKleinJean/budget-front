@@ -1,17 +1,17 @@
 <div id="container">
   <h2 id="title">Create a new transaction</h2>
-  <form id="form">
+  <form id="form" [formGroup]="reactiveTransactionForm" (ngSubmit)="addNewTransaction()">
     <div class="form-input">
       <label for="subject">Subject:</label>
-      <input type="text" id="subject" [(ngModel)]="subject" name="subject" required>
+      <input type="text" id="subject" formControlName="subject" (blur)="invalidField('subject')">
     </div>
     <div class="form-input">
       <label for="note">Note:</label>
-      <input type="text" id="note" [(ngModel)]="note" name="note">
+      <input type="text" id="note" formControlName="note">
     </div>
     <div class="form-input">
       <label for="category">Category:</label>
-      <select id="category" [(ngModel)]="category" name="category" required>
+      <select id="category" formControlName="category" (blur)="invalidField('category')">
         @for(category of categories; track category) {
         <option>{{ category }}</option>
         } @empty {
@@ -21,10 +21,10 @@
     </div>
     <div class="form-input">
       <label for="amount">Amount:</label>
-      <input type="text" id="amount" [(ngModel)]="amount" name="amount" required>
+      <input type="text" id="amount" formControlName="amount" (blur)="invalidField('amount')">
     </div>
     <div class="form-button">
-      <button type="button" (click)="addNewTransaction()" id="form-submitButton">Create transaction</button>
+      <button type="submit" id="form-submitButton">Create transaction</button>
     </div>
   </form>
 </div>
