@@ -21,10 +21,18 @@
       </div>
       <div class="buttons">
         <button class="button">Edit</button>
-        <button (click)="deleteTransaction()" class="button">Delete</button>
+        <button (click)="modalActivation()" class="button">Delete</button>
         <button routerLink="/account/detail" class="button">Back</button>
       </div>
     </div>
+
+    <!-- Component child => modal confirmation -->
+    @if(modalIsActivate){
+      <app-modal
+        [message]="'Are you sure you want to delete this transaction ?'"
+        (choice)="confirmation($event)">
+      </app-modal>
+    } @else {}
 
 } @else {
   <h4 class="center">No transaction found</h4>

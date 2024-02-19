@@ -3,13 +3,14 @@ import { RouterLink, Router } from '@angular/router';
 import { Account } from '../account';
 import { AccountService } from '../account.service';
 import { TransactionListComponent } from '../../transaction/transaction-list/transaction-list.component';
+import { ConfirmationModalComponent } from 'src/app/modal/modal.component';
 import { BehaviorService } from '../../shared-services/behavior.service';
 
 @Component({
   selector: 'app-account-detail',
   templateUrl: './account-detail.component.html',
   styleUrl: './account-detail.component.css',
-  imports: [RouterLink, TransactionListComponent],
+  imports: [RouterLink, TransactionListComponent, ConfirmationModalComponent],
   standalone: true
 })
 export class AccountDetailComponent implements OnInit {
@@ -17,6 +18,7 @@ export class AccountDetailComponent implements OnInit {
   accountId: number | null;
   account: Account | undefined;
   totalExpenses: number;
+  modalIsActivate: boolean = false;
 
   constructor(
     private accountService: AccountService,
@@ -27,14 +29,14 @@ export class AccountDetailComponent implements OnInit {
   //********************* INITIALIZATION **********************/
   ngOnInit() {
 
-      // BehaviorService => récupération Account sélectionné ( dans observable$ )
+      // BehaviorService => récupération Account sélectionné ( abo observable$ )
       this.behaviorService.currentAccount$.subscribe((accountId) => {
       console.log('Account ID :', accountId);
 
       if(accountId){
         this.accountId = accountId
 
-        /*-----------Récupération du compte sélectionné----------*/
+        // AccountService => récupération du compte en BDD ( abo observable$ )
         this.accountService.getOneAccountById(this.accountId).subscribe({
 
           next: (acc) => {
@@ -55,7 +57,22 @@ export class AccountDetailComponent implements OnInit {
     this.totalExpenses = totalReceivedFromChild;
   }
 
-  //****************** DELETE ACCOUNT BUTTON **********************/
+  //*************************** MODAL ******************************/
+
+  // Clic sur delete Button => la modal s'affiche
+  modalActivation(){
+    this.modalIsActivate = true;
+  }
+
+  // Si le user confirme => on exécute deleteAccount()
+  confirmation(status: boolean) {
+    this.modalIsActivate = false;
+    if (status) {
+      this.deleteAccount();
+    }
+  }
+
+  // DeleteAccount() => method de suppression
   deleteAccount() {
 
     if (this.accountId) {
