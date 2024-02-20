@@ -1,10 +1,10 @@
 #container {
   margin-top:-4%;
-  display: flex;
-  justify-content: center;
+  display: grid;
   align-items: center;
-  flex-direction: column;
+  justify-items: center;
   background-color: rgb(237, 244, 246);
+  padding-bottom: 50rem;
 }
 
 #img {
@@ -13,16 +13,14 @@
 }
 
 #buttons {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  margin: 0 auto 20% auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2em;
+  justify-items: center;
   font-size: 2em;
-  box-sizing: border-box;
 }
 
 #button__login, #button__register {
-  margin: 0 5%;
   background: #754abf;
   color: white;
   border-radius: 0.5rem;

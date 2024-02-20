@@ -1,18 +1,16 @@
 <div id="container">
   <h2 id="title">Login</h2>
   <form id="form" [formGroup]="reactiveLoginForm" (ngSubmit)="onSubmit()">
-    <div>
-      <div class="form_input">
-        <label for="email">Email</label>
-        <input id="email" type="email" formControlName="email" (blur)="invalidField('email')">
-      </div>
-      <div class="form_input">
-        <label for="password">Password</label>
-        <input id="password" type="password" formControlName="password" (blur)="invalidField('password')">
-      </div>
-      <div class="form_button">
-        <button id="form_submitButton" type="submit">Login</button>
-      </div>
+    <div class="form_input">
+      <label for="email">Email</label>
+      <input id="email" type="email" formControlName="email" (blur)="invalidField('email')">
+    </div>
+    <div class="form_input">
+      <label for="password">Password</label>
+      <input id="password" type="password" formControlName="password" (blur)="invalidField('password')">
+    </div>
+    <div class="form_button">
+      <button id="form_submitButton" type="submit">Login</button>
     </div>
   </form>
   <div class="form_button">

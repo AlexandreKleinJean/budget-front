@@ -1,4 +1,7 @@
 #container {
+  display:grid;
+  grid-template-rows: auto;
+  gap: 4em;
   text-align: center;
   margin-top: 2em;
   padding: 3em;
@@ -11,19 +14,20 @@
 
 #title {
   font-size: 3em;
-  margin-bottom: 5%;
+}
+
+#form{
+  display:grid;
+  gap: 3em;
 }
 
 .form_input {
-  margin: 4% 10%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+  display:grid;
+  gap: 1em;
+  justify-items: center;
 }
 
 .form_input label {
-  margin-bottom: 1%;
   font-size: 1.5em;
   color: rgb(87, 85, 85);
 }
@@ -35,10 +39,6 @@
   border: 1px solid #ccc;
   border-radius: 1rem;
   font-size: 1.5em;
-}
-
-.form_button {
-  margin-top: 3em;
 }
 
 #form_submitButton {
