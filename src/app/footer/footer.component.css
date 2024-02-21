@@ -1,0 +1,14 @@
+#footer {
+  background: linear-gradient(to right, #673AB7, #9575CD);
+  display:grid;
+  justify-items: center;
+  align-items: center;
+  padding: 0 5%;
+  height: 7em;
+}
+
+#footer__title {
+  font-size: 2em;
+  color:white;
+  text-decoration: none;
+}

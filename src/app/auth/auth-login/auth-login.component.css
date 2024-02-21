@@ -13,7 +13,7 @@
 }
 
 #title {
-  font-size: 3em;
+  font-size: calc(1.5vw + 14px);
 }
 
 #form{
@@ -28,7 +28,7 @@
 }
 
 .form_input label {
-  font-size: 1.5em;
+  font-size: calc(1.3vw + 12px);
   color: rgb(87, 85, 85);
 }
 
@@ -38,7 +38,7 @@
   padding: 1% 3%;
   border: 1px solid #ccc;
   border-radius: 1rem;
-  font-size: 1.5em;
+  font-size: calc(1.3vw + 12px);
 }
 
 #form_submitButton {
@@ -46,7 +46,7 @@
   color: white;
   border-radius: 0.5rem;
   padding: 1.5% 3%;
-  font-size: 1.5em;
+  font-size: calc(1.3vw + 12px);
   cursor: pointer;
   transition: background-color 0.3s;
 }
@@ -58,7 +58,7 @@
 #form_createButton {
   text-decoration: none;
   color: black;
-  font-size: 1.5em;
+  font-size: calc(1.1vw + 18px);
   cursor: pointer;
   transition: background-color 0.3s;
 }

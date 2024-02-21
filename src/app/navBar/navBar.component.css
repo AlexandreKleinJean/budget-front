@@ -1,3 +1,7 @@
+:root {
+  --res: calc(0.01 * 10vmin)
+}
+
 #navBar {
   background: linear-gradient(to right, #673AB7, #9575CD);
   display: flex;
@@ -9,13 +13,13 @@
 }
 
 #navBar__title {
-  font-size: 2em;
+  font-size: calc(1.5vw + 16px);
   color:white;
   text-decoration: none;
 }
 
 #navBar__logout {
-  font-size: 1.3em;
+  font-size: calc(1.1vw + 16px);
   padding: 0.7% 1.2%;
   border-radius: 1rem;
   background-color: whitesmoke;
