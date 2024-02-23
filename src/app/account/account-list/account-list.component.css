@@ -1,42 +1,44 @@
+.container {
+  margin: 2em auto;
+  display:grid;
+  gap:2em
+  }
+
 #main__title {
-  font-size: 4em;
-  margin-bottom: 3%;
   font-weight: bold;
   color: #673AB7;
   text-align: center;
 }
 
-.container {
-  display:flex;
-  flex-direction: column;
-  justify-content: center;
-  margin: 0 10% 6% 10%;
-  padding: 4em 4em;
-  border-radius: 1rem;
-  background-color:rgba(231, 219, 255, 0.213);
-  border: 1px solid rgba(114, 60, 201, 0.5);
+.container__accounts {
+  padding: 3vw 2vw;
+  display: grid;
+  align-items: center;
+  gap: 5vw;
+  background-color: whitesmoke;
+  border-radius: 1em;
+  box-shadow: 0px 0px 10px rgba(166, 122, 235, 0.5);
 }
 
 .accounts__up{
-  display: flex;
-  justify-content: space-between;
+  display:grid;
+  grid-template-columns: 1fr 1fr;
   align-items: center;
-  margin-bottom: 3em;
+  gap:5vw
 }
 
 #title {
-  font-size: 3em;
   font-weight: bold;
 }
 
 #account__newButton {
-  font-size: 1.5rem;
   background: #673AB7;
+  padding: 1vw 1vw;
   color: white;
   border: none;
   border-radius: 0.5em;
-  padding: 1.5% 3%;
   cursor: pointer;
+  white-space: nowrap;
 }
 
 #account__newButton:hover {
@@ -44,62 +46,38 @@
 }
 
 .accounts {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  justify-content: center;
+  gap: 2vw;
 }
 
 .account{
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  margin-top: 2em;
   cursor: pointer;
 }
 
-.account__infos {
-  padding: 1em 3em;
-  justify-content: space-between;
+.account__details {
+  padding: 1vw 2vw;
   width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  justify-items: center;
+  align-items: center;
   background-color:#fdfcff;
-  border-radius: 10px;
+  border-radius: 1em;
   box-shadow: 0px 0px 5px #673AB7;
 }
 
-.account__infos:hover {
+.account__details:hover {
   box-shadow: 0px 0px 10px #673AB7;
 }
 
-.account__details {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  font-size: 1.7rem;
-  padding: 0.5rem 0;
-}
-
-#account__left {
-  width: 70px;
-  height: 70px;
-}
-
-#account__center {
-  width: 70%;
-  text-align: center;
-  margin: 0 20%;
-}
-
-#account__right {
-  width: 30%;
-  text-align: right;
+#account__amount {
   font-weight: bold;
   color: #673AB7;
-  font-size: 2rem;
 }
 
-.account__details p:first-child{
-  font-size: 1.5rem;
-  font-weight: bold;
+@media (min-width: 990px) {
+  .text {
+    font-size: 1.5rem!important;
+  }
 }
-

@@ -1,24 +1,17 @@
 <div class="container">
+  <div class="transactions__up">
+    <h2 id="title" class="fs-2">Transactions</h2>
+    <button routerLink="/transaction/create" id="transaction__newButton" class="fs-4">+</button>
+  </div>
   <div class="transactions">
-    <div class="transactions__up">
-      <h2 id="title">Transactions</h2>
-      <button routerLink="/transaction/create" class="button">New transaction</button>
-    </div>
     @for(transaction of this.transactionsListByAccount; track transaction.subject) {
-      <div class="transaction" routerLink="/transaction/{{transaction.id}}">
-        <div class="transaction__info">
-            <img id="transaction__img" [src]="'./assets/images/' + transaction.category + '.png'" alt="{{ transaction.category }}"/>
-            <div class="transaction__details">
-                <p>{{ transaction.subject }}</p>
-            </div>
-            <div class="transaction__amount">
-              <p>{{ transaction.amount | currency: '$ ' }}</p>
-            </div>
-        </div>
+      <div class="transaction" routerLink="/transaction/{{transaction.id}}" class="transaction__details">
+        <img id="transaction__img" [src]="'./assets/images/' + transaction.category + '.png'" alt="{{ transaction.category }}" class="img-fluid col-4"/>
+        <p class="text fs-6">{{ transaction.subject }}</p>
+        <p id="transaction__amount" class="text fs-6">{{ transaction.amount | currency: '$ ' }}</p>
       </div>
     } @empty {
       <p>No transaction on this account</p>
     }
   </div>
-
 </div>

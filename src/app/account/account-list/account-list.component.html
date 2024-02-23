@@ -1,25 +1,23 @@
-<h2 id="main__title">Dashboard</h2>
-<div class="container">
-  <div class="accounts__up">
-    <h2 id="title">Accounts</h2>
-    <button routerLink="/account/create" id="account__newButton">New account</button>
-  </div>
-  <div class="accounts">
-      @for (account of accountsList; track account.name) {
-        <div class="account">
-          <div routerLink="/account/detail" (click)="saveAccountId(account.id)" class="account__infos">
-            <div class="account__details">
-              <img id="account__left" src="../../../assets/images/Account.png" alt="account">
-              <p id="account__center">{{ account.name }}</p>
-              <p id="account__right">$ {{ expensesByAccount[account.id] }}</p>
-            </div>
+<div class="container col-10 col-md-8 col-lg-12">
+  <h2 id="main__title" class="fs-1">Dashboard</h2>
+  <div class="container__accounts">
+    <div class="accounts__up">
+      <h2 id="title" class="fs-2">Accounts</h2>
+      <button routerLink="/account/create" id="account__newButton" class="fs-4">+</button>
+    </div>
+    <div class="accounts">
+        @for (account of accountsList; track account.name) {
+          <div div routerLink="/account/detail" (click)="saveAccountId(account.id)" class="account__details">
+            <img id="account__img" src="../../../assets/images/Account.png" alt="account" class="img-fluid col-6 col-lg-4">
+            <p class="text fs-6">{{ account.name }}</p>
+            <p id="account__amount" class="text fs-6">$ {{ expensesByAccount[account.id] }}</p>
           </div>
-        </div>
-      } @empty {
-        <p>No account yet</p>
-      }
+        } @empty {
+          <p>No account yet</p>
+        }
+    </div>
   </div>
-</div>
-<div>
-  <app-forecast-visual [userId]="userId"></app-forecast-visual>
+  <div>
+    <app-forecast-visual [userId]="userId"></app-forecast-visual>
+  </div>
 </div>

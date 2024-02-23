@@ -1,73 +1,44 @@
 .container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin: 5% 12%;
-  padding: 1.5em 3em;
-  background-color:rgba(224, 210, 252, 0.241);
-  border: 1px solid rgba(114, 60, 201, 0.5);
-  border-radius: 10px;
-}
+  display:grid;
+  gap:2em
+  }
 
-#title {
-  font-size: 4em;
-  margin-bottom: 3%;
+#main__title {
   font-weight: bold;
   color: #673AB7;
   text-align: center;
 }
 
-.account {
+.container__account {
+  padding: 2vw 2vw;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  justify-items: center;
   align-items: center;
-  padding: 0 1rem;
+  gap: 5vw;
+  background-color: whitesmoke;
+  border-radius: 1em;
+  box-shadow: 0px 0px 10px rgba(166, 122, 235, 0.5);
 }
 
-#account__img {
-  width: 70px;
-  height: 70px;
-}
-
-.account__details {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 1.8rem;
-  padding: 0.5rem 0;
-}
-
-.account__detail {
-  display: flex;
-  flex-direction: row;
-}
-
-.account__detail-label {
-  font-weight: bold;
-  margin: auto 0.5em;
-}
-
-.account__amount {
+#account__amount {
   font-weight: bold;
   color: #673AB7;
-  font-size: 2.5rem;
 }
 
 .buttons {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  margin: auto 12% 10% 8%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
 }
 
 .button {
-  font-size: 1.5rem;
   background: #673AB7;
+  padding: 1vw 1vw;
   color: white;
   border: none;
   border-radius: 0.5em;
-  padding: 1.5% 3%;
   cursor: pointer;
-  text-decoration: none;
+  white-space: nowrap;
 }
 
 .button:hover {
@@ -76,4 +47,10 @@
 
 .center {
   text-align: center;
+}
+
+@media (min-width: 990px) {
+  .text {
+    font-size: 1.5rem!important;
+  }
 }
