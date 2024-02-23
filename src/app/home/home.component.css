@@ -1,5 +1,5 @@
 #container {
-  margin-top:5em;
+  margin: 3em auto 5em auto;
   display: grid;
   align-items: center;
   justify-items: center;
@@ -26,22 +26,22 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 4em;
-  justify-items: center;
+
 }
 
 @media (max-width: 675px) {
   #container__buttons {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 4em;
-    justify-items: center;
+    grid-template-rows: 2fr;
+    gap: 2em;
   }
 }
 
 #button__login, #button__register {
   background: #754abf;
   color: white;
-  border-radius: 0.5rem;
+  border-radius: 3rem;
   cursor: pointer;
-  padding: 1em 2em;
+  padding: 5% 7%;
 }

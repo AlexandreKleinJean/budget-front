@@ -1,19 +1,20 @@
-<div id="container">
-  <h2 id="title">Login</h2>
-  <form id="form" [formGroup]="reactiveLoginForm" (ngSubmit)="onSubmit()">
-    <div class="form_input">
-      <label for="email">Email</label>
-      <input id="email" type="email" formControlName="email" (blur)="invalidField('email')">
+<div id="container" class="col-8 col-lg-4">
+    <h2 id="title" class="fs-2">Login</h2>
+    <form id="form" [formGroup]="reactiveLoginForm" (ngSubmit)="onSubmit()">
+      <div class="form_input fs-5">
+        <label for="email">Email</label>
+        <input id="email" type="email" formControlName="email" (blur)="invalidField('email')">
+      </div>
+      <div class="form_input fs-5">
+        <label for="password">Password</label>
+        <input id="password" type="password" formControlName="password" (blur)="invalidField('password')">
+      </div>
+      <div class="form_button fs-5">
+        <button id="form_submitButton" type="submit">Login</button>
+      </div>
+    </form>
+    <div class="form_button fs-5">
+      <p routerLink="/auth/register" id="form_createButton">Create an account</p>
     </div>
-    <div class="form_input">
-      <label for="password">Password</label>
-      <input id="password" type="password" formControlName="password" (blur)="invalidField('password')">
-    </div>
-    <div class="form_button">
-      <button id="form_submitButton" type="submit">Login</button>
-    </div>
-  </form>
-  <div class="form_button">
-    <p routerLink="/auth/register" id="form_createButton">Create an account</p>
-  </div>
 </div>
+
