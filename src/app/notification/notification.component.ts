@@ -39,9 +39,9 @@ export class NotificationComponent {
     if(this.notification){
 
       if (this.notification.type == 'error') {
-          return "background-color:rgba(255, 0, 0, 0.5); display:block"
+          return "background-color:rgba(255, 0, 0, 0.8); display:block"
       } else if (this.notification.type == 'success') {
-          return "background-color: rgba(0, 150, 0, 0.5); display:block"
+          return "background-color: rgba(0, 150, 0, 0.8); display:block"
       } else {
         return 'display:none'
       }

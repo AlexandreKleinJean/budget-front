@@ -1,5 +1,5 @@
 #container {
-  margin: 5vw auto;
+  margin: 2vw auto;
   padding: 4vw 0;
   display: grid;
   gap:3em;
@@ -15,7 +15,7 @@
   text-align: center;
   color: #673AB7;
   font-weight: bold;
-  margin: 10% auto;
+  margin: calc(3vw + 1rem) auto;
 }
 
 #form {
@@ -53,6 +53,15 @@
 
 #form_submitButton:hover {
   background-color: #673AB7; /* Couleur au survol */
+}
+
+@media (min-width: 990px) {
+  .lg-text {
+    font-size: 3rem!important;
+  }
+  .text {
+    font-size: 1.5rem!important;
+  }
 }
 
 /*-----------------REACTIVE FORM-------------------*/

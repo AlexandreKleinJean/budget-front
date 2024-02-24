@@ -8,10 +8,11 @@
   font-weight: bold;
   color: #673AB7;
   text-align: center;
+  margin: calc(2vw + 1rem) auto;
 }
 
 .container__accounts {
-  padding: 3vw 2vw;
+  padding: 2vw 2vw;
   display: grid;
   align-items: center;
   gap: 5vw;
@@ -77,6 +78,12 @@
 }
 
 @media (min-width: 990px) {
+  .lg-text {
+    font-size: 3rem!important;
+  }
+  .md-text {
+    font-size: 2.5rem!important;
+  }
   .text {
     font-size: 1.5rem!important;
   }

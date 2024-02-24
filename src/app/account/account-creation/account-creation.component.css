@@ -1,5 +1,5 @@
 .container {
-  margin: 5vw auto;
+  margin: 2vw auto;
   padding: 4vw 0;
   display: grid;
   gap:3em;
@@ -8,6 +8,14 @@
   background-color: whitesmoke;
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(166, 122, 235, 0.5);
+  margin-bottom: 5%;
+}
+
+#title {
+  font-weight: bold;
+  color: #673AB7;
+  text-align: center;
+  margin: calc(2vw + 1rem) auto;
 }
 
 #form {
@@ -44,6 +52,15 @@
 
 #form-submitButton:hover {
   background-color: #673AB7;
+}
+
+@media (min-width: 990px) {
+  .lg-text {
+    font-size: 3rem!important;
+  }
+  .text {
+    font-size: 1.5rem!important;
+  }
 }
 
 /*--------------------REACTIVE FORM--------------------*/

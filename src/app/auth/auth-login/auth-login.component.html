@@ -1,19 +1,19 @@
-<h2 id="title" class="fs-2">Login</h2>
+<h2 id="title" class="fs-1 lg-text">Login</h2>
 <div id="container" class="col-10 col-lg-4">
     <form id="form" [formGroup]="reactiveLoginForm" (ngSubmit)="onSubmit()">
-      <div class="form_input fs-5">
+      <div class="form_input fs-5 text">
         <label for="email">Email</label>
         <input id="email" type="email" formControlName="email" (blur)="invalidField('email')">
       </div>
-      <div class="form_input fs-5">
+      <div class="form_input fs-5 text">
         <label for="password">Password</label>
         <input id="password" type="password" formControlName="password" (blur)="invalidField('password')">
       </div>
-      <div class="form_button fs-5">
+      <div class="form_button fs-5 text">
         <button id="form_submitButton" type="submit">Login</button>
       </div>
     </form>
-    <div class="form_button fs-5">
+    <div class="form_button fs-5 text">
       <p routerLink="/auth/register" id="form_createButton">Create an account</p>
     </div>
 </div>

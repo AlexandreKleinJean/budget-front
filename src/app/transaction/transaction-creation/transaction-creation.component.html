@@ -1,14 +1,6 @@
+<h2 id="title" class="fs-2">Create a new transaction</h2>
 <div id="container" class="col-8 col-lg-4">
-  <h2 id="title" class="fs-2">Create a new transaction</h2>
   <form id="form" [formGroup]="reactiveTransactionForm" (ngSubmit)="addNewTransaction()">
-    <div class="form-input fs-5">
-      <label for="subject">Subject:</label>
-      <input type="text" id="subject" formControlName="subject" (blur)="invalidField('subject')">
-    </div>
-    <div class="form-input fs-5">
-      <label for="note">Note:</label>
-      <input type="text" id="note" formControlName="note">
-    </div>
     <div class="form-input fs-5">
       <label for="category">Category:</label>
       <select id="category" formControlName="category" (blur)="invalidField('category')">
@@ -18,6 +10,14 @@
           <p>No category</p>
         }
       </select>
+    </div>
+    <div class="form-input fs-5">
+      <label for="subject">Subject:</label>
+      <input type="text" id="subject" formControlName="subject" (blur)="invalidField('subject')">
+    </div>
+    <div class="form-input fs-5">
+      <label for="note">Note:</label>
+      <input type="text" id="note" formControlName="note">
     </div>
     <div class="form-input fs-5">
       <label for="amount">Amount:</label>

@@ -1,7 +1,7 @@
-<h2 id="title" class="fs-2">Register</h2>
+<h2 id="title" class="fs-1 lg-text">Register</h2>
 <div id="container" class="col-10 col-lg-4">
   <form id="form" [formGroup]="reactiveRegisterForm" (ngSubmit)="onRegister()">
-    <div class="form_input fs-5">
+    <div class="form_input fs-5 text">
       <label for="gender">Gender</label>
       <select id="gender" type="text" formControlName="gender" (blur)="invalidField('gender')">
         <option value="male">Male</option>
@@ -9,23 +9,23 @@
         <option value="other">Other</option>
       </select>
     </div>
-    <div class="form_input fs-5">
+    <div class="form_input fs-5 text">
       <label for="firstname">First Name</label>
       <input id="firstname" type="text" formControlName="firstname" (blur)="invalidField('firstname')">
     </div>
-    <div class="form_input fs-5">
+    <div class="form_input fs-5 text">
       <label for="lastname">Last Name</label>
       <input id="lastname" type="text"  formControlName="lastname" (blur)="invalidField('lastname')">
     </div>
-    <div class="form_input fs-5">
+    <div class="form_input fs-5 text">
       <label for="email">Email</label>
       <input id="email" type="email" formControlName="email" (blur)="invalidField('email')">
     </div>
-    <div class="form_input fs-5">
+    <div class="form_input fs-5 text">
       <label for="password">Password</label>
       <input id="password" type="password" formControlName="password" (blur)="invalidField('password')">
     </div>
-    <div class="form_button fs-5">
+    <div class="form_button fs-5 text">
       <button id="form_submitButton" type="submit">Register</button>
     </div>
   </form>

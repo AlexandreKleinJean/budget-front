@@ -1,26 +1,40 @@
-:root {
-  --res: calc(0.01 * 10vmin)
-}
-
 #navBar {
-  background: linear-gradient(to right, #673AB7, #9575CD);
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   justify-content: space-between;
+  justify-items: center;
   align-items: center;
+  background: linear-gradient(to right, #673AB7, #9575CD);
   padding: 0 5%;
-  height: 7em;
-  margin-bottom: 4%;
+  margin-bottom: 2%;
 }
 
 #navBar__title {
-  font-size: calc(1.5vw + 16px);
-  color:white;
-  text-decoration: none;
+  margin: 5% 5%;
+  color:#d6cbe9;
+}
+
+#navBar__title:hover {
+  color:#e7e2f1;
 }
 
 #navBar__logout {
-  font-size: calc(1.1vw + 16px);
-  padding: 0.7% 1.2%;
+  padding: 2% 2%;
+  width:50%;
   border-radius: 1rem;
-  background-color: whitesmoke;
+  background-color: #ccb9ed;
+  border:none;
+}
+
+#navBar__logout:hover {
+  background-color: #e1d6f5;
+}
+
+@media (min-width: 990px) {
+  .md-text {
+    font-size: 2.5rem!important;
+  }
+  .text {
+    font-size: 1.5rem!important;
+  }
 }

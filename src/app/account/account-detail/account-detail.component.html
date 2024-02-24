@@ -1,11 +1,11 @@
-<div class="container col-10 col-md-8 col-lg-12">
-  <h2 id="main__title" class="fs-1">Account details</h2>
+<h2 id="main__title" class="fs-1 lg-text">Account details</h2>
+<div class="container col-11 col-md-9 col-lg-6">
   @if(account) {
     <div class="container__account">
       <img id="account__img" src="../../../assets/images/Account.png" alt="account" class="img-fluid col-6 col-lg-4">
-      <p class="text fs-6">{{ account.name }}</p>
-      <p class="text fs-6">{{ account.bank }}</p>
-      <p id="account__amount" class="text fs-6">$ {{ totalExpenses }}</p>
+      <p class="fs-6 text">{{ account.name }}</p>
+      <p class="fs-6 text">{{ account.bank }}</p>
+      <p id="account__amount" class="fs-6 text">$ {{ totalExpenses }}</p>
     </div>
     <div>
       <app-transaction-list
@@ -14,7 +14,7 @@
         (totalExpensesEvent)="handleTotalExpenses($event)">
       </app-transaction-list>
     </div>
-    <div class="buttons">
+    <div class="buttons text">
       <button (click)="modalActivation()" class="button">Delete</button>
       <button routerLink="/account/list" class="button">Back</button>
     </div>

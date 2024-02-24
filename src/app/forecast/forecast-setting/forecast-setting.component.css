@@ -12,9 +12,16 @@
   padding: 0 5%;
 }
 
+#main__title {
+  font-weight: bold;
+  color: #673AB7;
+  text-align: center;
+  margin: calc(2vw + 1rem) auto;
+}
+
 .forecast__container{
-  margin: 5vw auto;
-  padding: 4vw 1vw;
+  margin: 2vw auto;
+  padding: 2vw 1vw;
   display: grid;
   gap:1em;
   align-items: center;
@@ -22,6 +29,7 @@
   background-color: whitesmoke;
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(166, 122, 235, 0.5);
+
 }
 
 .form__salary {
@@ -117,5 +125,8 @@ button:disabled {
 @media (min-width: 990px) {
   .text {
     font-size: 1.5rem!important;
+  }
+  .md-text {
+    font-size: 2.5rem!important;
   }
 }

@@ -29,3 +29,13 @@
   border-radius: 0.5em;
   cursor: pointer;
 }
+
+#button__manageForecast:hover {
+  background-color: #754abf;
+}
+
+@media (min-width: 990px) {
+  .md-text {
+    font-size: 2.5rem!important;
+  }
+}
