@@ -101,17 +101,17 @@ export class ForecastSettingComponent implements OnInit{
   notificationCustom(): { style: string, text: string } {
     if (this.totalRate < 100) {
         return {
-          style: "background-color:rgba(197, 194, 203, 0.5)",
+          style: "background-color:rgba(197, 194, 203, 0.8)",
           text: `Salary to dispatch : ${100 - this.totalRate} %`
         }
     } else if(this.totalRate === 100) {
         return {
-        style: "background-color: rgba(0, 150, 0, 0.5)",
+        style: "background-color: rgba(0, 150, 0, 0.8)",
         text: `Forecast complete`
         }
     } else {
       return {
-        style: "background-color: rgba(255, 0, 0, 0.5)",
+        style: "background-color: rgba(255, 0, 0, 0.8)",
         text: 'Reduce your dispatch'
         }
     };

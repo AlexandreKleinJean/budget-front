@@ -1,15 +1,15 @@
-<div class="container">
-  <h2 id="title">Create a new account</h2>
+<div class="container col-10 col-lg-4">
+  <h2 id="title" class="fs-2">Create a new account</h2>
   <form id="form" [formGroup]="reactiveAccountForm" (ngSubmit)="addNewAccount()">
-    <div class="form-input">
+    <div class="form-input fs-5">
       <label for="name">Name:</label>
       <input type="text" id="name" formControlName="name" (blur)="invalidField('name')">
     </div>
-    <div class="form-input">
+    <div class="form-input fs-5">
       <label for="bank">Bank:</label>
       <input type="text" id="bank" formControlName="bank" (blur)="invalidField('bank')">
     </div>
-    <div class="form-button">
+    <div class="form-button fs-5">
       <button type="submit" id="form-submitButton">Create account</button>
     </div>
   </form>

@@ -12,12 +12,16 @@
 
 #title {
   font-size: 3em;
+  text-align: center;
+  color: #673AB7;
+  font-weight: bold;
+  margin: 10% auto;
 }
 
 #form {
   display:grid;
   justify-items: center;
-  gap: 3em;
+  gap: 2em;
 }
 
 .form_input {
@@ -34,6 +38,7 @@
   background-color: rgba(217, 204, 238, 0.5);
   border: 1px solid #ccc;
   border-radius: 1rem;
+  padding: 3% 5%;
 }
 
 #form_submitButton {
