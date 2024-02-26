@@ -1,6 +1,6 @@
 #container {
   margin: 2vw auto 5vw auto;
-  padding: 4vw 0;
+  padding: calc(2vw + 1rem) 0;
   display: grid;
   gap:3em;
   align-items: center;
@@ -40,13 +40,23 @@
   border-radius: 1rem;
 }
 
+.form-button{
+  margin-top: 1rem;
+  display: grid;
+  gap: 2vw;
+  grid-template-columns: 1fr 1fr;
+}
+
+#form-cancelButton{
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+}
+
 #form-submitButton {
   background: #754abf;
   color: white;
   border-radius: 0.5rem;
-  margin-top: 1rem;
   padding: 0.5rem 1rem;
-  cursor: pointer;
   transition: background-color 0.3s;
 }
 

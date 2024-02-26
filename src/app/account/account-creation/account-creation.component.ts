@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AccountService } from '../account.service';
 import { BehaviorService } from 'src/app/shared-services/behavior.service';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
@@ -9,7 +9,7 @@ import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angula
   selector: 'app-account-creation',
   templateUrl: './account-creation.component.html',
   styleUrl: './account-creation.component.css',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, RouterLink],
   standalone: true
 })
 export class AccountCreationComponent implements OnInit{

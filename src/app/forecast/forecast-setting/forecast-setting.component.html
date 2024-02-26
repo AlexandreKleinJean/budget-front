@@ -104,7 +104,8 @@
           </div>
         </div>
         <div class="button fs-5 text">
-          <button type="button" [disabled]="submitButton()" (click)="setForecast()" id="form-submitButton">Set forecast</button>
+          <button type=button routerLink="/account/list" id="form-cancelButton">Cancel</button>
+          <button type=button [disabled]="submitButton()" (click)="setForecast()" id="form-submitButton">Set forecast</button>
         </div>
       </div>
     } @else {

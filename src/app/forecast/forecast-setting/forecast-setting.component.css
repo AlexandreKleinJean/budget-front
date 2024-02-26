@@ -108,13 +108,23 @@ button:disabled {
   opacity: 0.6;
 }
 
+.button{
+  margin-top: 1rem;
+  display: grid;
+  gap: 2vw;
+  grid-template-columns: 1fr 1fr;
+}
+
+#form-cancelButton{
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+}
+
 #form-submitButton {
   background: #754abf;
   color: white;
   border-radius: 0.5rem;
-  margin-top: 1rem;
   padding: 0.5rem 1rem;
-  cursor: pointer;
   transition: background-color 0.3s;
 }
 

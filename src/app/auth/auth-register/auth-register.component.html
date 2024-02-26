@@ -25,8 +25,9 @@
       <label for="password">Password</label>
       <input id="password" type="password" formControlName="password" (blur)="invalidField('password')">
     </div>
-    <div class="form_button fs-5 text">
-      <button id="form_submitButton" type="submit">Register</button>
+    <div class="form-button fs-5 text">
+      <button type=button routerLink="/auth/login" id="form-cancelButton">Cancel</button>
+      <button id="form-submitButton" type="submit">Register</button>
     </div>
   </form>
 </div>
