@@ -12,7 +12,7 @@ import { RouterLink } from '@angular/router';
 export class FooterComponent {
   constructor() {}
 
-  isLoggedIn(): boolean {
+  /*isLoggedIn(): boolean {
     return !!localStorage.getItem('jwtToken');
-  }
+  }*/
 }

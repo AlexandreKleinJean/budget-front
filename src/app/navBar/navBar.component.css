@@ -10,7 +10,7 @@
 }
 
 #navBar__title {
-  margin: 5% 5%;
+  margin: 3% 5%;
   color:#d6cbe9;
 }
 
@@ -19,8 +19,8 @@
 }
 
 #navBar__logout {
-  padding: 2% 2%;
-  width:50%;
+  padding: 3% 2%;
+  width: 20%;
   border-radius: 1rem;
   background-color: #ccb9ed;
   border:none;

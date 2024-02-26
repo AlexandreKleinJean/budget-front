@@ -1,11 +1,11 @@
 <div class="overlay">
-  <div id="container">
+  <div id="container" class="fs-6 text">
     <div id="question">
       <p>{{ message }}</p>
   </div>
-    <div id="buttons">
-        <button class="button" (click)="cancel()">Cancel</button>
-        <button class="button" (click)="confirm()">Confirm</button>
+    <div class="buttons">
+        <button id="button__cancel" (click)="cancel()">Cancel</button>
+        <button id="button__confirm" (click)="confirm()">Confirm</button>
     </div>
   </div>
 </div>

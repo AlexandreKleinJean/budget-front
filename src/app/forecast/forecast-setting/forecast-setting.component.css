@@ -21,7 +21,7 @@
 
 .forecast__container{
   margin: 2vw auto;
-  padding: 2vw 1vw;
+  padding: 2vw 2vw;
   display: grid;
   gap:1em;
   align-items: center;
@@ -58,7 +58,7 @@
 .forecast__form {
   display:grid;
   justify-items: center;
-  gap: 3vw;
+  gap: calc(1vw + 0.2rem);
 }
 
 .form__input {

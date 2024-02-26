@@ -8,6 +8,7 @@ import { FooterComponent } from './footer/footer.component';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
+  styleUrl: 'app.component.css',
   standalone: true,
   imports: [RouterOutlet, CommonModule, RouterLink, NavBarComponent, NotificationComponent, FooterComponent]
 })

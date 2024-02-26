@@ -1,4 +1,4 @@
-.container {
+#container__dashboard {
   margin: 2em auto;
   display:grid;
   gap:2em
@@ -15,7 +15,7 @@
   padding: 2vw 2vw;
   display: grid;
   align-items: center;
-  gap: 5vw;
+  gap: calc(2vw + 1rem);
   background-color: whitesmoke;
   border-radius: 1em;
   box-shadow: 0px 0px 10px rgba(166, 122, 235, 0.5);
@@ -25,7 +25,6 @@
   display:grid;
   grid-template-columns: 1fr 1fr;
   align-items: center;
-  gap:5vw
 }
 
 #title {
@@ -49,7 +48,7 @@
 .accounts {
   display: grid;
   justify-content: center;
-  gap: 2vw;
+  gap: calc(1vw + 0.2rem);
 }
 
 .account{

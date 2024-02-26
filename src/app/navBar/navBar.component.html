@@ -1,4 +1,4 @@
-<nav id="navBar" class="fs-5 text">
+<nav id="navBar">
     @if(isLoggedIn){
       <a href="/account/list" id="navBar__title" class="fs-1 md-text">
         myBudget
@@ -6,7 +6,7 @@
       <button id="navBar__logout" class="fas fa-power-off" (click)="onLogout()">
       </button>
     } @else {
-      <a href="" id="navBar__title" class="fs-2 lg-text">
+      <a href="" id="navBar__title" class="fs-1 md-text">
         myBudget
       </a>
     }

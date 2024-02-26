@@ -64,6 +64,15 @@
   background-color: #673AB7;
 }
 
+@media (min-width: 990px) {
+  .lg-text {
+    font-size: 3rem!important;
+  }
+  .text {
+    font-size: 1.5rem!important;
+  }
+}
+
 /*--------------------REACTIVE FORM--------------------*/
 
 input.ng-invalid.ng-touched {

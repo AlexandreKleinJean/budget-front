@@ -2,7 +2,7 @@
   padding: 3vw 2vw;
   display: grid;
   align-items: center;
-  gap: 5vw;
+  gap: calc(2vw + 1rem);
   background-color: whitesmoke;
   border-radius: 1em;
   box-shadow: 0px 0px 10px rgba(166, 122, 235, 0.5);
@@ -36,7 +36,7 @@
 .transactions {
   display: grid;
   justify-content: center;
-  gap: 3vw;
+  gap: calc(1vw + 0.2rem);
 }
 
 .transaction {

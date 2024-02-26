@@ -1,34 +1,36 @@
-@if(transaction) {
-  <h2 id="title" class="fs-1 lg-text">{{ transaction.subject }}</h2>
-  <div class="container col-11 col-md-9 col-lg-6">
-      <div class="transaction">
-        <div class="transaction__img">
-          <img [src]="'./assets/images/' + transaction.category + '.png'" alt="{{ transaction.category }}" class="img-fluid col-6 col-lg-4">
+<div class="container">
+  @if(transaction) {
+    <h2 id="title" class="fs-1 lg-text">{{ transaction.subject }}</h2>
+    <div id="container__transactionDetail" class="col-11 col-md-9 col-lg-8">
+        <div class="transaction">
+          <div class="transaction__img">
+            <img [src]="'./assets/images/' + transaction.category + '.png'" alt="{{ transaction.category }}" class="img-fluid col-6 col-lg-4">
+          </div>
+          <div class="transaction__info">
+            <p class="fs-6 text">{{ transaction.note }}</p>
+            <p id="transaction__info-cat" class="fs-6 text">{{ transaction.category }}</p>
+          </div>
+          <div class="transaction__amount">
+            <p class="fs-6 md-text">{{ transaction.amount | currency: '$ ' }}</p>
+          </div>
         </div>
-        <div class="transaction__info">
-          <p class="fs-6 text">{{ transaction.note }}</p>
-          <p id="transaction__info-cat" class="fs-6 text">{{ transaction.category }}</p>
-        </div>
-        <div class="transaction__amount">
-          <p class="fs-6 text">{{ transaction.amount | currency: '$ ' }}</p>
+        <div class="buttons">
+          <button (click)="modalActivation()" class="button fs-6 text">Delete</button>
+          <button routerLink="/account/detail" class="button fs-6 text">Back</button>
         </div>
       </div>
-      <div class="buttons">
-        <button class="button fs-6 text">Edit</button>
-        <button (click)="modalActivation()" class="button fs-6 text">Delete</button>
-        <button routerLink="/account/detail" class="button fs-6 text">Back</button>
-      </div>
-    </div>
 
-    <!-- Component child => modal confirmation -->
-    @if(modalIsActivate){
-      <app-modal
-        [message]="'Are you sure you want to delete this transaction ?'"
-        (choice)="confirmation($event)">
-      </app-modal>
-    } @else {}
+      <!-- Component child => modal confirmation -->
+      @if(modalIsActivate){
+        <app-modal
+          [message]="'Are you sure you want to delete this transaction ?'"
+          (choice)="confirmation($event)">
+        </app-modal>
+      } @else {}
 
-} @else {
-  <h4 class="center fs-6 text">No transaction found</h4>
-}
+  } @else {
+    <h4 class="center fs-6 text">No transaction found</h4>
+  }
+</div>
+
 

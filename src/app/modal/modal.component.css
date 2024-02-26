@@ -12,36 +12,44 @@
 
 #container {
   text-align: center;
-  margin-top: 2em;
+  margin: 0 10%;
   padding: 3em;
   background-color: whitesmoke;
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(166, 122, 235, 0.5);
-  margin: 0 auto;
-  width: 30%;
 }
 
-#question {
-  font-size: 2rem;
+.buttons{
+  margin-top: 1rem;
+  display: grid;
+  gap: 2vw;
+  grid-template-columns: 1fr 1fr;
 }
 
-#buttons {
-  margin-top: 3em;
+#button__cancel{
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
 }
 
-.button {
+#button__confirm {
   background: #754abf;
   color: white;
   border-radius: 0.5rem;
-  padding: 1.5% 3%;
-  margin: auto 5%;
-  font-size: 1.5em;
-  cursor: pointer;
+  padding: 0.5rem 1rem;
   transition: background-color 0.3s;
 }
 
-.button {
-  background-color: #673AB7 ;
+#button__confirm:hover {
+  background-color: #673AB7;
+}
+
+@media (min-width: 990px) {
+  .lg-text {
+    font-size: 3rem!important;
+  }
+  .text {
+    font-size: 1.5rem!important;
+  }
 }
 
 /*-----------------REACTIVE FORM-------------------*/

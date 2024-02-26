@@ -1,6 +1,13 @@
-.container {
+.container{
+  height: 60vh;
+  display: grid;
+  align-items: center;
+}
+
+#container__transactionDetail {
   display:grid;
   gap:1em;
+  margin: 0 auto;
   margin-bottom: 5%;
   }
 
@@ -26,7 +33,8 @@
 .transaction__info{
   display:grid;
   grid-template-rows: 1fr 1fr;
-  gap:1rem;
+  gap: calc(2vw + 0.2rem);
+  justify-items: center;
 }
 
 #transaction__info-cat{
@@ -36,13 +44,12 @@
 .transaction__amount {
   font-weight: bold;
   color: #673AB7;
-  font-size: 2.5rem;
 }
 
 .buttons {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 2rem;
+  grid-template-columns: 1fr 1fr;
+  gap: 15%;
 }
 
 .button{
@@ -62,7 +69,22 @@
   .lg-text {
     font-size: 3rem!important;
   }
+  .md-text {
+    font-size: 2rem!important;
+  }
   .text {
-    font-size: 1.5rem!important;
+    font-size: 1.8rem!important;
+  }
+}
+
+@media (max-width: 675px) {
+  .buttons {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(3, 1fr);
+    margin: 5% 20%;
+  }
+
+  .button{
+    border-radius: 3rem;
   }
 }

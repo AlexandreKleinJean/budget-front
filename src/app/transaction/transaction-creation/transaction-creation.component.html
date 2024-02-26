@@ -1,7 +1,7 @@
-<h2 id="title" class="fs-2">Create a new transaction</h2>
+<h2 id="title" class="fs-2 lg-text">Create a new transaction</h2>
 <div id="container" class="col-8 col-lg-4">
   <form id="form" [formGroup]="reactiveTransactionForm" (ngSubmit)="addNewTransaction()">
-    <div class="form-input fs-5">
+    <div class="form-input fs-5 text">
       <label for="category">Category:</label>
       <select id="category" formControlName="category" (blur)="invalidField('category')">
         @for(category of categories; track category) {
@@ -11,19 +11,19 @@
         }
       </select>
     </div>
-    <div class="form-input fs-5">
+    <div class="form-input fs-5 text">
       <label for="subject">Subject:</label>
       <input type="text" id="subject" formControlName="subject" (blur)="invalidField('subject')">
     </div>
-    <div class="form-input fs-5">
+    <div class="form-input fs-5 text">
       <label for="note">Note:</label>
       <input type="text" id="note" formControlName="note">
     </div>
-    <div class="form-input fs-5">
+    <div class="form-input fs-5 text">
       <label for="amount">Amount:</label>
       <input type="text" id="amount" formControlName="amount" (blur)="invalidField('amount')">
     </div>
-    <div class="form-button fs-5">
+    <div class="form-button fs-5 text">
       <button type=button routerLink="/account/detail" id="form-cancelButton">Cancel</button>
       <button type="submit" id="form-submitButton">Create</button>
     </div>
